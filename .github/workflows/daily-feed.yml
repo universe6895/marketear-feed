@@ -1,0 +1,57 @@
+name: Build daily MarketEar feed
+
+on:
+  workflow_dispatch:
+    inputs:
+      video_id:
+        description: Optional selected YouTube video ID
+        required: false
+        type: string
+      title_chinese:
+        description: Optional Chinese title
+        required: false
+        type: string
+      summary:
+        description: Optional Chinese summary
+        required: false
+        type: string
+  schedule:
+    # 06:45 Asia/Shanghai. GitHub schedules use UTC.
+    - cron: "45 22 * * *"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: daily-marketear-feed
+  cancel-in-progress: false
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Generate timestamped daily story
+        env:
+          YOUTUBE_TRANSCRIPT_API_KEY: ${{ secrets.YOUTUBE_TRANSCRIPT_API_KEY }}
+          VIDEO_ID: ${{ inputs.video_id }}
+          TITLE_CHINESE: ${{ inputs.title_chinese }}
+          SUMMARY: ${{ inputs.summary }}
+        run: python scripts/generate_daily.py --output today.json
+
+      - name: Publish changed feed
+        run: |
+          if git diff --quiet -- today.json; then
+            echo "Feed is already current"
+            exit 0
+          fi
+          git config user.name "marketear-feed-bot"
+          git config user.email "marketear-feed-bot@users.noreply.github.com"
+          git add today.json
+          git commit -m "Update daily MarketEar story"
+          git push
