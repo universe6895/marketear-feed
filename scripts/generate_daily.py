@@ -137,7 +137,9 @@ def main() -> int:
     parser.add_argument("--output", default="today.json")
     args = parser.parse_args()
 
-    token = os.environ.get("YOUTUBE_TRANSCRIPT_API_KEY", "").strip()
+    # Secrets copied from mobile browsers can contain embedded CR/LF or other
+    # invisible whitespace. HTTP header values reject those characters.
+    token = "".join(os.environ.get("YOUTUBE_TRANSCRIPT_API_KEY", "").split())
     if not token:
         raise RuntimeError("YOUTUBE_TRANSCRIPT_API_KEY is not configured")
 
