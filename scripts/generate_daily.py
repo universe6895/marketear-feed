@@ -120,6 +120,62 @@ def build_cues(segments: list[dict]) -> list[dict]:
     return cues
 
 
+def sentence_cues(caption_cues: list[dict]) -> list[dict]:
+    """Merge caption fragments and split multi-sentence captions into sentences."""
+    result: list[dict] = []
+    buffered_text = ""
+    buffered_start: float | None = None
+    buffered_end = 0.0
+
+    for cue in caption_cues:
+        text = cue["english"].strip()
+        if not text:
+            continue
+
+        pieces = re.split(r"(?<=[.!?])\s+(?=[A-Z0-9\"'“‘])", text)
+        word_counts = [max(1, len(re.findall(r"\b[\w’'-]+\b", piece))) for piece in pieces]
+        total_words = sum(word_counts)
+        elapsed_words = 0
+
+        for index, piece in enumerate(pieces):
+            piece = piece.strip()
+            if not piece:
+                continue
+
+            piece_start = cue["start"] + (cue["end"] - cue["start"]) * elapsed_words / total_words
+            elapsed_words += word_counts[index]
+            piece_end = cue["start"] + (cue["end"] - cue["start"]) * elapsed_words / total_words
+
+            if buffered_start is None:
+                buffered_start = piece_start
+            buffered_text = f"{buffered_text} {piece}".strip()
+            buffered_end = piece_end
+
+            if re.search(r"[.!?][\"'”’]?$", piece):
+                result.append({
+                    "id": len(result) + 1,
+                    "start": round(buffered_start, 3),
+                    "end": round(buffered_end, 3),
+                    "english": buffered_text,
+                    "chinese": "",
+                })
+                buffered_text = ""
+                buffered_start = None
+
+    if buffered_text and buffered_start is not None:
+        result.append({
+            "id": len(result) + 1,
+            "start": round(buffered_start, 3),
+            "end": round(buffered_end, 3),
+            "english": buffered_text,
+            "chinese": "",
+        })
+
+    if not result:
+        raise RuntimeError("Transcript response contained no complete sentences")
+    return result
+
+
 def vocabulary_for(text: str) -> list[dict]:
     lowered = text.lower()
     matches = []
@@ -161,7 +217,7 @@ def main() -> int:
     )
     data = response.get("data") or {}
     transcript = data.get("transcript") or {}
-    cues = build_cues(transcript.get("segments") or [])
+    cues = sentence_cues(build_cues(transcript.get("segments") or []))
     title = clean_text(str(data.get("video_title") or feed_title or "Bloomberg Markets in 3 Minutes"))
     full_text = " ".join(cue["english"] for cue in cues)
     today = datetime.now(ZoneInfo("Asia/Shanghai")).date().isoformat()
