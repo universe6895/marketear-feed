@@ -1,328 +1,314 @@
 {
-  "id": "bloomberg-b_-3Jdh44i8",
-  "date": "2026-08-08",
+  "id": "bloomberg-jRmwVgbAbic",
+  "date": "2026-08-09",
   "eyebrow": "TODAY · BLOOMBERG",
-  "title": "Jury Out on Yen Before Crucial Jobs Data: 3-Minutes MLIV",
+  "title": "It Makes Sense for Gold to Trade Higher: 3-Minutes MLIV",
   "titleChinese": "今日彭博财经市场快讯",
   "summary": "完整英文字幕、逐段时间轴与设备端中文翻译。",
-  "durationSeconds": 205.64,
-  "youtubeVideoID": "b_-3Jdh44i8",
-  "sourceURL": "https://www.youtube.com/watch?v=b_-3Jdh44i8",
+  "durationSeconds": 193.85,
+  "youtubeVideoID": "jRmwVgbAbic",
+  "sourceURL": "https://www.youtube.com/watch?v=jRmwVgbAbic",
   "sourceName": "Bloomberg Television",
   "vocabulary": [
     {
-      "word": "bond market",
-      "phonetic": "/bɒnd ˈmɑːrkɪt/",
-      "meaning": "债券市场"
+      "word": "volatility",
+      "phonetic": "/ˌvɒləˈtɪləti/",
+      "meaning": "波动性"
     }
   ],
   "transcript": [
     {
       "id": 1,
-      "start": 0.36,
-      "end": 1.834,
-      "english": "Good morning to you from London.",
+      "start": 0.33,
+      "end": 0.553,
+      "english": "Monk.",
       "chinese": ""
     },
     {
       "id": 2,
-      "start": 1.834,
-      "end": 6.057,
-      "english": "And what do we make with a little bit of distance then at the end intervention.",
+      "start": 0.553,
+      "end": 2.572,
+      "english": "We're all poring over details of SoftBank numbers.",
       "chinese": ""
     },
     {
       "id": 3,
-      "start": 6.057,
-      "end": 7.53,
-      "english": "We are currently at one.",
+      "start": 2.572,
+      "end": 5.251,
+      "english": "We have Sandy's numbers overnight that were a bit negative.",
       "chinese": ""
     },
     {
       "id": 4,
-      "start": 7.56,
-      "end": 9.844,
-      "english": "What does that 158 on dollar yen.",
+      "start": 5.251,
+      "end": 10.62,
+      "english": "Are we have we learned in the last 24 hours anything useful new around the the trade the eye trade.",
       "chinese": ""
     },
     {
       "id": 5,
-      "start": 9.844,
-      "end": 15.18,
-      "english": "So the yen has given up half of the gains that it made since that intervention.",
+      "start": 10.62,
+      "end": 13.376,
+      "english": "Is that where the market's focus is?",
       "chinese": ""
     },
     {
       "id": 6,
-      "start": 15.18,
-      "end": 22.161,
-      "english": "And if the U.S. doesn't want to devalue the the dollar or sell any treasuries, does that raise questions about whether this is going to work or not?",
+      "start": 13.376,
+      "end": 18.568,
+      "english": "I mean the eye trade is always the most important thing in markets right now.",
       "chinese": ""
     },
     {
       "id": 7,
-      "start": 22.161,
-      "end": 23.4,
-      "english": "What are you hearing in the region?",
+      "start": 18.568,
+      "end": 21.578,
+      "english": "Uh, I'm not sure if we've learned anything massively new.",
       "chinese": ""
     },
     {
       "id": 8,
-      "start": 25.65,
-      "end": 25.92,
-      "english": "Yeah.",
+      "start": 21.578,
+      "end": 32.13,
+      "english": "I think SoftBank is always going to be at the more concerning leveraged kind of end of that kind of AI, you know, circular debt spectrum as Neil outlined there.",
       "chinese": ""
     },
     {
       "id": 9,
-      "start": 25.92,
-      "end": 26.46,
-      "english": "Good morning.",
+      "start": 32.36,
+      "end": 35.54,
+      "english": "Uh, so I'm not sure it's kind of incrementally moved on much.",
       "chinese": ""
     },
     {
       "id": 10,
-      "start": 26.46,
-      "end": 31.594,
-      "english": "And I do think that there are question marks around the intervention and whether you could call it a success.",
+      "start": 35.55,
+      "end": 39.12,
+      "english": "I will say that the price action is still a little bit negative.",
       "chinese": ""
     },
     {
       "id": 11,
-      "start": 31.594,
-      "end": 34.095,
-      "english": "I say the jury is probably out in that respect.",
+      "start": 39.12,
+      "end": 55.427,
+      "english": "And we but, you know, it's part of this overall, uh, kind of trend that we've seen that for about 15 months until about maybe two months ago, you know, is by everything I and now we're really discerning much more which part of the I trade trade at different times.",
       "chinese": ""
     },
     {
       "id": 12,
-      "start": 34.095,
-      "end": 36.72,
-      "english": "Um, you know, a rip roaring success.",
+      "start": 55.427,
+      "end": 63.54,
+      "english": "It's becoming much more of a of a micro bottom up needing to know exactly what companies do and, and differentiating between the various parts of the AI segment.",
       "chinese": ""
     },
     {
       "id": 13,
-      "start": 36.72,
-      "end": 42.16,
-      "english": "I think, uh, the local commentators would say would have taken the dollar yang cross below when fit.",
+      "start": 64.98,
+      "end": 68.79,
+      "english": "And what's the bar for the geopolitical story to become the top headline then?",
       "chinese": ""
     },
     {
       "id": 14,
-      "start": 42.16,
-      "end": 42.57,
-      "english": "155.",
+      "start": 68.79,
+      "end": 74.17,
+      "english": "Mark, because we're waiting for more news on this deal between Oman and Iran.",
       "chinese": ""
     },
     {
       "id": 15,
-      "start": 42.78,
-      "end": 47.767,
-      "english": "Um, on the other hand, you know, it's not like you can say that it has failed at this moment in time.",
+      "start": 74.19,
+      "end": 76.98,
+      "english": "It seems like Washington was kind of left out of it.",
       "chinese": ""
     },
     {
       "id": 16,
-      "start": 47.767,
-      "end": 57.39,
-      "english": "We do have, uh, the yen reasonably, uh, decent amount stronger and away from those, uh, uh, mid one 60s that we were getting towards before the intervention took place.",
+      "start": 77.62,
+      "end": 80.22,
+      "english": "What what point does geopolitics really matter again?",
       "chinese": ""
     },
     {
       "id": 17,
-      "start": 57.57,
-      "end": 62.93,
-      "english": "But I think there's another, um, extra dimension to whether you can call it a success or not.",
+      "start": 82.53,
+      "end": 84.743,
+      "english": "If there's a material escalation?",
       "chinese": ""
     },
     {
       "id": 18,
-      "start": 62.93,
-      "end": 73.04,
-      "english": "And that is, um, the unintended consequence is that the action or the support of the US has raised this week, and it's sort of brought into a question several different factors one.",
+      "start": 84.743,
+      "end": 91.59,
+      "english": "Uh uh, ultimately, you know, that will that will kind of dominate everything, you know, for a brief period of time.",
       "chinese": ""
     },
     {
       "id": 19,
-      "start": 73.19,
-      "end": 85.861,
-      "english": "I guess if you were, if you would the US, um, people making the decision on this, you would think your very presence in the market would be enough to really reinforce them back down, uh, or double down behind the, uh, Japanese, uh, authorities.",
+      "start": 91.95,
+      "end": 100.17,
+      "english": "Uh, if it happens, uh, people are kind of pretty cynical about any kind of deal, given all the the number of promises we've had before.",
       "chinese": ""
     },
     {
       "id": 20,
-      "start": 85.861,
-      "end": 89.817,
-      "english": "But I think that, um, that hasn't necessarily paid out all that much.",
+      "start": 100.47,
+      "end": 105.59,
+      "english": "On the flip side, I don't think they will really expect, you know, material escalation ahead of the midterms.",
       "chinese": ""
     },
     {
       "id": 21,
-      "start": 89.817,
-      "end": 95.486,
-      "english": "And, like you said, intervening by using the euro and shifting assets that way rather than a straight dollar, uh, support.",
+      "start": 105.59,
+      "end": 111.496,
+      "english": "So we're like a little bit probably going to this kind of status quo of not having exact clarity but not getting much worse.",
       "chinese": ""
     },
     {
       "id": 22,
-      "start": 95.486,
-      "end": 97.07,
-      "english": "That's the message somewhat.",
+      "start": 111.496,
+      "end": 117.767,
+      "english": "I think it's as long as that's the case, it'll only ever kind of dominate very briefly before we go back to the eye trade.",
       "chinese": ""
     },
     {
       "id": 23,
-      "start": 97.07,
-      "end": 103.37,
-      "english": "And I think it's also raise some question marks about, you know, how worried the US is about, uh, the Treasury market and higher yields, too.",
+      "start": 117.767,
+      "end": 123.48,
+      "english": "But I said if we get if we get a proper US escalation, well then that's a whole different story.",
       "chinese": ""
     },
     {
       "id": 24,
-      "start": 105.05,
-      "end": 105.431,
-      "english": "Okay.",
-      "chinese": ""
-    },
-    {
-      "id": 25,
-      "start": 105.431,
-      "end": 113.286,
-      "english": "Well, in lieu of another intervention, as we await another one, maybe, Paul, we've got the payrolls coming out of the US this afternoon.",
-      "chinese": ""
-    },
-    {
-      "id": 26,
-      "start": 113.286,
-      "end": 118.745,
-      "english": "How much of a reaction would you expect to see in the yen and Jeeves?",
-      "chinese": ""
-    },
-    {
-      "id": 27,
-      "start": 118.745,
-      "end": 124.415,
-      "english": "Yeah, I think the Japanese will be willing to pay attention to it.",
-      "chinese": ""
-    },
-    {
-      "id": 28,
-      "start": 124.415,
-      "end": 131.438,
-      "english": "See, because, um, uh, a particularly, uh, a weak number, um, which pushes the dollar down could be helpful in supporting the yen.",
-      "chinese": ""
-    },
-    {
-      "id": 29,
-      "start": 131.438,
-      "end": 140.75,
-      "english": "Uh, but on the flip side, a strong number that gives people more, um, reason to suspect the fed might be able to to move towards hiking at some point soon.",
-      "chinese": ""
-    },
-    {
-      "id": 30,
-      "start": 140.99,
-      "end": 152.32,
-      "english": "Um, could be another reason to push the dollar higher and therefore to weigh against the yen again, and therefore raise those risks of another intervention in the market at those times.",
-      "chinese": ""
-    },
-    {
-      "id": 31,
-      "start": 152.36,
-      "end": 155.36,
-      "english": "Uh, towards the end of the week when we're we're seeing less liquidity.",
-      "chinese": ""
-    },
-    {
-      "id": 32,
-      "start": 157.01,
-      "end": 160.449,
-      "english": "And what about the treasuries market and how it's positioned going into this number?",
-      "chinese": ""
-    },
-    {
-      "id": 33,
-      "start": 160.449,
-      "end": 164.06,
-      "english": "Paul, of course, yesterday was all about higher oil prices and therefore higher yields.",
-      "chinese": ""
-    },
-    {
-      "id": 34,
-      "start": 165.53,
-      "end": 166.235,
+      "start": 124.29,
+      "end": 124.586,
       "english": "Mhm.",
       "chinese": ""
     },
     {
+      "id": 25,
+      "start": 124.586,
+      "end": 128.298,
+      "english": "And gold can sometimes move around with some of that geopolitics as well Mark.",
+      "chinese": ""
+    },
+    {
+      "id": 26,
+      "start": 128.298,
+      "end": 130.25,
+      "english": "But often it's just a play on the fed.",
+      "chinese": ""
+    },
+    {
+      "id": 27,
+      "start": 130.25,
+      "end": 133.01,
+      "english": "So what are you seeing behind the moves we've got in gold recently?",
+      "chinese": ""
+    },
+    {
+      "id": 28,
+      "start": 135.2,
+      "end": 140.485,
+      "english": "Yeah, I would say gold's probably been the biggest topic of debate in my team the last 24 hours.",
+      "chinese": ""
+    },
+    {
+      "id": 29,
+      "start": 140.485,
+      "end": 145.82,
+      "english": "We had this sudden 4% surge yesterday, which just seemed completely out of line with almost everything else.",
+      "chinese": ""
+    },
+    {
+      "id": 30,
+      "start": 145.82,
+      "end": 147.644,
+      "english": "That was kind of happening on the day.",
+      "chinese": ""
+    },
+    {
+      "id": 31,
+      "start": 147.644,
+      "end": 152.33,
+      "english": "And with recent price action, where it's kind of not really moved in weeks, despite the volatility elsewhere.",
+      "chinese": ""
+    },
+    {
+      "id": 32,
+      "start": 152.54,
+      "end": 155.48,
+      "english": "Now, I'm there must have been some flow behind that.",
+      "chinese": ""
+    },
+    {
+      "id": 33,
+      "start": 155.48,
+      "end": 162.719,
+      "english": "But I think it's extraordinary interesting with the with the disclaimer that the short term volatility the last five weeks has made all short term trading a bit erratic and hard.",
+      "chinese": ""
+    },
+    {
+      "id": 34,
+      "start": 162.719,
+      "end": 165.41,
+      "english": "And as we've mentioned, there's the US around risk.",
+      "chinese": ""
+    },
+    {
       "id": 35,
-      "start": 166.235,
-      "end": 166.94,
-      "english": "Yeah.",
+      "start": 165.41,
+      "end": 168.582,
+      "english": "I think that this move fundamentally makes sense.",
       "chinese": ""
     },
     {
       "id": 36,
-      "start": 166.94,
-      "end": 167.23,
-      "english": "Exactly.",
+      "start": 168.582,
+      "end": 171.3,
+      "english": "I was going to turn bearish gold at the start of the war.",
       "chinese": ""
     },
     {
       "id": 37,
-      "start": 167.23,
-      "end": 171.67,
-      "english": "So uh, the Treasury market is also going to be on edge as well as the Japanese bond market.",
+      "start": 171.3,
+      "end": 173.3,
+      "english": "I have been bearish now until this flow.",
       "chinese": ""
     },
     {
       "id": 38,
-      "start": 171.68,
-      "end": 176.06,
-      "english": "We've got those yields very close to the highs of the recent, um, uh, cycle.",
+      "start": 173.42,
+      "end": 177.453,
+      "english": "I now see this as a valid move higher and maybe the start of the bull trend reasserting.",
       "chinese": ""
     },
     {
       "id": 39,
-      "start": 176.06,
-      "end": 180.62,
-      "english": "And I think the um, the market is, is looking for 80,000 for payrolls.",
+      "start": 177.453,
+      "end": 184.661,
+      "english": "That's because the fed last week undermined the Fed's credibility at the margin, which means in lower real yields expected in the future.",
       "chinese": ""
     },
     {
       "id": 40,
-      "start": 180.62,
-      "end": 181.901,
-      "english": "That's a pretty decent number.",
+      "start": 184.661,
+      "end": 186.53,
+      "english": "But also that was a blow to the dollar.",
       "chinese": ""
     },
     {
       "id": 41,
-      "start": 181.901,
-      "end": 190.07,
-      "english": "I think that that would be like enough to convince people that the economy is looking okay, uh, without being worried that, you know, everything is going overheating.",
+      "start": 186.74,
+      "end": 191.84,
+      "english": "And ultimately longer term gold is just traded off dollar and real yields.",
       "chinese": ""
     },
     {
       "id": 42,
-      "start": 190.25,
-      "end": 197.75,
-      "english": "Um, but a bigger number than that, we might see, uh, more of a sell off the market is, is is pricing or leaning towards a fed hike at some point?",
-      "chinese": ""
-    },
-    {
-      "id": 43,
-      "start": 198.02,
-      "end": 201.65,
-      "english": "Um, but, uh, uh, it's not really convinced yet.",
-      "chinese": ""
-    },
-    {
-      "id": 44,
-      "start": 201.65,
-      "end": 205.64,
-      "english": "So big number and they might lean more into that and push up those yields further.",
+      "start": 191.84,
+      "end": 193.85,
+      "english": "And if both of them are going to be lower, gold will be higher.",
       "chinese": ""
     }
   ],
