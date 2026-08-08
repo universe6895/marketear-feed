@@ -1,281 +1,328 @@
 {
-  "id": "bloomberg-mDipWwDG318",
-  "date": "2026-08-07",
+  "id": "bloomberg-b_-3Jdh44i8",
+  "date": "2026-08-08",
   "eyebrow": "TODAY · BLOOMBERG",
-  "title": "Markets in 3 Minutes: Soaring Stock Valuations, But Can't Sell",
-  "titleChinese": "估值高企，投资者为何仍不愿卖出",
-  "summary": "彭博用三分钟讨论高估值环境下投资者为何仍不愿卖出股票。",
-  "durationSeconds": 167.28,
-  "youtubeVideoID": "mDipWwDG318",
-  "sourceURL": "https://www.youtube.com/watch?v=mDipWwDG318",
+  "title": "Jury Out on Yen Before Crucial Jobs Data: 3-Minutes MLIV",
+  "titleChinese": "今日彭博财经市场快讯",
+  "summary": "完整英文字幕、逐段时间轴与设备端中文翻译。",
+  "durationSeconds": 205.64,
+  "youtubeVideoID": "b_-3Jdh44i8",
+  "sourceURL": "https://www.youtube.com/watch?v=b_-3Jdh44i8",
   "sourceName": "Bloomberg Television",
   "vocabulary": [
     {
-      "word": "equity market",
-      "phonetic": "/ˈekwəti ˈmɑːrkɪt/",
-      "meaning": "股票市场"
-    },
-    {
-      "word": "valuation",
-      "phonetic": "/ˌvæljuˈeɪʃən/",
-      "meaning": "估值"
-    },
-    {
-      "word": "earnings",
-      "phonetic": "/ˈɜːrnɪŋz/",
-      "meaning": "企业盈利"
-    },
-    {
-      "word": "inflation",
-      "phonetic": "/ɪnˈfleɪʃən/",
-      "meaning": "通货膨胀"
-    },
-    {
-      "word": "labor market",
-      "phonetic": "/ˈleɪbər ˈmɑːrkɪt/",
-      "meaning": "劳动力市场"
-    },
-    {
-      "word": "S&P 500",
-      "phonetic": "/ˌes ən ˌpiː faɪv ˈhʌndrəd/",
-      "meaning": "标普500指数"
-    },
-    {
-      "word": "investor",
-      "phonetic": "/ɪnˈvestər/",
-      "meaning": "投资者"
+      "word": "bond market",
+      "phonetic": "/bɒnd ˈmɑːrkɪt/",
+      "meaning": "债券市场"
     }
   ],
   "transcript": [
     {
       "id": 1,
-      "start": 0.24,
-      "end": 9.03,
-      "english": "There's a lot of questions about whether or not the market will push back against a Hassett fed that could be cutting rates aggressively.",
+      "start": 0.36,
+      "end": 1.834,
+      "english": "Good morning to you from London.",
       "chinese": ""
     },
     {
       "id": 2,
-      "start": 9.06,
-      "end": 12.805,
-      "english": "What do you make of this debate?",
+      "start": 1.834,
+      "end": 6.057,
+      "english": "And what do we make with a little bit of distance then at the end intervention.",
       "chinese": ""
     },
     {
       "id": 3,
-      "start": 12.805,
-      "end": 13.34,
-      "english": "Morning.",
+      "start": 6.057,
+      "end": 7.53,
+      "english": "We are currently at one.",
       "chinese": ""
     },
     {
       "id": 4,
-      "start": 13.43,
-      "end": 15.41,
-      "english": "I think it's an interesting debate, no doubt.",
+      "start": 7.56,
+      "end": 9.844,
+      "english": "What does that 158 on dollar yen.",
       "chinese": ""
     },
     {
       "id": 5,
-      "start": 15.42,
-      "end": 18.62,
-      "english": "And if you look at the two year yields, they tell you a big story.",
+      "start": 9.844,
+      "end": 15.18,
+      "english": "So the yen has given up half of the gains that it made since that intervention.",
       "chinese": ""
     },
     {
       "id": 6,
-      "start": 18.86,
-      "end": 20.591,
-      "english": "Now, what is priced in by the markets?",
+      "start": 15.18,
+      "end": 22.161,
+      "english": "And if the U.S. doesn't want to devalue the the dollar or sell any treasuries, does that raise questions about whether this is going to work or not?",
       "chinese": ""
     },
     {
       "id": 7,
-      "start": 20.591,
-      "end": 24.009,
-      "english": "The markets are thinking that the terminal rate is going to be 3%.",
+      "start": 22.161,
+      "end": 23.4,
+      "english": "What are you hearing in the region?",
       "chinese": ""
     },
     {
       "id": 8,
-      "start": 24.009,
-      "end": 25.22,
-      "english": "Well, that is possible.",
+      "start": 25.65,
+      "end": 25.92,
+      "english": "Yeah.",
       "chinese": ""
     },
     {
       "id": 9,
-      "start": 26.03,
-      "end": 32.906,
-      "english": "And there's there have been concerns, as you mentioned, you know, about whether that has that will be able to drive a consensus within the Fed comment committee.",
+      "start": 25.92,
+      "end": 26.46,
+      "english": "Good morning.",
       "chinese": ""
     },
     {
       "id": 10,
-      "start": 32.906,
-      "end": 34.34,
-      "english": "That remains to be seen.",
+      "start": 26.46,
+      "end": 31.594,
+      "english": "And I do think that there are question marks around the intervention and whether you could call it a success.",
       "chinese": ""
     },
     {
       "id": 11,
-      "start": 34.61,
-      "end": 41.808,
-      "english": "But what we can clearly see already is that the shift of expectations is towards a lower rate rather than 3%.",
+      "start": 31.594,
+      "end": 34.095,
+      "english": "I say the jury is probably out in that respect.",
       "chinese": ""
     },
     {
       "id": 12,
-      "start": 41.808,
-      "end": 50.06,
-      "english": "If you look at this September dot plot, what we saw was five members already pencilling in a rate lower than 3%.",
+      "start": 34.095,
+      "end": 36.72,
+      "english": "Um, you know, a rip roaring success.",
       "chinese": ""
     },
     {
       "id": 13,
-      "start": 50.39,
-      "end": 57.29,
-      "english": "So there is already enough people on the committee thinking that we need lower rates, much lower rates than the markets are pricing in.",
+      "start": 36.72,
+      "end": 42.16,
+      "english": "I think, uh, the local commentators would say would have taken the dollar yang cross below when fit.",
       "chinese": ""
     },
     {
       "id": 14,
-      "start": 57.59,
-      "end": 66.98,
-      "english": "And if we get the labor market weakness that we have seen in recent weeks, it stands to reason that they will go probably push lower rates lower than 3%.",
+      "start": 42.16,
+      "end": 42.57,
+      "english": "155.",
       "chinese": ""
     },
     {
       "id": 15,
-      "start": 67.31,
-      "end": 72.92,
-      "english": "But I will come back to the promise that I mentioned earlier, which is the two year yield, if you look at the two year yield.",
+      "start": 42.78,
+      "end": 47.767,
+      "english": "Um, on the other hand, you know, it's not like you can say that it has failed at this moment in time.",
       "chinese": ""
     },
     {
       "id": 16,
-      "start": 73.25,
-      "end": 80.99,
-      "english": "Given the terminal rate pricing given has its bias, you could reasonably expect it to trade lower than 350.",
+      "start": 47.767,
+      "end": 57.39,
+      "english": "We do have, uh, the yen reasonably, uh, decent amount stronger and away from those, uh, uh, mid one 60s that we were getting towards before the intervention took place.",
       "chinese": ""
     },
     {
       "id": 17,
-      "start": 80.99,
-      "end": 82.327,
-      "english": "But it is, it does not.",
+      "start": 57.57,
+      "end": 62.93,
+      "english": "But I think there's another, um, extra dimension to whether you can call it a success or not.",
       "chinese": ""
     },
     {
       "id": 18,
-      "start": 82.327,
-      "end": 90.02,
-      "english": "And that is the market sending out a clear message that, look, you can have your Fed rate where you want, but you can't have the two year rate where you want.",
+      "start": 62.93,
+      "end": 73.04,
+      "english": "And that is, um, the unintended consequence is that the action or the support of the US has raised this week, and it's sort of brought into a question several different factors one.",
       "chinese": ""
     },
     {
       "id": 19,
-      "start": 90.23,
-      "end": 95.298,
-      "english": "And that is the message from the markets that you can be in defiance of what inflation is telling you.",
+      "start": 73.19,
+      "end": 85.861,
+      "english": "I guess if you were, if you would the US, um, people making the decision on this, you would think your very presence in the market would be enough to really reinforce them back down, uh, or double down behind the, uh, Japanese, uh, authorities.",
       "chinese": ""
     },
     {
       "id": 20,
-      "start": 95.298,
-      "end": 108.41,
-      "english": "He feel he's averaging 2.8% as it has been this year, and you've got nominal real GDP growth of around 2%, which should be A two year rate B, and that is what the markets are telling us.",
+      "start": 85.861,
+      "end": 89.817,
+      "english": "But I think that, um, that hasn't necessarily paid out all that much.",
       "chinese": ""
     },
     {
       "id": 21,
-      "start": 109.7,
-      "end": 110.526,
-      "english": "Okay, that's interesting.",
+      "start": 89.817,
+      "end": 95.486,
+      "english": "And, like you said, intervening by using the euro and shifting assets that way rather than a straight dollar, uh, support.",
       "chinese": ""
     },
     {
       "id": 22,
-      "start": 110.526,
-      "end": 116.69,
-      "english": "So does that mean the extent to which lower rate expectations pushes up stocks then is limited?",
+      "start": 95.486,
+      "end": 97.07,
+      "english": "That's the message somewhat.",
       "chinese": ""
     },
     {
       "id": 23,
-      "start": 119.07,
-      "end": 121.48,
-      "english": "Well, I think that, you know, stocks are on their own path.",
+      "start": 97.07,
+      "end": 103.37,
+      "english": "And I think it's also raise some question marks about, you know, how worried the US is about, uh, the Treasury market and higher yields, too.",
       "chinese": ""
     },
     {
       "id": 24,
-      "start": 121.5,
-      "end": 122.904,
-      "english": "There's no stopping them.",
+      "start": 105.05,
+      "end": 105.431,
+      "english": "Okay.",
       "chinese": ""
     },
     {
       "id": 25,
-      "start": 122.904,
-      "end": 128.027,
-      "english": "And the consensus earnings forecast for next year is about $300 and the S&P 500.",
+      "start": 105.431,
+      "end": 113.286,
+      "english": "Well, in lieu of another intervention, as we await another one, maybe, Paul, we've got the payrolls coming out of the US this afternoon.",
       "chinese": ""
     },
     {
       "id": 26,
-      "start": 128.027,
-      "end": 133.235,
-      "english": "And if you've got $300 in the earnings basket and what does the p e ratio mean?",
+      "start": 113.286,
+      "end": 118.745,
+      "english": "How much of a reaction would you expect to see in the yen and Jeeves?",
       "chinese": ""
     },
     {
       "id": 27,
-      "start": 133.235,
-      "end": 138.93,
-      "english": "We're going to be is the key question, is there going to be a P compression or a P expansion?",
+      "start": 118.745,
+      "end": 124.415,
+      "english": "Yeah, I think the Japanese will be willing to pay attention to it.",
       "chinese": ""
     },
     {
       "id": 28,
-      "start": 139.17,
-      "end": 144.885,
-      "english": "Even assuming current P levels, you would think that, you know, the markets are going to go to 7000 plus.",
+      "start": 124.415,
+      "end": 131.438,
+      "english": "See, because, um, uh, a particularly, uh, a weak number, um, which pushes the dollar down could be helpful in supporting the yen.",
       "chinese": ""
     },
     {
       "id": 29,
-      "start": 144.885,
-      "end": 147.824,
-      "english": "I mean, that looks ridiculous in terms of valuations.",
+      "start": 131.438,
+      "end": 140.75,
+      "english": "Uh, but on the flip side, a strong number that gives people more, um, reason to suspect the fed might be able to to move towards hiking at some point soon.",
       "chinese": ""
     },
     {
       "id": 30,
-      "start": 147.824,
-      "end": 155.624,
-      "english": "And if you buy in from a value investor perspective and you know, you've got to think that, you know, that's insane, but that's the world we're living in.",
+      "start": 140.99,
+      "end": 152.32,
+      "english": "Um, could be another reason to push the dollar higher and therefore to weigh against the yen again, and therefore raise those risks of another intervention in the market at those times.",
       "chinese": ""
     },
     {
       "id": 31,
-      "start": 155.624,
-      "end": 162.096,
-      "english": "And, you know, the traders are saying it's as though the traders are increasingly saying, give us a good reason to sell.",
+      "start": 152.36,
+      "end": 155.36,
+      "english": "Uh, towards the end of the week when we're we're seeing less liquidity.",
       "chinese": ""
     },
     {
       "id": 32,
-      "start": 162.096,
-      "end": 163.86,
-      "english": "And there isn't any at the moment.",
+      "start": 157.01,
+      "end": 160.449,
+      "english": "And what about the treasuries market and how it's positioned going into this number?",
       "chinese": ""
     },
     {
       "id": 33,
-      "start": 163.86,
-      "end": 167.28,
-      "english": "And that's what worries me a bit about the equity market valuations.",
+      "start": 160.449,
+      "end": 164.06,
+      "english": "Paul, of course, yesterday was all about higher oil prices and therefore higher yields.",
+      "chinese": ""
+    },
+    {
+      "id": 34,
+      "start": 165.53,
+      "end": 166.235,
+      "english": "Mhm.",
+      "chinese": ""
+    },
+    {
+      "id": 35,
+      "start": 166.235,
+      "end": 166.94,
+      "english": "Yeah.",
+      "chinese": ""
+    },
+    {
+      "id": 36,
+      "start": 166.94,
+      "end": 167.23,
+      "english": "Exactly.",
+      "chinese": ""
+    },
+    {
+      "id": 37,
+      "start": 167.23,
+      "end": 171.67,
+      "english": "So uh, the Treasury market is also going to be on edge as well as the Japanese bond market.",
+      "chinese": ""
+    },
+    {
+      "id": 38,
+      "start": 171.68,
+      "end": 176.06,
+      "english": "We've got those yields very close to the highs of the recent, um, uh, cycle.",
+      "chinese": ""
+    },
+    {
+      "id": 39,
+      "start": 176.06,
+      "end": 180.62,
+      "english": "And I think the um, the market is, is looking for 80,000 for payrolls.",
+      "chinese": ""
+    },
+    {
+      "id": 40,
+      "start": 180.62,
+      "end": 181.901,
+      "english": "That's a pretty decent number.",
+      "chinese": ""
+    },
+    {
+      "id": 41,
+      "start": 181.901,
+      "end": 190.07,
+      "english": "I think that that would be like enough to convince people that the economy is looking okay, uh, without being worried that, you know, everything is going overheating.",
+      "chinese": ""
+    },
+    {
+      "id": 42,
+      "start": 190.25,
+      "end": 197.75,
+      "english": "Um, but a bigger number than that, we might see, uh, more of a sell off the market is, is is pricing or leaning towards a fed hike at some point?",
+      "chinese": ""
+    },
+    {
+      "id": 43,
+      "start": 198.02,
+      "end": 201.65,
+      "english": "Um, but, uh, uh, it's not really convinced yet.",
+      "chinese": ""
+    },
+    {
+      "id": 44,
+      "start": 201.65,
+      "end": 205.64,
+      "english": "So big number and they might lean more into that and push up those yields further.",
       "chinese": ""
     }
   ],
