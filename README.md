@@ -3,8 +3,11 @@
 Public daily content feed for the personal MarketEar iOS app.
 
 - `today.json` is read by the app at launch and cached locally.
-- The scheduled workflow selects the latest Bloomberg Television video titled
-  “Markets in 3 Minutes”.
+- The scheduled workflow selects the newest unused Bloomberg Television
+  “Markets in 3 Minutes” / “3-Minutes MLIV” episode.
+- If Bloomberg has not published a new episode that day, the workflow searches
+  backward through the official channel archive. `history.json` prevents daily
+  repeats and is maintained automatically.
 - YouTube remains the video host. This repository does not download or
   redistribute the video.
 - English text and timestamps come from the configured transcript API.
