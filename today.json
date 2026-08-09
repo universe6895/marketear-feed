@@ -1,314 +1,318 @@
 {
-  "id": "bloomberg-jRmwVgbAbic",
-  "date": "2026-08-09",
+  "id": "bloomberg-L7NPNrmLwOM",
+  "date": "2026-08-10",
   "eyebrow": "TODAY · BLOOMBERG",
-  "title": "It Makes Sense for Gold to Trade Higher: 3-Minutes MLIV",
+  "title": "Optimism Leans on US-Iran Deal Hopes: 3-Minutes MLIVMarkets in 3 Minutes 8/5/2026",
   "titleChinese": "今日彭博财经市场快讯",
   "summary": "完整英文字幕、逐段时间轴与设备端中文翻译。",
-  "durationSeconds": 193.85,
-  "youtubeVideoID": "jRmwVgbAbic",
-  "sourceURL": "https://www.youtube.com/watch?v=jRmwVgbAbic",
+  "durationSeconds": 203.14,
+  "youtubeVideoID": "L7NPNrmLwOM",
+  "sourceURL": "https://www.youtube.com/watch?v=L7NPNrmLwOM",
   "sourceName": "Bloomberg Television",
   "vocabulary": [
+    {
+      "word": "earnings",
+      "phonetic": "/ˈɜːrnɪŋz/",
+      "meaning": "企业盈利"
+    },
+    {
+      "word": "inflation",
+      "phonetic": "/ɪnˈfleɪʃən/",
+      "meaning": "通货膨胀"
+    },
+    {
+      "word": "monetary policy",
+      "phonetic": "/ˈmʌnɪteri ˈpɒləsi/",
+      "meaning": "货币政策"
+    },
+    {
+      "word": "S&P 500",
+      "phonetic": "/ˌes ən ˌpiː faɪv ˈhʌndrəd/",
+      "meaning": "标普500指数"
+    },
     {
       "word": "volatility",
       "phonetic": "/ˌvɒləˈtɪləti/",
       "meaning": "波动性"
+    },
+    {
+      "word": "investor",
+      "phonetic": "/ɪnˈvestər/",
+      "meaning": "投资者"
     }
   ],
   "transcript": [
     {
       "id": 1,
-      "start": 0.33,
-      "end": 0.553,
-      "english": "Monk.",
+      "start": 0.72,
+      "end": 6.452,
+      "english": "We've been busy worrying negatively about what's happening with the AI trade just in the last couple of minutes.",
       "chinese": ""
     },
     {
       "id": 2,
-      "start": 0.553,
-      "end": 2.572,
-      "english": "We're all poring over details of SoftBank numbers.",
+      "start": 6.452,
+      "end": 15.81,
+      "english": "But actually, let's put all that to one side because, you know, stocks at records, the S&P, the Dow, the DAX, the Stoxx 600 all at record in the past 24 hours.",
       "chinese": ""
     },
     {
       "id": 3,
-      "start": 2.572,
-      "end": 5.251,
-      "english": "We have Sandy's numbers overnight that were a bit negative.",
+      "start": 16.05,
+      "end": 17.748,
+      "english": "Is it all about the weaker oil price.",
       "chinese": ""
     },
     {
       "id": 4,
-      "start": 5.251,
-      "end": 10.62,
-      "english": "Are we have we learned in the last 24 hours anything useful new around the the trade the eye trade.",
+      "start": 17.748,
+      "end": 18.81,
+      "english": "Is that all it takes?",
       "chinese": ""
     },
     {
       "id": 5,
-      "start": 10.62,
-      "end": 13.376,
-      "english": "Is that where the market's focus is?",
+      "start": 21.6,
+      "end": 28.705,
+      "english": "I think about 50% of the euphoria in markets this week is probably around optimism about US Iran.",
       "chinese": ""
     },
     {
       "id": 6,
-      "start": 13.376,
-      "end": 18.568,
-      "english": "I mean the eye trade is always the most important thing in markets right now.",
+      "start": 28.705,
+      "end": 32.93,
+      "english": "And there definitely is euphoria as you say stocks are at records.",
       "chinese": ""
     },
     {
       "id": 7,
-      "start": 18.568,
-      "end": 21.578,
-      "english": "Uh, I'm not sure if we've learned anything massively new.",
+      "start": 32.93,
+      "end": 35.123,
+      "english": "You know almost every ounce is doing well.",
       "chinese": ""
     },
     {
       "id": 8,
-      "start": 21.578,
-      "end": 32.13,
-      "english": "I think SoftBank is always going to be at the more concerning leveraged kind of end of that kind of AI, you know, circular debt spectrum as Neil outlined there.",
+      "start": 35.123,
+      "end": 37.503,
+      "english": "Bonds are rallying which is playing into the stock story.",
       "chinese": ""
     },
     {
       "id": 9,
-      "start": 32.36,
-      "end": 35.54,
-      "english": "Uh, so I'm not sure it's kind of incrementally moved on much.",
+      "start": 37.503,
+      "end": 39.51,
+      "english": "So I'd say about 50% is U.S.",
       "chinese": ""
     },
     {
       "id": 10,
-      "start": 35.55,
-      "end": 39.12,
-      "english": "I will say that the price action is still a little bit negative.",
+      "start": 39.51,
+      "end": 41.529,
+      "english": "Iran even though we've been here before.",
       "chinese": ""
     },
     {
       "id": 11,
-      "start": 39.12,
-      "end": 55.427,
-      "english": "And we but, you know, it's part of this overall, uh, kind of trend that we've seen that for about 15 months until about maybe two months ago, you know, is by everything I and now we're really discerning much more which part of the I trade trade at different times.",
+      "start": 41.529,
+      "end": 56.91,
+      "english": "And it's precisely because we've got deja vu about the situation of a promise of a deal that's holding some investors back, which means we still have even more upside if there is finally a deal which seems viable and sustainable and is actually validated on both sides.",
       "chinese": ""
     },
     {
       "id": 12,
-      "start": 55.427,
-      "end": 63.54,
-      "english": "It's becoming much more of a of a micro bottom up needing to know exactly what companies do and, and differentiating between the various parts of the AI segment.",
+      "start": 57.21,
+      "end": 58.31,
+      "english": "What's the other 50%?",
       "chinese": ""
     },
     {
       "id": 13,
-      "start": 64.98,
-      "end": 68.79,
-      "english": "And what's the bar for the geopolitical story to become the top headline then?",
+      "start": 58.31,
+      "end": 73.46,
+      "english": "I think the other 50% really is largely just kind of technical relief that the, the rout in, in Korean stocks is over, that the situational Awareness Fund is kind of resolved, and we've rolled into a new month so we can kind of put July behind us.",
       "chinese": ""
     },
     {
       "id": 14,
-      "start": 68.79,
-      "end": 74.17,
-      "english": "Mark, because we're waiting for more news on this deal between Oman and Iran.",
+      "start": 73.52,
+      "end": 76.76,
+      "english": "So I think 50% is that and 50% us around optimism.",
       "chinese": ""
     },
     {
       "id": 15,
-      "start": 74.19,
-      "end": 76.98,
-      "english": "It seems like Washington was kind of left out of it.",
+      "start": 78.17,
+      "end": 85.463,
+      "english": "So then, Mark, has the S&P turned the corner know it's out of the narrow range it was stuck in for several months.",
       "chinese": ""
     },
     {
       "id": 16,
-      "start": 77.62,
-      "end": 80.22,
-      "english": "What what point does geopolitics really matter again?",
+      "start": 85.463,
+      "end": 87.02,
+      "english": "I mean look.",
       "chinese": ""
     },
     {
       "id": 17,
-      "start": 82.53,
-      "end": 84.743,
-      "english": "If there's a material escalation?",
+      "start": 87.26,
+      "end": 91.61,
+      "english": "S&P 500 never went far from its record highs even in July.",
       "chinese": ""
     },
     {
       "id": 18,
-      "start": 84.743,
-      "end": 91.59,
-      "english": "Uh uh, ultimately, you know, that will that will kind of dominate everything, you know, for a brief period of time.",
+      "start": 91.61,
+      "end": 96.46,
+      "english": "Turmoil which was very much sector specific 500 has been doing final year.",
       "chinese": ""
     },
     {
       "id": 19,
-      "start": 91.95,
-      "end": 100.17,
-      "english": "Uh, if it happens, uh, people are kind of pretty cynical about any kind of deal, given all the the number of promises we've had before.",
+      "start": 96.47,
+      "end": 106.05,
+      "english": "I mean, I think we remain in a in the inflationary stage of the AI CapEx bubble and we remain in an overall very bullish environment for stocks.",
       "chinese": ""
     },
     {
       "id": 20,
-      "start": 100.47,
-      "end": 105.59,
-      "english": "On the flip side, I don't think they will really expect, you know, material escalation ahead of the midterms.",
+      "start": 106.07,
+      "end": 111.184,
+      "english": "We've got massive fiscal injections from around the world, both in the private sector and the public sector.",
       "chinese": ""
     },
     {
       "id": 21,
-      "start": 105.59,
-      "end": 111.496,
-      "english": "So we're like a little bit probably going to this kind of status quo of not having exact clarity but not getting much worse.",
+      "start": 111.184,
+      "end": 120.51,
+      "english": "We're having monetary policy being held in ordinary low, um, we keep on getting promises of relief in the US around, which is the one big risk out there.",
       "chinese": ""
     },
     {
       "id": 22,
-      "start": 111.496,
-      "end": 117.767,
-      "english": "I think it's as long as that's the case, it'll only ever kind of dominate very briefly before we go back to the eye trade.",
+      "start": 120.51,
+      "end": 121.64,
+      "english": "Earnings are incredibly strong.",
       "chinese": ""
     },
     {
       "id": 23,
-      "start": 117.767,
-      "end": 123.48,
-      "english": "But I said if we get if we get a proper US escalation, well then that's a whole different story.",
+      "start": 121.76,
+      "end": 124.61,
+      "english": "So the macro environment is still very, very positive.",
       "chinese": ""
     },
     {
       "id": 24,
-      "start": 124.29,
-      "end": 124.586,
-      "english": "Mhm.",
+      "start": 124.79,
+      "end": 134.768,
+      "english": "As you discuss since about May, I think we're in the more this more volatile stage of the of the I kind of, uh, bubble uh and therefore it's but that still means higher prices.",
       "chinese": ""
     },
     {
       "id": 25,
-      "start": 124.586,
-      "end": 128.298,
-      "english": "And gold can sometimes move around with some of that geopolitics as well Mark.",
+      "start": 134.768,
+      "end": 136.14,
+      "english": "So, you know, I look.",
       "chinese": ""
     },
     {
       "id": 26,
-      "start": 128.298,
-      "end": 130.25,
-      "english": "But often it's just a play on the fed.",
+      "start": 136.15,
+      "end": 139.39,
+      "english": "I should be 500 yet it hasn't gone much further, but it's not far off.",
       "chinese": ""
     },
     {
       "id": 27,
-      "start": 130.25,
-      "end": 133.01,
-      "english": "So what are you seeing behind the moves we've got in gold recently?",
+      "start": 139.63,
+      "end": 140.355,
+      "english": "Record highs.",
       "chinese": ""
     },
     {
       "id": 28,
-      "start": 135.2,
-      "end": 140.485,
-      "english": "Yeah, I would say gold's probably been the biggest topic of debate in my team the last 24 hours.",
+      "start": 140.355,
+      "end": 144.4,
+      "english": "Um, which is you know, it's extraordinary gains the last couple of years.",
       "chinese": ""
     },
     {
       "id": 29,
-      "start": 140.485,
-      "end": 145.82,
-      "english": "We had this sudden 4% surge yesterday, which just seemed completely out of line with almost everything else.",
+      "start": 145.78,
+      "end": 146.007,
+      "english": "Mhm.",
       "chinese": ""
     },
     {
       "id": 30,
-      "start": 145.82,
-      "end": 147.644,
-      "english": "That was kind of happening on the day.",
+      "start": 146.007,
+      "end": 149.054,
+      "english": "Mark are we still adjusting to what we heard last week from the fed.",
       "chinese": ""
     },
     {
       "id": 31,
-      "start": 147.644,
-      "end": 152.33,
-      "english": "And with recent price action, where it's kind of not really moved in weeks, despite the volatility elsewhere.",
+      "start": 149.054,
+      "end": 151.39,
+      "english": "Do you think you can get still working through markets.",
       "chinese": ""
     },
     {
       "id": 32,
-      "start": 152.54,
-      "end": 155.48,
-      "english": "Now, I'm there must have been some flow behind that.",
+      "start": 151.39,
+      "end": 154.74,
+      "english": "The the lack of guidance um that we're getting.",
       "chinese": ""
     },
     {
       "id": 33,
-      "start": 155.48,
-      "end": 162.719,
-      "english": "But I think it's extraordinary interesting with the with the disclaimer that the short term volatility the last five weeks has made all short term trading a bit erratic and hard.",
+      "start": 154.74,
+      "end": 157.448,
+      "english": "And what is that doing.",
       "chinese": ""
     },
     {
       "id": 34,
-      "start": 162.719,
-      "end": 165.41,
-      "english": "And as we've mentioned, there's the US around risk.",
+      "start": 157.448,
+      "end": 161.23,
+      "english": "Do you think it's a risk assets as well as to the long end of the of the yield curve.",
       "chinese": ""
     },
     {
       "id": 35,
-      "start": 165.41,
-      "end": 168.582,
-      "english": "I think that this move fundamentally makes sense.",
+      "start": 163.96,
+      "end": 164.788,
+      "english": "I'm not sure.",
       "chinese": ""
     },
     {
       "id": 36,
-      "start": 168.582,
-      "end": 171.3,
-      "english": "I was going to turn bearish gold at the start of the war.",
+      "start": 164.788,
+      "end": 171.647,
+      "english": "We're still kind of working through it, but I think that the message from that meeting is going to remain very relevant.",
       "chinese": ""
     },
     {
       "id": 37,
-      "start": 171.3,
-      "end": 173.3,
-      "english": "I have been bearish now until this flow.",
+      "start": 171.647,
+      "end": 178.153,
+      "english": "And, you know, for for the long term, one is we're going to have more volatility around data points, um, which is one aspect.",
       "chinese": ""
     },
     {
       "id": 38,
-      "start": 173.42,
-      "end": 177.453,
-      "english": "I now see this as a valid move higher and maybe the start of the bull trend reasserting.",
+      "start": 178.153,
+      "end": 183.763,
+      "english": "And and because we got some big data points to come this week with jobs in particular, that's going to be interesting.",
       "chinese": ""
     },
     {
       "id": 39,
-      "start": 177.453,
-      "end": 184.661,
-      "english": "That's because the fed last week undermined the Fed's credibility at the margin, which means in lower real yields expected in the future.",
-      "chinese": ""
-    },
-    {
-      "id": 40,
-      "start": 184.661,
-      "end": 186.53,
-      "english": "But also that was a blow to the dollar.",
-      "chinese": ""
-    },
-    {
-      "id": 41,
-      "start": 186.74,
-      "end": 191.84,
-      "english": "And ultimately longer term gold is just traded off dollar and real yields.",
-      "chinese": ""
-    },
-    {
-      "id": 42,
-      "start": 191.84,
-      "end": 193.85,
-      "english": "And if both of them are going to be lower, gold will be higher.",
+      "start": 183.763,
+      "end": 203.14,
+      "english": "And I think the second one is that because of that kind of, uh, slight surprise in how dovish war sounded in the conference relative to expectations, I think that the next data points in particular, where either kind of validate that view or make it seem more like a policy mistake if the data is strong.",
       "chinese": ""
     }
   ],
