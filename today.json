@@ -1,13 +1,13 @@
 {
-  "id": "bloomberg-04M0wcXBG9Y",
-  "date": "2026-08-11",
+  "id": "bloomberg-jYSmJ7J86Qw",
+  "date": "2026-08-12",
   "eyebrow": "TODAY · BLOOMBERG",
-  "title": "US CPI and Iran Conflict to Dictate the Market: 3-Minutes MLIV",
+  "title": "Treasuries Will Have a Tough End to 2026: 3-Minutes MLIV",
   "titleChinese": "今日彭博财经市场快讯",
   "summary": "完整英文字幕、逐段时间轴与设备端中文翻译。",
-  "durationSeconds": 193.73,
-  "youtubeVideoID": "04M0wcXBG9Y",
-  "sourceURL": "https://www.youtube.com/watch?v=04M0wcXBG9Y",
+  "durationSeconds": 188.19,
+  "youtubeVideoID": "jYSmJ7J86Qw",
+  "sourceURL": "https://www.youtube.com/watch?v=jYSmJ7J86Qw",
   "sourceName": "Bloomberg Television",
   "vocabulary": [
     {
@@ -21,388 +21,316 @@
       "meaning": "通货膨胀"
     },
     {
-      "word": "labor market",
-      "phonetic": "/ˈleɪbər ˈmɑːrkɪt/",
-      "meaning": "劳动力市场"
+      "word": "volatility",
+      "phonetic": "/ˌvɒləˈtɪləti/",
+      "meaning": "波动性"
+    },
+    {
+      "word": "investor",
+      "phonetic": "/ɪnˈvestər/",
+      "meaning": "投资者"
     }
   ],
   "transcript": [
     {
       "id": 1,
-      "start": 0.57,
-      "end": 1.724,
-      "english": "Quiet start, but getting busier.",
+      "start": 0.12,
+      "end": 2.155,
+      "english": "I read your notes this morning, Mark.",
       "chinese": ""
     },
     {
       "id": 2,
-      "start": 1.724,
-      "end": 6.24,
-      "english": "I've got a few earnings coming up later this week, but CPI looks like it's going to dominate this week.",
+      "start": 2.155,
+      "end": 3.9,
+      "english": "I CapEx burning through investor cash.",
       "chinese": ""
     },
     {
       "id": 3,
-      "start": 6.75,
-      "end": 8.52,
-      "english": "Yeah obviously you know we're coming off the back of that.",
+      "start": 3.9,
+      "end": 5.16,
+      "english": "But there's a lot of cash.",
       "chinese": ""
     },
     {
       "id": 4,
-      "start": 8.52,
-      "end": 10.8,
-      "english": "You know slightly softer nonfarm payrolls raise.",
+      "start": 5.16,
+      "end": 6.63,
+      "english": "So how much further does this go?",
       "chinese": ""
     },
     {
       "id": 5,
-      "start": 10.8,
-      "end": 18.63,
-      "english": "We saw last week that ultimately we kind of saw the bid in treasuries fade into the close on Friday because they know that the CPI report is looming large.",
+      "start": 9.66,
+      "end": 11.75,
+      "english": "Look, my answer going can be a little bit boring here guy.",
       "chinese": ""
     },
     {
       "id": 6,
-      "start": 18.81,
-      "end": 27.004,
-      "english": "If the fed is to do anything, it's very much going to be off the inflation mandate, not necessarily the labor markets, given that inflation is running above target for about five years now.",
+      "start": 11.76,
+      "end": 16.47,
+      "english": "It's going to be the same as I said for probably the last sort of year, maybe nine months I don't know.",
       "chinese": ""
     },
     {
       "id": 7,
-      "start": 27.004,
-      "end": 32.52,
-      "english": "And yeah, I think in terms of how the market would trade it, I think there's probably a higher sensitivity to hot report.",
+      "start": 16.47,
+      "end": 21.107,
+      "english": "Next earnings seasons are always what I'm looking at and it's going to constantly be the next rolling earnings season.",
       "chinese": ""
     },
     {
       "id": 8,
-      "start": 32.52,
-      "end": 33.03,
-      "english": "Yeah.",
+      "start": 21.107,
+      "end": 25.08,
+      "english": "It's not because I think it blows up specifically in the next earnings season.",
       "chinese": ""
     },
     {
       "id": 9,
-      "start": 33.03,
-      "end": 38.16,
-      "english": "We saw that Ft report last week suggesting that Warsh is going to look to reinforce the messaging on inflation.",
+      "start": 25.29,
+      "end": 55.121,
+      "english": "It's because I think the I CapEx bubble bursts when one of the hyperscalers changes tack on their capital expenditure plans, and I think that can happen outside kind of results season, but I think it's unlikely to, uh, so I think it's most likely we get to earnings, or at least we get a hint in those earnings seasons that, hey, it's not really working or the revenue's not coming through, uh, fast enough to kind of keep up with the kind of hope, the pipe dream that we might see the revenue explosion or justify the CapEx explosion that we're already pricing in.",
       "chinese": ""
     },
     {
       "id": 10,
-      "start": 38.16,
-      "end": 44.4,
-      "english": "So that does potentially set us up for a slightly more hawkish Jackson Hole in terms of where market pricing is at the moment.",
+      "start": 55.121,
+      "end": 57.709,
+      "english": "So I kind of always think it's the next earnings season.",
       "chinese": ""
     },
     {
       "id": 11,
-      "start": 44.4,
-      "end": 46.536,
-      "english": "It's a relative coin flip between what they deal with.",
+      "start": 57.709,
+      "end": 60.585,
+      "english": "Do I think my base case is the next earnings season?",
       "chinese": ""
     },
     {
       "id": 12,
-      "start": 46.536,
-      "end": 46.98,
-      "english": "Don't go.",
+      "start": 60.585,
+      "end": 61.62,
+      "english": "Not necessarily.",
       "chinese": ""
     },
     {
       "id": 13,
-      "start": 47.22,
-      "end": 48.63,
-      "english": "You need to feel that one way or the other.",
+      "start": 61.74,
+      "end": 63.24,
+      "english": "But I think you've got to be alert to it.",
       "chinese": ""
     },
     {
       "id": 14,
-      "start": 48.63,
-      "end": 50.31,
-      "english": "This will tip things to some extent.",
+      "start": 63.24,
+      "end": 65.58,
+      "english": "We're already quite far through inflating this.",
       "chinese": ""
     },
     {
       "id": 15,
-      "start": 50.31,
-      "end": 60.93,
-      "english": "Of course, you still do have another report by the end for the upcoming meeting that we do get corporate obviously, you know, is expect to see a bit in treasuries, but events around could potentially put a bit of a cap on that.",
+      "start": 65.58,
+      "end": 67.03,
+      "english": "I bubble it kind of.",
       "chinese": ""
     },
     {
       "id": 16,
-      "start": 61.68,
-      "end": 65.3,
-      "english": "Well, so on Iran what $83 a barrel right now 83, 47.",
+      "start": 67.03,
+      "end": 68.19,
+      "english": "Plenty more to go.",
       "chinese": ""
     },
     {
       "id": 17,
-      "start": 65.3,
-      "end": 67.177,
-      "english": "You're down to 10% on Brent.",
+      "start": 68.22,
+      "end": 72.0,
+      "english": "This most recent earnings season shows that it's still going strong for now.",
       "chinese": ""
     },
     {
       "id": 18,
-      "start": 67.177,
-      "end": 74.09,
-      "english": "Is this a market that only cares about the extremes, the complete reopening or return to significant conflict?",
+      "start": 73.95,
+      "end": 81.21,
+      "english": "And you've talked about as well, Mark, in your notes about the fact that this could this additional spending could be marginally negative for for treasuries.",
       "chinese": ""
     },
     {
       "id": 19,
-      "start": 74.09,
-      "end": 77.668,
-      "english": "Because right now it's just been bumbling around that that what, 80 to $85 level?",
+      "start": 81.21,
+      "end": 87.99,
+      "english": "Watching treasuries in the lead up to CPI inflation out of the US tomorrow is is that inflation print backdated to July.",
       "chinese": ""
     },
     {
       "id": 20,
-      "start": 77.668,
-      "end": 80.965,
-      "english": "In fact, of the last two weeks, Paul is always a little lower.",
+      "start": 87.99,
+      "end": 95.304,
+      "english": "Is it less important now given what we're seeing in terms of higher gas and diesel and oil prices.",
       "chinese": ""
     },
     {
       "id": 21,
-      "start": 80.965,
-      "end": 85.265,
-      "english": "Have we seen the gains in the last five days or so and currently around 83?",
+      "start": 95.304,
+      "end": 96.18,
+      "english": "Maybe.",
       "chinese": ""
     },
     {
       "id": 22,
-      "start": 85.265,
-      "end": 89.986,
-      "english": "How important is is is the current status quo for the inflation story?",
+      "start": 96.18,
+      "end": 103.23,
+      "english": "But uh, you know, I think week we keep on dismissing each kind of marginal data print that comes through because we're setting the situation so dynamic.",
       "chinese": ""
     },
     {
       "id": 23,
-      "start": 89.986,
-      "end": 90.35,
-      "english": "Yeah.",
+      "start": 103.54,
+      "end": 105.171,
+      "english": "I think, though it is interesting.",
       "chinese": ""
     },
     {
       "id": 24,
-      "start": 90.35,
-      "end": 95.208,
-      "english": "I mean, if you need to get since the start of July when things broke down, we've kind of done this 70 to 100 range.",
+      "start": 105.171,
+      "end": 106.53,
+      "english": "Here's the context of treasuries.",
       "chinese": ""
     },
     {
       "id": 25,
-      "start": 95.208,
-      "end": 101.37,
-      "english": "And as you mentioned, we're kind of in the middle of it, kind of middling, I think on the short term bias for oil's probably upside in the near-term.",
+      "start": 106.53,
+      "end": 112.326,
+      "english": "I think the pressure on treasuries is going to be a real theme going into year and into midterms.",
       "chinese": ""
     },
     {
       "id": 26,
-      "start": 101.37,
-      "end": 106.28,
-      "english": "If you look at the ten of news flow over the weekend, you know, you've had Iran's Indo-Pak talks.",
+      "start": 112.326,
+      "end": 117.48,
+      "english": "We have fiscal incontinence in the US, which is unlikely to change before the elections.",
       "chinese": ""
     },
     {
       "id": 27,
-      "start": 106.28,
-      "end": 109.07,
-      "english": "The US is in a, you know, security shakeup.",
+      "start": 117.48,
+      "end": 123.06,
+      "english": "We don't have great policy credibility, uh, from various parts of the US.",
       "chinese": ""
     },
     {
       "id": 28,
-      "start": 109.07,
-      "end": 110.96,
-      "english": "We've seen any reports that Khamenei is now on the scene.",
+      "start": 123.51,
+      "end": 127.08,
+      "english": "ALM whether it's the fed or the, the, the Treasury at the moment.",
       "chinese": ""
     },
     {
       "id": 29,
-      "start": 111.35,
-      "end": 113.66,
-      "english": "I think, you know, you could potentially get a job low at this week.",
+      "start": 127.32,
+      "end": 134.07,
+      "english": "And I think we've got, uh, you know, clearly an inflationary backdrop we can negotiate or debate about exactly to what extent.",
       "chinese": ""
     },
     {
       "id": 30,
-      "start": 113.66,
-      "end": 115.82,
-      "english": "Looks like the next thing is potentially this Iran.",
+      "start": 134.31,
+      "end": 137.1,
+      "english": "But I think the backdrop for treasuries is very negative.",
       "chinese": ""
     },
     {
       "id": 31,
-      "start": 116.12,
-      "end": 116.605,
-      "english": "Uh Martindale.",
+      "start": 137.22,
+      "end": 139.38,
+      "english": "And I think that pressure is going to increase in the year end.",
       "chinese": ""
     },
     {
       "id": 32,
-      "start": 116.605,
-      "end": 125.84,
-      "english": "But ultimately that could be a bit of a short term move because it won't get the strait reopened in the market, just really cares more about whether getting a more like durable U.S.",
+      "start": 139.47,
+      "end": 141.72,
+      "english": "The expansion hyperscale debt doesn't help that.",
       "chinese": ""
     },
     {
       "id": 33,
-      "start": 125.84,
-      "end": 126.533,
-      "english": "Iran deal.",
+      "start": 141.87,
+      "end": 145.02,
+      "english": "And it's with that context that we've got us CPI print this week.",
       "chinese": ""
     },
     {
       "id": 34,
-      "start": 126.533,
-      "end": 128.96,
-      "english": "And even then though thing over assets.",
+      "start": 146.91,
+      "end": 148.184,
+      "english": "I mean, it's an interesting one.",
       "chinese": ""
     },
     {
       "id": 35,
-      "start": 128.96,
-      "end": 134.24,
-      "english": "The bar to reprice anything more optimistic is a relatively high one, particularly if you look at European government bonds.",
+      "start": 148.184,
+      "end": 151.595,
+      "english": "We've had a mixed reaction yesterday and assets in terms of oil prices up.",
       "chinese": ""
     },
     {
       "id": 36,
-      "start": 134.24,
-      "end": 138.003,
-      "english": "We saw in Cintra, even when things were looking better, the ECB was still particularly cautious.",
+      "start": 151.595,
+      "end": 152.97,
+      "english": "But gold is also up.",
       "chinese": ""
     },
     {
       "id": 37,
-      "start": 138.003,
-      "end": 140.36,
-      "english": "So there's definitely a cap on things.",
+      "start": 152.97,
+      "end": 154.95,
+      "english": "And there's all this optimism around Europe.",
       "chinese": ""
     },
     {
       "id": 38,
-      "start": 140.69,
-      "end": 142.1,
-      "english": "Okay, I'll just finish up quickly.",
+      "start": 154.95,
+      "end": 155.18,
+      "english": "Still.",
       "chinese": ""
     },
     {
       "id": 39,
-      "start": 142.1,
-      "end": 143.51,
-      "english": "We're watching the game quite closely.",
+      "start": 155.18,
+      "end": 164.31,
+      "english": "Does that need to be put into the context of the risk of higher oil prices and the fact that we started the year with the 1.2% real GDP forecast for 2026.",
       "chinese": ""
     },
     {
       "id": 40,
-      "start": 143.51,
-      "end": 145.94,
-      "english": "Obviously it's not gotten a huge gain from that week.",
+      "start": 166.29,
+      "end": 173.1,
+      "english": "Uh, I think that people are starting to cope with the higher volatility in oil prices and with higher elevated oil prices.",
       "chinese": ""
     },
     {
       "id": 41,
-      "start": 145.94,
-      "end": 150.435,
-      "english": "Nonfarm payrolls report is the path of least resistance still towards the lower yen and higher Dalian.",
+      "start": 173.1,
+      "end": 180.33,
+      "english": "Of course, if we see Brent crude spike well above $100, again, that will derail some of the kind of the bullishness around Europe at the moment.",
       "chinese": ""
     },
     {
       "id": 42,
-      "start": 150.435,
-      "end": 151.33,
-      "english": "Yeah, I think so.",
+      "start": 180.51,
+      "end": 186.56,
+      "english": "But I think with volatile at a at this range of 80 to $100, I think European stocks will cope.",
       "chinese": ""
     },
     {
       "id": 43,
-      "start": 151.33,
-      "end": 156.326,
-      "english": "I mean you look at the price action today we're above 150 and we go in Yen's worst performing G10 states.",
-      "chinese": ""
-    },
-    {
-      "id": 44,
-      "start": 156.326,
-      "end": 161.81,
-      "english": "Worst performing G10 this month even year yen in which the transactions were conducted.",
-      "chinese": ""
-    },
-    {
-      "id": 45,
-      "start": 162.11,
-      "end": 162.938,
-      "english": "That's moving higher.",
-      "chinese": ""
-    },
-    {
-      "id": 46,
-      "start": 162.938,
-      "end": 164.87,
-      "english": "So the market's verdict is the yes.",
-      "chinese": ""
-    },
-    {
-      "id": 47,
-      "start": 165.11,
-      "end": 167.9,
-      "english": "It caused a bit of a short and demand jolt in dollar yen.",
-      "chinese": ""
-    },
-    {
-      "id": 48,
-      "start": 167.9,
-      "end": 171.404,
-      "english": "But the moment the happy to keep reloading up and buying a dip in dollar yen.",
-      "chinese": ""
-    },
-    {
-      "id": 49,
-      "start": 171.404,
-      "end": 176.09,
-      "english": "I think if you get more of a runway whereby Mark is like oh, this is it for the yen.",
-      "chinese": ""
-    },
-    {
-      "id": 50,
-      "start": 176.12,
-      "end": 183.5,
-      "english": "The latest intervention efforts, then it's momentum can keep moving to the upside, particularly towards where the DOJ is really doing a great deal.",
-      "chinese": ""
-    },
-    {
-      "id": 51,
-      "start": 183.65,
-      "end": 185.653,
-      "english": "And the fed is still price hawkish.",
-      "chinese": ""
-    },
-    {
-      "id": 52,
-      "start": 185.653,
-      "end": 188.025,
-      "english": "Lee Adam thank you Bloomberg Markets lines Adam Linton.",
-      "chinese": ""
-    },
-    {
-      "id": 53,
-      "start": 188.025,
-      "end": 191.48,
-      "english": "Remember you can get up to date analysis and insight from Adam and the rest of the team.",
-      "chinese": ""
-    },
-    {
-      "id": 54,
-      "start": 191.48,
-      "end": 193.73,
-      "english": "Just go to MLF go on the terminal.",
+      "start": 186.56,
+      "end": 188.19,
+      "english": "And the European theater story will sustain.",
       "chinese": ""
     }
   ],
