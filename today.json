@@ -1,336 +1,370 @@
 {
-  "id": "bloomberg-jYSmJ7J86Qw",
-  "date": "2026-08-12",
+  "id": "bloomberg-A-MSldBosVc",
+  "date": "2026-08-13",
   "eyebrow": "TODAY · BLOOMBERG",
-  "title": "Treasuries Will Have a Tough End to 2026: 3-Minutes MLIV",
+  "title": "US Yields Will Go Much Higher Next Year: 3-Minutes MLIV",
   "titleChinese": "今日彭博财经市场快讯",
   "summary": "完整英文字幕、逐段时间轴与设备端中文翻译。",
-  "durationSeconds": 188.19,
-  "youtubeVideoID": "jYSmJ7J86Qw",
-  "sourceURL": "https://www.youtube.com/watch?v=jYSmJ7J86Qw",
+  "durationSeconds": 187.49,
+  "youtubeVideoID": "A-MSldBosVc",
+  "sourceURL": "https://www.youtube.com/watch?v=A-MSldBosVc",
   "sourceName": "Bloomberg Television",
   "vocabulary": [
-    {
-      "word": "earnings",
-      "phonetic": "/ˈɜːrnɪŋz/",
-      "meaning": "企业盈利"
-    },
     {
       "word": "inflation",
       "phonetic": "/ɪnˈfleɪʃən/",
       "meaning": "通货膨胀"
-    },
-    {
-      "word": "volatility",
-      "phonetic": "/ˌvɒləˈtɪləti/",
-      "meaning": "波动性"
-    },
-    {
-      "word": "investor",
-      "phonetic": "/ɪnˈvestər/",
-      "meaning": "投资者"
     }
   ],
   "transcript": [
     {
       "id": 1,
       "start": 0.12,
-      "end": 2.155,
-      "english": "I read your notes this morning, Mark.",
+      "end": 2.201,
+      "english": "It is CPI day in the USA.",
       "chinese": ""
     },
     {
       "id": 2,
-      "start": 2.155,
-      "end": 3.9,
-      "english": "I CapEx burning through investor cash.",
+      "start": 2.201,
+      "end": 3.39,
+      "english": "Does the U.S.",
       "chinese": ""
     },
     {
       "id": 3,
-      "start": 3.9,
-      "end": 5.16,
-      "english": "But there's a lot of cash.",
+      "start": 3.39,
+      "end": 6.79,
+      "english": "have an inflation problem?",
       "chinese": ""
     },
     {
       "id": 4,
-      "start": 5.16,
-      "end": 6.63,
-      "english": "So how much further does this go?",
+      "start": 6.79,
+      "end": 8.49,
+      "english": "Uh, absolutely.",
       "chinese": ""
     },
     {
       "id": 5,
-      "start": 9.66,
-      "end": 11.75,
-      "english": "Look, my answer going can be a little bit boring here guy.",
+      "start": 8.64,
+      "end": 11.34,
+      "english": "Is it one that's going to be exacerbated by today's print?",
       "chinese": ""
     },
     {
       "id": 6,
-      "start": 11.76,
-      "end": 16.47,
-      "english": "It's going to be the same as I said for probably the last sort of year, maybe nine months I don't know.",
+      "start": 11.79,
+      "end": 12.438,
+      "english": "Probably not.",
       "chinese": ""
     },
     {
       "id": 7,
-      "start": 16.47,
-      "end": 21.107,
-      "english": "Next earnings seasons are always what I'm looking at and it's going to constantly be the next rolling earnings season.",
+      "start": 12.438,
+      "end": 28.195,
+      "english": "Expectations are for it to come in, uh, at a low level and to kind of dissuade the Hawks in the short term, I think, with with expectations for such a low print, though, we'll probably get an asymmetric reaction function if it is slightly stronger than expected rather than if it's on the softer side.",
       "chinese": ""
     },
     {
       "id": 8,
-      "start": 21.107,
-      "end": 25.08,
-      "english": "It's not because I think it blows up specifically in the next earnings season.",
+      "start": 28.195,
+      "end": 29.87,
+      "english": "But I think a way for the CPI.",
       "chinese": ""
     },
     {
       "id": 9,
-      "start": 25.29,
-      "end": 55.121,
-      "english": "It's because I think the I CapEx bubble bursts when one of the hyperscalers changes tack on their capital expenditure plans, and I think that can happen outside kind of results season, but I think it's unlikely to, uh, so I think it's most likely we get to earnings, or at least we get a hint in those earnings seasons that, hey, it's not really working or the revenue's not coming through, uh, fast enough to kind of keep up with the kind of hope, the pipe dream that we might see the revenue explosion or justify the CapEx explosion that we're already pricing in.",
+      "start": 29.88,
+      "end": 42.78,
+      "english": "The CPI is definitely the most important macro data print of the week, and it will cause short term trading, but I think away from the print, whichever way it comes in today, that the backdrop for treasuries is, is increasingly kind of treacherous and negative.",
       "chinese": ""
     },
     {
       "id": 10,
-      "start": 55.121,
-      "end": 57.709,
-      "english": "So I kind of always think it's the next earnings season.",
+      "start": 42.78,
+      "end": 50.31,
+      "english": "And I do think that we'll see much higher U.S. yields into the end of year, no matter what happens over the next 48 hours.",
       "chinese": ""
     },
     {
       "id": 11,
-      "start": 57.709,
-      "end": 60.585,
-      "english": "Do I think my base case is the next earnings season?",
+      "start": 50.31,
+      "end": 53.16,
+      "english": "On that note, then, obviously, U.S.",
       "chinese": ""
     },
     {
       "id": 12,
-      "start": 60.585,
-      "end": 61.62,
-      "english": "Not necessarily.",
+      "start": 53.16,
+      "end": 56.24,
+      "english": "policymakers are pretty concerned by the fact that we have higher yields.",
       "chinese": ""
     },
     {
       "id": 13,
-      "start": 61.74,
-      "end": 63.24,
-      "english": "But I think you've got to be alert to it.",
+      "start": 56.25,
+      "end": 59.85,
+      "english": "Just how high can we go and would you expect a policy response?",
       "chinese": ""
     },
     {
       "id": 14,
-      "start": 63.24,
-      "end": 65.58,
-      "english": "We're already quite far through inflating this.",
+      "start": 62.32,
+      "end": 65.379,
+      "english": "Uh, I think we're going a lot higher in US yields.",
       "chinese": ""
     },
     {
       "id": 15,
-      "start": 65.58,
-      "end": 67.03,
-      "english": "I bubble it kind of.",
+      "start": 65.379,
+      "end": 68.2,
+      "english": "I just think US yields are crazy at this level.",
       "chinese": ""
     },
     {
       "id": 16,
-      "start": 67.03,
-      "end": 68.19,
-      "english": "Plenty more to go.",
+      "start": 68.2,
+      "end": 75.951,
+      "english": "And I think the global growth is super strong and into a super, super strong as maybe 2 to 2 strong wording.",
       "chinese": ""
     },
     {
       "id": 17,
-      "start": 68.22,
-      "end": 72.0,
-      "english": "This most recent earnings season shows that it's still going strong for now.",
+      "start": 75.951,
+      "end": 77.71,
+      "english": "It is strong global growth.",
       "chinese": ""
     },
     {
       "id": 18,
-      "start": 73.95,
-      "end": 81.21,
-      "english": "And you've talked about as well, Mark, in your notes about the fact that this could this additional spending could be marginally negative for for treasuries.",
+      "start": 77.71,
+      "end": 78.856,
+      "english": "It is good global growth.",
       "chinese": ""
     },
     {
       "id": 19,
-      "start": 81.21,
-      "end": 87.99,
-      "english": "Watching treasuries in the lead up to CPI inflation out of the US tomorrow is is that inflation print backdated to July.",
+      "start": 78.856,
+      "end": 81.667,
+      "english": "And in the US in particular it is good growth.",
       "chinese": ""
     },
     {
       "id": 20,
-      "start": 87.99,
-      "end": 95.304,
-      "english": "Is it less important now given what we're seeing in terms of higher gas and diesel and oil prices.",
+      "start": 81.667,
+      "end": 85.93,
+      "english": "And into that we are pumping a lot of money from governments.",
       "chinese": ""
     },
     {
       "id": 21,
-      "start": 95.304,
-      "end": 96.18,
-      "english": "Maybe.",
+      "start": 85.93,
+      "end": 89.53,
+      "english": "Fiscal expenditures are still very, very high all around the world.",
       "chinese": ""
     },
     {
       "id": 22,
-      "start": 96.18,
-      "end": 103.23,
-      "english": "But uh, you know, I think week we keep on dismissing each kind of marginal data print that comes through because we're setting the situation so dynamic.",
+      "start": 89.53,
+      "end": 94.24,
+      "english": "And we have massive private sector spending that is going to lead to a hot economy.",
       "chinese": ""
     },
     {
       "id": 23,
-      "start": 103.54,
-      "end": 105.171,
-      "english": "I think, though it is interesting.",
+      "start": 94.33,
+      "end": 97.75,
+      "english": "So I ultimately expect us to go significantly higher.",
       "chinese": ""
     },
     {
       "id": 24,
-      "start": 105.171,
-      "end": 106.53,
-      "english": "Here's the context of treasuries.",
+      "start": 97.84,
+      "end": 102.556,
+      "english": "I don't I think 5% ten year yields will almost seem like a floor next year, not like a ceiling.",
       "chinese": ""
     },
     {
       "id": 25,
-      "start": 106.53,
-      "end": 112.326,
-      "english": "I think the pressure on treasuries is going to be a real theme going into year and into midterms.",
+      "start": 102.556,
+      "end": 103.48,
+      "english": "I think we're going way to that.",
       "chinese": ""
     },
     {
       "id": 26,
-      "start": 112.326,
-      "end": 117.48,
-      "english": "We have fiscal incontinence in the US, which is unlikely to change before the elections.",
+      "start": 103.66,
+      "end": 106.21,
+      "english": "I think 30 year yields will go through 6% next year.",
       "chinese": ""
     },
     {
       "id": 27,
-      "start": 117.48,
-      "end": 123.06,
-      "english": "We don't have great policy credibility, uh, from various parts of the US.",
+      "start": 106.33,
+      "end": 108.34,
+      "english": "I really think we're going to much higher levels.",
       "chinese": ""
     },
     {
       "id": 28,
-      "start": 123.51,
-      "end": 127.08,
-      "english": "ALM whether it's the fed or the, the, the Treasury at the moment.",
+      "start": 108.52,
+      "end": 109.39,
+      "english": "It's about the pace.",
       "chinese": ""
     },
     {
       "id": 29,
-      "start": 127.32,
-      "end": 134.07,
-      "english": "And I think we've got, uh, you know, clearly an inflationary backdrop we can negotiate or debate about exactly to what extent.",
+      "start": 109.39,
+      "end": 111.13,
+      "english": "I don't know how quickly I'll get there.",
       "chinese": ""
     },
     {
       "id": 30,
-      "start": 134.31,
-      "end": 137.1,
-      "english": "But I think the backdrop for treasuries is very negative.",
+      "start": 111.7,
+      "end": 113.59,
+      "english": "What I'm curious is does it happen this year?",
       "chinese": ""
     },
     {
       "id": 31,
-      "start": 137.22,
-      "end": 139.38,
-      "english": "And I think that pressure is going to increase in the year end.",
+      "start": 113.92,
+      "end": 117.1,
+      "english": "I don't know, I'm open minded to the idea, but I'm not saying they're going to get there really fast.",
       "chinese": ""
     },
     {
       "id": 32,
-      "start": 139.47,
-      "end": 141.72,
-      "english": "The expansion hyperscale debt doesn't help that.",
+      "start": 117.1,
+      "end": 117.91,
+      "english": "But I think U.S.",
       "chinese": ""
     },
     {
       "id": 33,
-      "start": 141.87,
-      "end": 145.02,
-      "english": "And it's with that context that we've got us CPI print this week.",
+      "start": 117.91,
+      "end": 119.32,
+      "english": "yields are still going a lot higher still.",
       "chinese": ""
     },
     {
       "id": 34,
-      "start": 146.91,
-      "end": 148.184,
-      "english": "I mean, it's an interesting one.",
+      "start": 120.7,
+      "end": 123.82,
+      "english": "Okay, 5% is the floor potentially for the US ten year.",
       "chinese": ""
     },
     {
       "id": 35,
-      "start": 148.184,
-      "end": 151.595,
-      "english": "We've had a mixed reaction yesterday and assets in terms of oil prices up.",
+      "start": 124.06,
+      "end": 125.193,
+      "english": "Maybe that's the headline of the day.",
       "chinese": ""
     },
     {
       "id": 36,
-      "start": 151.595,
-      "end": 152.97,
-      "english": "But gold is also up.",
+      "start": 125.193,
+      "end": 128.87,
+      "english": "Maybe the headline of the day for me is Mark Cudmore turning bullish on the UK Mark.",
       "chinese": ""
     },
     {
       "id": 37,
-      "start": 152.97,
-      "end": 154.95,
-      "english": "And there's all this optimism around Europe.",
+      "start": 131.54,
+      "end": 134.96,
+      "english": "Yeah, look this is a bit of strange as I just mentioned there in the last answer.",
       "chinese": ""
     },
     {
       "id": 38,
-      "start": 154.95,
-      "end": 155.18,
-      "english": "Still.",
+      "start": 135.47,
+      "end": 136.823,
+      "english": "Global growth is good.",
       "chinese": ""
     },
     {
       "id": 39,
-      "start": 155.18,
-      "end": 164.31,
-      "english": "Does that need to be put into the context of the risk of higher oil prices and the fact that we started the year with the 1.2% real GDP forecast for 2026.",
+      "start": 136.823,
+      "end": 147.02,
+      "english": "I was shocked to find the consensus forecasts of world GDP on Bloomberg are still 2.9% for this year, and they got really downgraded in the wake of the war, which made sense.",
       "chinese": ""
     },
     {
       "id": 40,
-      "start": 166.29,
-      "end": 173.1,
-      "english": "Uh, I think that people are starting to cope with the higher volatility in oil prices and with higher elevated oil prices.",
+      "start": 147.26,
+      "end": 150.02,
+      "english": "Um, but they haven't been kind of upgraded back again.",
       "chinese": ""
     },
     {
       "id": 41,
-      "start": 173.1,
-      "end": 180.33,
-      "english": "Of course, if we see Brent crude spike well above $100, again, that will derail some of the kind of the bullishness around Europe at the moment.",
+      "start": 150.02,
+      "end": 153.837,
+      "english": "When we realise that closing the Strait of Hormuz is not cataclysmic, as we once thought.",
       "chinese": ""
     },
     {
       "id": 42,
-      "start": 180.51,
-      "end": 186.56,
-      "english": "But I think with volatile at a at this range of 80 to $100, I think European stocks will cope.",
+      "start": 153.837,
+      "end": 158.57,
+      "english": "Uh, and there and I think most high frequency indicators around the world are pretty positive.",
       "chinese": ""
     },
     {
       "id": 43,
-      "start": 186.56,
-      "end": 188.19,
-      "english": "And the European theater story will sustain.",
+      "start": 158.57,
+      "end": 161.96,
+      "english": "We've seen more increasing positivity in Europe and us.",
+      "chinese": ""
+    },
+    {
+      "id": 44,
+      "start": 161.96,
+      "end": 165.44,
+      "english": "And so I think those global growth factors, uh, figures need to get upgraded.",
+      "chinese": ""
+    },
+    {
+      "id": 45,
+      "start": 165.44,
+      "end": 167.96,
+      "english": "But it's not just like in Germany.",
+      "chinese": ""
+    },
+    {
+      "id": 46,
+      "start": 167.96,
+      "end": 168.86,
+      "english": "Germany is a great story.",
+      "chinese": ""
+    },
+    {
+      "id": 47,
+      "start": 168.86,
+      "end": 169.4,
+      "english": "It's really good.",
+      "chinese": ""
+    },
+    {
+      "id": 48,
+      "start": 169.58,
+      "end": 172.01,
+      "english": "I think UK longer term has been very impressive.",
+      "chinese": ""
+    },
+    {
+      "id": 49,
+      "start": 172.22,
+      "end": 180.945,
+      "english": "And it was interesting that world Bank figures came out recently and confirmed that the UK has that India to go back to reclaim fifth spot in the global rankings of global GDP.",
+      "chinese": ""
+    },
+    {
+      "id": 50,
+      "start": 180.945,
+      "end": 187.49,
+      "english": "Uh, and I think that really kind of, uh, challenges the narrative that the UK is kind of doomed and stagnant forevermore.",
       "chinese": ""
     }
   ],
