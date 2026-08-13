@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Add context-aware Chinese financial translations using GitHub Models."""
+"""Add context-aware Chinese financial translations using Workers AI."""
 
 from __future__ import annotations
 
@@ -13,8 +13,7 @@ import urllib.request
 from pathlib import Path
 
 
-MODELS_URL = "https://models.github.ai/inference/chat/completions"
-DEFAULT_MODEL = "openai/gpt-4.1"
+DEFAULT_MODEL = "@cf/meta/llama-3.3-70b-instruct-fp8-fast"
 
 SYSTEM_PROMPT = """You are a senior bilingual editor for a Chinese financial publication.
 Translate a complete Bloomberg market commentary from English into clear, natural Simplified Chinese.
@@ -30,7 +29,7 @@ Rules:
 """
 
 
-def request_translation(token: str, story: dict, model: str) -> dict:
+def request_translation(account_id: str, token: str, story: dict, model: str) -> dict:
     sentences = [
         {"id": cue["id"], "english": cue["english"]}
         for cue in story.get("transcript", [])
@@ -40,49 +39,43 @@ def request_translation(token: str, story: dict, model: str) -> dict:
         ensure_ascii=False,
     )
     schema = {
-        "name": "marketear_financial_translation",
-        "strict": True,
-        "schema": {
-            "type": "object",
-            "additionalProperties": False,
-            "properties": {
-                "titleChinese": {"type": "string"},
-                "summary": {"type": "string"},
-                "translations": {
-                    "type": "array",
-                    "items": {
-                        "type": "object",
-                        "additionalProperties": False,
-                        "properties": {
-                            "id": {"type": "integer"},
-                            "chinese": {"type": "string"},
-                        },
-                        "required": ["id", "chinese"],
+        "type": "object",
+        "additionalProperties": False,
+        "properties": {
+            "titleChinese": {"type": "string"},
+            "summary": {"type": "string"},
+            "translations": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "additionalProperties": False,
+                    "properties": {
+                        "id": {"type": "integer"},
+                        "chinese": {"type": "string"},
                     },
+                    "required": ["id", "chinese"],
                 },
             },
-            "required": ["titleChinese", "summary", "translations"],
         },
+        "required": ["titleChinese", "summary", "translations"],
     }
     payload = {
-        "model": model,
         "messages": [
             {"role": "system", "content": SYSTEM_PROMPT},
             {"role": "user", "content": prompt},
         ],
-        "temperature": 0.2,
         "max_tokens": 6000,
         "response_format": {"type": "json_schema", "json_schema": schema},
     }
+    models_url = f"https://api.cloudflare.com/client/v4/accounts/{account_id}/ai/run/{model}"
     request = urllib.request.Request(
-        MODELS_URL,
+        models_url,
         data=json.dumps(payload).encode("utf-8"),
         headers={
-            "Accept": "application/vnd.github+json",
+            "Accept": "application/json",
             "Authorization": f"Bearer {token}",
             "Content-Type": "application/json",
             "User-Agent": "MarketEarFeed/1.0",
-            "X-GitHub-Api-Version": "2026-03-10",
         },
         method="POST",
     )
@@ -91,19 +84,23 @@ def request_translation(token: str, story: dict, model: str) -> dict:
             result = json.loads(response.read().decode("utf-8"))
     except urllib.error.HTTPError as error:
         detail = error.read().decode("utf-8", errors="replace")
-        raise RuntimeError(f"GitHub Models request failed ({error.code}): {detail}") from error
+        raise RuntimeError(f"Workers AI request failed ({error.code}): {detail}") from error
 
     try:
-        content = result["choices"][0]["message"]["content"]
-    except (KeyError, IndexError, TypeError) as error:
-        raise RuntimeError("GitHub Models returned no translation content") from error
+        if result.get("success") is not True:
+            raise RuntimeError(f"Workers AI returned errors: {result.get('errors')}")
+        content = result["result"]["response"]
+    except (KeyError, TypeError) as error:
+        raise RuntimeError("Workers AI returned no translation content") from error
+    if isinstance(content, dict):
+        return content
     if not isinstance(content, str):
-        raise RuntimeError("GitHub Models returned translation content in an unsupported format")
+        raise RuntimeError("Workers AI returned translation content in an unsupported format")
     content = re.sub(r"^```(?:json)?\s*|\s*```$", "", content.strip(), flags=re.IGNORECASE)
     try:
         return json.loads(content)
     except json.JSONDecodeError as error:
-        raise RuntimeError("GitHub Models returned invalid translation JSON") from error
+        raise RuntimeError("Workers AI returned invalid translation JSON") from error
 
 
 def apply_translation(story: dict, translated: dict, model: str) -> dict:
@@ -140,7 +137,7 @@ def apply_translation(story: dict, translated: dict, model: str) -> dict:
     updated = dict(story)
     updated["titleChinese"] = title_chinese
     updated["summary"] = summary
-    updated["translationKind"] = "github-models"
+    updated["translationKind"] = "cloudflare-workers-ai"
     updated["translationModel"] = model
     updated["transcript"] = [
         {**cue, "chinese": by_id[cue["id"]]}
@@ -153,16 +150,19 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--input", default="today.json")
     parser.add_argument("--output", default="today.json")
-    parser.add_argument("--model", default=os.environ.get("GITHUB_MODELS_MODEL", DEFAULT_MODEL))
+    parser.add_argument("--model", default=os.environ.get("CLOUDFLARE_AI_MODEL", DEFAULT_MODEL))
     args = parser.parse_args()
 
-    token = "".join(os.environ.get("GITHUB_TOKEN", "").split())
+    account_id = "".join(os.environ.get("CLOUDFLARE_ACCOUNT_ID", "").split())
+    token = "".join(os.environ.get("CLOUDFLARE_API_TOKEN", "").split())
+    if not account_id:
+        raise RuntimeError("CLOUDFLARE_ACCOUNT_ID is not available")
     if not token:
-        raise RuntimeError("GITHUB_TOKEN is not available")
+        raise RuntimeError("CLOUDFLARE_API_TOKEN is not available")
 
     input_path = Path(args.input)
     story = json.loads(input_path.read_text(encoding="utf-8"))
-    translated = request_translation(token, story, args.model)
+    translated = request_translation(account_id, token, story, args.model)
     updated = apply_translation(story, translated, args.model)
     output_path = Path(args.output)
     output_path.write_text(

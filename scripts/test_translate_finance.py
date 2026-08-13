@@ -24,11 +24,11 @@ class ApplyTranslationTests(unittest.TestCase):
                     {"id": 1, "chinese": "短端利率市场的定价发生变化。"},
                 ],
             },
-            "openai/gpt-4.1",
+            "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
         )
         self.assertEqual(result["transcript"][0]["chinese"], "短端利率市场的定价发生变化。")
         self.assertEqual(result["transcript"][1]["start"], 2)
-        self.assertEqual(result["translationKind"], "github-models")
+        self.assertEqual(result["translationKind"], "cloudflare-workers-ai")
 
     def test_rejects_missing_sentence(self):
         with self.assertRaisesRegex(RuntimeError, "ids do not match"):

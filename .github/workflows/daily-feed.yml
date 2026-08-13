@@ -26,7 +26,6 @@ on:
 
 permissions:
   contents: write
-  models: read
 
 concurrency:
   group: daily-marketear-feed
@@ -56,10 +55,16 @@ jobs:
         run: python scripts/generate_daily.py --output today.json
 
       - name: Generate context-aware financial Chinese
+        id: financial_translation
         continue-on-error: true
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
         run: python scripts/translate_finance.py --input today.json --output today.json
+
+      - name: Report translation fallback
+        if: ${{ steps.financial_translation.outcome == 'failure' }}
+        run: echo '::warning::Financial translation was unavailable; the app will retain iPhone Translation.'
 
       - name: Publish changed feed
         run: |

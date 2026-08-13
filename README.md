@@ -11,16 +11,21 @@ Public daily content feed for the personal MarketEar iOS app.
 - YouTube remains the video host. This repository does not download or
   redistribute the video.
 - English text and timestamps come from the configured transcript API.
-- Professional Chinese is generated from the complete article with GitHub
-  Models, using the workflow's built-in `GITHUB_TOKEN` and free allowance.
+- Professional Chinese is generated from the complete article with Cloudflare
+  Workers AI. Its free plan includes a daily allocation suitable for one short
+  MarketEar article.
 - Apple Translation on the iPhone remains a fallback if model translation is
   temporarily unavailable.
 
 ## Repository secret
 
-Configure `YOUTUBE_TRANSCRIPT_API_KEY` under:
+Configure these secrets under:
 
 `Settings → Secrets and variables → Actions`
+
+- `YOUTUBE_TRANSCRIPT_API_KEY`
+- `CLOUDFLARE_ACCOUNT_ID`
+- `CLOUDFLARE_API_TOKEN`
 
 The secret is only read by GitHub Actions and must never be committed.
 
