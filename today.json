@@ -1,371 +1,386 @@
 {
-  "id": "bloomberg-A-MSldBosVc",
-  "date": "2026-08-13",
+  "id": "bloomberg-TTzKYBNkd_k",
+  "date": "2026-08-14",
   "eyebrow": "TODAY · BLOOMBERG",
-  "title": "US Yields Will Go Much Higher Next Year: 3-Minutes MLIV",
-  "titleChinese": "明年美国收益率将大幅上升：3分钟MLIV",
-  "summary": "美国收益率预计将在明年大幅上升，10年期国债收益率可能达到5%甚至更高，30年期国债收益率可能突破6%，这是由于全球经济增长强劲、政府支出高以及私营部门支出增加等因素驱动的结果",
-  "durationSeconds": 187.49,
-  "youtubeVideoID": "A-MSldBosVc",
-  "sourceURL": "https://www.youtube.com/watch?v=A-MSldBosVc",
+  "title": "Intervention Efforts Failing to Turn Tide for Yen - 3-Minutes MLIV",
+  "titleChinese": "干预努力未能扭转日元走势",
+  "summary": "日元在经历了干预努力后仍然表现欠佳，分析师认为日本和美国的干预行动可能不会奏效，市场对美联储加息的预期和地缘政治紧张局势仍然是影响市场的主要因素",
+  "durationSeconds": 204.13,
+  "youtubeVideoID": "TTzKYBNkd_k",
+  "sourceURL": "https://www.youtube.com/watch?v=TTzKYBNkd_k",
   "sourceName": "Bloomberg Television",
-  "vocabulary": [
-    {
-      "word": "inflation",
-      "phonetic": "/ɪnˈfleɪʃən/",
-      "meaning": "通货膨胀"
-    }
-  ],
+  "vocabulary": [],
   "transcript": [
     {
       "id": 1,
-      "start": 0.12,
-      "end": 2.201,
-      "english": "It is CPI day in the USA.",
-      "chinese": "今天是美国的CPI日。"
+      "start": 0.06,
+      "end": 2.22,
+      "english": "Adam, are we still thinking about the yen this morning?",
+      "chinese": "亚当，我们今天早上还在关注日元吗？"
     },
     {
       "id": 2,
-      "start": 2.201,
-      "end": 3.39,
-      "english": "Does the U.S.",
-      "chinese": "美国有"
+      "start": 2.23,
+      "end": 6.3,
+      "english": "I mean, somebody sent this was yesterday's real refocus, wasn't it?",
+      "chinese": "我是说，有人说昨天的重心是真的吗？"
     },
     {
       "id": 3,
-      "start": 3.39,
-      "end": 6.79,
-      "english": "have an inflation problem?",
-      "chinese": "通货膨胀问题吗？"
+      "start": 6.3,
+      "end": 10.26,
+      "english": "But today we see at the end, um, underperforming a little bit.",
+      "chinese": "但是今天我们看到，日元在末尾稍微表现欠佳了一点。"
     },
     {
       "id": 4,
-      "start": 6.79,
-      "end": 8.49,
-      "english": "Uh, absolutely.",
-      "chinese": "嗯，绝对有。"
+      "start": 10.26,
+      "end": 14.36,
+      "english": "And that's perhaps not what those who want a drink again wanted to say.",
+      "chinese": "这可能不是那些想要再次干预的人所期望的。"
     },
     {
       "id": 5,
-      "start": 8.64,
-      "end": 11.34,
-      "english": "Is it one that's going to be exacerbated by today's print?",
-      "chinese": "今天的数据是否会加剧这种问题？"
+      "start": 14.37,
+      "end": 19.676,
+      "english": "So what's what's our latest conclusion as to whether this intervention by the Japanese and the Americans will work?",
+      "chinese": "那么，我们的最新结论是什么，关于日本和美国的干预是否会奏效？"
     },
     {
       "id": 6,
-      "start": 11.79,
-      "end": 12.438,
-      "english": "Probably not.",
-      "chinese": "可能不会。"
+      "start": 19.676,
+      "end": 20.04,
+      "english": "Yeah.",
+      "chinese": "是的。"
     },
     {
       "id": 7,
-      "start": 12.438,
-      "end": 28.195,
-      "english": "Expectations are for it to come in, uh, at a low level and to kind of dissuade the Hawks in the short term, I think, with with expectations for such a low print, though, we'll probably get an asymmetric reaction function if it is slightly stronger than expected rather than if it's on the softer side.",
-      "chinese": "预计今天的数据会低于预期，这可能会在短期内缓解鹰派的压力，但如果数据略高于预期，可能会引发不对称的反应函数，相比之下，如果数据偏软，反应可能会较为平淡。"
+      "start": 20.04,
+      "end": 27.21,
+      "english": "I think when you consider the fact that we've had a couple of confirmed rounds of intervention now, which also coordinated with the US, have had warnings from U.S.",
+      "chinese": "我认为，当我们考虑到已经确认的几轮干预，以及美国的协调和美国财政部长的警告时，这是特别令人失望的。"
     },
     {
       "id": 8,
-      "start": 28.195,
-      "end": 29.87,
-      "english": "But I think a way for the CPI.",
-      "chinese": "但是我认为CPI"
+      "start": 27.21,
+      "end": 28.74,
+      "english": "Treasury Secretary, it's been particularly disappointing.",
+      "chinese": "即使在低点，我们也没有真正突破低点。"
     },
     {
       "id": 9,
-      "start": 29.88,
-      "end": 42.78,
-      "english": "The CPI is definitely the most important macro data print of the week, and it will cause short term trading, but I think away from the print, whichever way it comes in today, that the backdrop for treasuries is, is increasingly kind of treacherous and negative.",
-      "chinese": "CPI绝对是本周最重要的宏观数据发布，它将引发短期交易，但我认为除了今天的数据发布之外，美国国债的整体环境是越来越具挑战性和负面。"
+      "start": 28.74,
+      "end": 32.452,
+      "english": "I mean, even at the trough, we didn't really break through the lows.",
+      "chinese": "我认为日本官员希望他们能够将日元贬值到155以下。"
     },
     {
       "id": 10,
-      "start": 42.78,
-      "end": 50.31,
-      "english": "And I do think that we'll see much higher U.S. yields into the end of year, no matter what happens over the next 48 hours.",
-      "chinese": "而且我认为，无论接下来的48小时发生什么，我们都将看到美国收益率在年底前大幅上升。"
+      "start": 32.452,
+      "end": 36.75,
+      "english": "I think Japanese officials would have been hoping they would have got below 155.",
+      "chinese": "所以，当我们考虑到日元空头仓位自2024年7月以来最高，美元仓位在某些衡量指标中达到历史新高时，这是一个相当可怜的反应。"
     },
     {
       "id": 11,
-      "start": 50.31,
-      "end": 53.16,
-      "english": "On that note, then, obviously, U.S.",
-      "chinese": "基于此，很明显，美国"
+      "start": 37.08,
+      "end": 45.337,
+      "english": "So I think when you also consider the positioning backdrop mean yen short stay the highest since July 2024, dollar positioning was at record highs in some measures.",
+      "chinese": "我认为，最终，有几件事在起作用。"
     },
     {
       "id": 12,
-      "start": 53.16,
-      "end": 56.24,
-      "english": "policymakers are pretty concerned by the fact that we have higher yields.",
-      "chinese": "政策制定者对更高的收益率感到担忧。"
+      "start": 45.337,
+      "end": 47.32,
+      "english": "It's a pretty pitiful response.",
+      "chinese": "一方面是日本央行（BOJ）没有发挥其作用。"
     },
     {
       "id": 13,
-      "start": 56.25,
-      "end": 59.85,
-      "english": "Just how high can we go and would you expect a policy response?",
-      "chinese": "那么，收益率可能会升高到什么程度，我们是否会看到政策反应？"
+      "start": 47.34,
+      "end": 51.06,
+      "english": "And what we've seen and I think, you know, ultimately there's a couple of things at play here.",
+      "chinese": "我们从他们那里得到了持续的沟通，他们可能在未来某个时候会采取行动。"
     },
     {
       "id": 14,
-      "start": 62.32,
-      "end": 65.379,
-      "english": "Uh, I think we're going a lot higher in US yields.",
-      "chinese": "嗯，我认为美国收益率还会大幅上升。"
+      "start": 51.06,
+      "end": 53.55,
+      "english": "One is that the BMJ just isn't playing its role.",
+      "chinese": "在一个美联储加息的世界中，这还不够。"
     },
     {
       "id": 15,
-      "start": 65.379,
-      "end": 68.2,
-      "english": "I just think US yields are crazy at this level.",
-      "chinese": "我认为当前的美国收益率水平太低了。"
+      "start": 53.55,
+      "end": 58.467,
+      "english": "We kind of get this continued communication effort from them that they may do something at some point in the future.",
+      "chinese": "我们看到了一些关于日本央行的担忧。"
     },
     {
       "id": 16,
-      "start": 68.2,
-      "end": 75.951,
-      "english": "And I think the global growth is super strong and into a super, super strong as maybe 2 to 2 strong wording.",
-      "chinese": "我认为全球经济增长非常强劲，可能达到2%甚至更高。"
+      "start": 58.467,
+      "end": 61.68,
+      "english": "In a world this price of fed hikes, that just isn't good enough.",
+      "chinese": "十年期日本国债拍卖也是如此。"
     },
     {
       "id": 17,
-      "start": 75.951,
-      "end": 77.71,
-      "english": "It is strong global growth.",
-      "chinese": "这是强劲的全球经济增长。"
+      "start": 61.68,
+      "end": 63.57,
+      "english": "And we saw some angst about the BOJ overnight.",
+      "chinese": "从地缘政治角度来看，日本官员需要结束战争。"
     },
     {
       "id": 18,
-      "start": 77.71,
-      "end": 78.856,
-      "english": "It is good global growth.",
-      "chinese": "这是良好的全球经济增长。"
+      "start": 63.57,
+      "end": 66.261,
+      "english": "So that sort of ten year JGB auction as well.",
+      "chinese": "他们需要油价下降。"
     },
     {
       "id": 19,
-      "start": 78.856,
-      "end": 81.667,
-      "english": "And in the US in particular it is good growth.",
-      "chinese": "尤其是在美国，经济增长是良好的。"
+      "start": 66.261,
+      "end": 69.201,
+      "english": "So that's also a friend of mine but also as well.",
+      "chinese": "是的。"
     },
     {
       "id": 20,
-      "start": 81.667,
-      "end": 85.93,
-      "english": "And into that we are pumping a lot of money from governments.",
-      "chinese": "并且，我们正在向经济中注入大量的资金。"
+      "start": 69.201,
+      "end": 75.495,
+      "english": "Quite simply, from a geopolitical standpoint, with something out of control for Japanese officials is that they need this war ends.",
+      "chinese": "所以，除非得到某种程度的缓解，否则干预只是浪费钱。"
     },
     {
       "id": 21,
-      "start": 85.93,
-      "end": 89.53,
-      "english": "Fiscal expenditures are still very, very high all around the world.",
-      "chinese": "政府支出在全球范围内仍然非常高。"
+      "start": 75.495,
+      "end": 77.07,
+      "english": "They need oil prices to come lower.",
+      "chinese": "好。"
     },
     {
       "id": 22,
-      "start": 89.53,
-      "end": 94.24,
-      "english": "And we have massive private sector spending that is going to lead to a hot economy.",
-      "chinese": "并且，我们有大量的私营部门支出，这将导致经济过热。"
+      "start": 77.49,
+      "end": 77.787,
+      "english": "Yeah.",
+      "chinese": "关于地缘政治问题。"
     },
     {
       "id": 23,
-      "start": 94.33,
-      "end": 97.75,
-      "english": "So I ultimately expect us to go significantly higher.",
-      "chinese": "因此，我最终预计我们将会看到显著更高的收益率。"
+      "start": 77.787,
+      "end": 83.67,
+      "english": "So it's actually it's kind of a waste of money on this intervention unless you get a step in from the be.",
+      "chinese": "你知道，头条新闻和评论都在传播，特朗普对此很愤怒，说谈判甚至没有开始。"
     },
     {
       "id": 24,
-      "start": 97.84,
-      "end": 102.556,
-      "english": "I don't I think 5% ten year yields will almost seem like a floor next year, not like a ceiling.",
-      "chinese": "我不认为5%的10年期国债收益率会成为天花板，反而可能成为地板。"
+      "start": 83.67,
+      "end": 84.14,
+      "english": "Okay.",
+      "chinese": "市场需要什么才能取得更大的进展？"
     },
     {
       "id": 25,
-      "start": 102.556,
-      "end": 103.48,
-      "english": "I think we're going way to that.",
-      "chinese": "我认为我们会走向更高的水平。"
+      "start": 84.14,
+      "end": 86.49,
+      "english": "Just on that geopolitical point.",
+      "chinese": "是的。"
     },
     {
       "id": 26,
-      "start": 103.66,
-      "end": 106.21,
-      "english": "I think 30 year yields will go through 6% next year.",
-      "chinese": "我认为30年期国债收益率将突破6%。"
+      "start": 86.52,
+      "end": 96.993,
+      "english": "You know, the headlines flying around, the comments flying around, Donald Trump being pretty, uh, angry towards around them, saying that the talks aren't even happening.",
+      "chinese": "我认为目前成功的门槛相当高。"
     },
     {
       "id": 27,
-      "start": 106.33,
-      "end": 108.34,
-      "english": "I really think we're going to much higher levels.",
-      "chinese": "我真的认为我们将会看到更高的水平。"
+      "start": 96.993,
+      "end": 101.2,
+      "english": "What does the market need to to have greater progress?",
+      "chinese": "我们看到特朗普在周末对前景持乐观态度，与此同时伊朗在霍尔木兹海峡附近与一名男子交谈，表示霍尔木兹海峡的交通仍然很低。"
     },
     {
       "id": 28,
-      "start": 108.52,
-      "end": 109.39,
-      "english": "It's about the pace.",
-      "chinese": "这取决于步伐。"
+      "start": 101.2,
+      "end": 101.85,
+      "english": "Yeah.",
+      "chinese": "交通流量相对较低。"
     },
     {
       "id": 29,
-      "start": 109.39,
-      "end": 111.13,
-      "english": "I don't know how quickly I'll get there.",
-      "chinese": "我不知道我们会以多快的速度到达那里。"
+      "start": 101.85,
+      "end": 104.76,
+      "english": "I mean, I think there's a pretty high bar at the moment for success.",
+      "chinese": "我认为，我们需要看到特朗普在周末的乐观态度得到伊朗的回应，但我们并没有看到这一点。"
     },
     {
       "id": 30,
-      "start": 111.7,
-      "end": 113.59,
-      "english": "What I'm curious is does it happen this year?",
-      "chinese": "我想知道的是，这是否会在今年发生。"
+      "start": 104.77,
+      "end": 117.42,
+      "english": "You know, we saw Trump be relatively bullish on the prospects over the weekend, the same time Iran was talking with a man by the Straits of Hormuz, voicing that the full reopening of it and traffic through the Strait of Hormuz is still particularly low than in other parts of Middle East.",
+      "chinese": "当你说美国需要改变其行为时，我认为即使我们达成临时和平协议，市场也会对此保持警惕，因为我们已经经历了一次破裂的协议，并且自冲突开始以来，核问题上没有任何进展。"
     },
     {
       "id": 31,
-      "start": 113.92,
-      "end": 117.1,
-      "english": "I don't know, I'm open minded to the idea, but I'm not saying they're going to get there really fast.",
-      "chinese": "我不知道，我对这个想法持开放态度，但我并不是说它们会很快到达那里。"
+      "start": 117.42,
+      "end": 118.874,
+      "english": "Traffic flows are relatively low.",
+      "chinese": "所以，我认为能源价格将保持坚挺。"
     },
     {
       "id": 32,
-      "start": 117.1,
-      "end": 117.91,
-      "english": "But I think U.S.",
-      "chinese": "但是我认为美国"
+      "start": 118.874,
+      "end": 125.735,
+      "english": "I think, you know, obviously we need to see Trump's bullishness over the weekend reciprocated from Iran, but we just simply not seeing that.",
+      "chinese": "在这种环境下，债券的上涨空间有限。"
     },
     {
       "id": 33,
-      "start": 117.91,
-      "end": 119.32,
-      "english": "yields are still going a lot higher still.",
-      "chinese": "收益率仍将大幅上升。"
+      "start": 125.735,
+      "end": 141.604,
+      "english": "The moment that you're saying that the U.S. needs to change its behavior, I think it even if we do get an interim peace agreement, then I think the markets can be particularly wary of it, given that we've already had one broken down and then since the onset of conflict, as far as I can tell, there's been no progress on nuclear.",
+      "chinese": "尤其是在美国，真正的利率故事也在起作用，欧洲也是如此。"
     },
     {
       "id": 34,
-      "start": 120.7,
-      "end": 123.82,
-      "english": "Okay, 5% is the floor potentially for the US ten year.",
-      "chinese": "好吧，5%可能是美国10年期国债收益率的底线。"
+      "start": 141.604,
+      "end": 144.377,
+      "english": "So I think, you know, energy prices will stay sticky.",
+      "chinese": "是的。"
     },
     {
       "id": 35,
-      "start": 124.06,
-      "end": 125.193,
-      "english": "Maybe that's the headline of the day.",
-      "chinese": "也许这是今天的头条新闻。"
+      "start": 144.377,
+      "end": 146.671,
+      "english": "And in that environment, upside for bonds is limited.",
+      "chinese": "让我问你一个问题，这周的数据点是非农就业人数。"
     },
     {
       "id": 36,
-      "start": 125.193,
-      "end": 128.87,
-      "english": "Maybe the headline of the day for me is Mark Cudmore turning bullish on the UK Mark.",
-      "chinese": "也许今天的头条新闻是Mark Cudmore对英国的看法。"
+      "start": 146.671,
+      "end": 150.49,
+      "english": "You know, particularly in the US where there's a real rate story then also for Europe.",
+      "chinese": "当然，我们关心的是。"
     },
     {
       "id": 37,
-      "start": 131.54,
-      "end": 134.96,
-      "english": "Yeah, look this is a bit of strange as I just mentioned there in the last answer.",
-      "chinese": "是的，看起来有点奇怪，就像我刚才提到的那样。"
+      "start": 150.61,
+      "end": 150.754,
+      "english": "Yeah.",
+      "chinese": "上周我们看到了一些加息预期的变化，部分是由于美联储的叙述，而不是数据，但我们不知道美联储将如何对数据做出反应。"
     },
     {
       "id": 38,
-      "start": 135.47,
-      "end": 136.823,
-      "english": "Global growth is good.",
-      "chinese": "全球经济增长是良好的。"
+      "start": 150.754,
+      "end": 154.27,
+      "english": "Let me ask you about the data point of the week, which is known from payrolls to you on Friday.",
+      "chinese": "这是故意为之，美联储已经告诉我们了。"
     },
     {
       "id": 39,
-      "start": 136.823,
-      "end": 147.02,
-      "english": "I was shocked to find the consensus forecasts of world GDP on Bloomberg are still 2.9% for this year, and they got really downgraded in the wake of the war, which made sense.",
-      "chinese": "我很惊讶地发现，彭博社的全球GDP预测仍然是2.9%，尽管在战争爆发后有所下调，这是有道理的。"
+      "start": 154.27,
+      "end": 156.51,
+      "english": "Of course, as in and are we concerned.",
+      "chinese": "那么，你认为市场将如何对非农就业人数做出反应？"
     },
     {
       "id": 40,
-      "start": 147.26,
-      "end": 150.02,
-      "english": "Um, but they haven't been kind of upgraded back again.",
-      "chinese": "嗯，但它们并没有被重新上调。"
+      "start": 156.51,
+      "end": 163.579,
+      "english": "Last week we saw that steepening trade partly due to the fed narrative rather than the data, but we don't really know how the fed is going to react to data.",
+      "chinese": "是的，这是一个重要的数据点。"
     },
     {
       "id": 41,
-      "start": 150.02,
-      "end": 153.837,
-      "english": "When we realise that closing the Strait of Hormuz is not cataclysmic, as we once thought.",
-      "chinese": "当我们意识到关闭霍尔木兹海峡并不是我们曾经想象的那么灾难性。"
+      "start": 163.579,
+      "end": 165.4,
+      "english": "That's by design and what has told us.",
+      "chinese": "我们需要关注数据，而不是裁判，凯文·沃什说。"
     },
     {
       "id": 42,
-      "start": 153.837,
-      "end": 158.57,
-      "english": "Uh, and there and I think most high frequency indicators around the world are pretty positive.",
-      "chinese": "嗯，我认为世界上大多数高频率指标都是积极的。"
+      "start": 165.43,
+      "end": 168.827,
+      "english": "So how are you thinking the market could respond then to this said nonfarm payrolls?",
+      "chinese": "任何数据点现在都比其他时候具有更高的关注度。"
     },
     {
       "id": 43,
-      "start": 158.57,
-      "end": 161.96,
-      "english": "We've seen more increasing positivity in Europe and us.",
-      "chinese": "我们在欧洲和美国看到越来越多的积极迹象。"
+      "start": 168.827,
+      "end": 170.56,
+      "english": "Yeah, I mean it's a big data point.",
+      "chinese": "有足够的空间来重现九月加息的可能性，目前的价格约为65%。"
     },
     {
       "id": 44,
-      "start": 161.96,
-      "end": 165.44,
-      "english": "And so I think those global growth factors, uh, figures need to get upgraded.",
-      "chinese": "因此，我认为这些全球经济增长因素需要被上调。"
+      "start": 170.56,
+      "end": 173.29,
+      "english": "You know, we need to play the ball, not the referee's, Kevin Warsh says.",
+      "chinese": "我认为，如果我们得到一个强劲的报告，市场将会真正推动前端的工资。"
     },
     {
       "id": 45,
-      "start": 165.44,
-      "end": 167.96,
-      "english": "But it's not just like in Germany.",
-      "chinese": "但这不仅仅是在德国。"
+      "start": 173.29,
+      "end": 177.541,
+      "english": "And any data point now is much higher volume than other would have otherwise would have been.",
+      "chinese": "我认为美联储正在落后于曲线，后端的曲线也是如此。"
     },
     {
       "id": 46,
-      "start": 167.96,
-      "end": 168.86,
-      "english": "Germany is a great story.",
-      "chinese": "德国是一个伟大的故事。"
+      "start": 177.541,
+      "end": 181.441,
+      "english": "There's plenty of scope to reprise a September hike only price around 65%.",
+      "chinese": "真正的利率故事也在驱动着市场。"
     },
     {
       "id": 47,
-      "start": 168.86,
-      "end": 169.4,
-      "english": "It's really good.",
-      "chinese": "这是一个非常好的故事。"
+      "start": 181.441,
+      "end": 185.041,
+      "english": "I think it's more interesting if we get a hot report.",
+      "chinese": "我们昨天看到了一些强劲的数据。"
     },
     {
       "id": 48,
-      "start": 169.58,
-      "end": 172.01,
-      "english": "I think UK longer term has been very impressive.",
-      "chinese": "我认为英国长期来看非常令人印象深刻。"
+      "start": 185.041,
+      "end": 187.81,
+      "english": "The markets really ramp up these wages at the front end.",
+      "chinese": "如果我们看到一个强劲的非农就业人数报告，我们是否会开始看到收益率接近5.3%？"
     },
     {
       "id": 49,
-      "start": 172.22,
-      "end": 180.945,
-      "english": "And it was interesting that world Bank figures came out recently and confirmed that the UK has that India to go back to reclaim fifth spot in the global rankings of global GDP.",
-      "chinese": "世界银行最近发布的数据证实，英国将重新夺回全球GDP排名第五位，超越印度。"
+      "start": 187.81,
+      "end": 191.38,
+      "english": "I think the fed is getting behind the curve, but also the back end of the curve.",
+      "chinese": "这也将成为一个跨资产的故事。"
     },
     {
       "id": 50,
-      "start": 180.945,
-      "end": 187.49,
-      "english": "Uh, and I think that really kind of, uh, challenges the narrative that the UK is kind of doomed and stagnant forevermore.",
-      "chinese": "嗯，我认为这真的挑战了英国注定停滞不前的说法。"
+      "start": 191.38,
+      "end": 193.99,
+      "english": "There's a real rate story which is really driving things as well.",
+      "chinese": "是的。"
+    },
+    {
+      "id": 51,
+      "start": 194.2,
+      "end": 195.696,
+      "english": "We saw strong I said yesterday.",
+      "chinese": "我们昨天看到了一些强劲的数据。"
+    },
+    {
+      "id": 52,
+      "start": 195.696,
+      "end": 200.594,
+      "english": "And if you see a strong NFP do we start getting that yields towards 5.3%.",
+      "chinese": "如果我们看到一个强劲的非农就业人数报告，我们是否会开始看到收益率接近5.3%？"
+    },
+    {
+      "id": 53,
+      "start": 200.594,
+      "end": 204.13,
+      "english": "And that also become a cross asset story as well.",
+      "chinese": "这也将成为一个跨资产的故事。"
     }
   ],
   "transcriptKind": "manual",
