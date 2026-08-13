@@ -353,7 +353,7 @@ def main() -> int:
         "eyebrow": "TODAY · BLOOMBERG",
         "title": title,
         "titleChinese": args.title_chinese.strip() or "今日彭博财经市场快讯",
-        "summary": args.summary.strip() or "完整英文字幕、逐段时间轴与设备端中文翻译。",
+        "summary": args.summary.strip() or "完整英文字幕、逐段时间轴与财经中文翻译。",
         "durationSeconds": cues[-1]["end"],
         "youtubeVideoID": video_id,
         "sourceURL": f"https://www.youtube.com/watch?v={video_id}",

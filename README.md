@@ -11,8 +11,10 @@ Public daily content feed for the personal MarketEar iOS app.
 - YouTube remains the video host. This repository does not download or
   redistribute the video.
 - English text and timestamps come from the configured transcript API.
-- Chinese paragraph translations are generated on the iPhone with Apple
-  Translation and stored locally.
+- Professional Chinese is generated from the complete article with GitHub
+  Models, using the workflow's built-in `GITHUB_TOKEN` and free allowance.
+- Apple Translation on the iPhone remains a fallback if model translation is
+  temporarily unavailable.
 
 ## Repository secret
 

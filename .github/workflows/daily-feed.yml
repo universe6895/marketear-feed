@@ -15,12 +15,18 @@ on:
         description: Optional Chinese summary
         required: false
         type: string
+      translate_existing:
+        description: Translate the existing today.json without selecting or transcribing a new video
+        required: false
+        default: false
+        type: boolean
   schedule:
     # 06:45 Asia/Shanghai. GitHub schedules use UTC.
     - cron: "45 22 * * *"
 
 permissions:
   contents: write
+  models: read
 
 concurrency:
   group: daily-marketear-feed
@@ -37,15 +43,23 @@ jobs:
           python-version: "3.12"
 
       - name: Install historical video discovery
+        if: ${{ inputs.translate_existing != true }}
         run: python -m pip install --disable-pip-version-check yt-dlp
 
       - name: Generate timestamped daily story
+        if: ${{ inputs.translate_existing != true }}
         env:
           YOUTUBE_TRANSCRIPT_API_KEY: ${{ secrets.YOUTUBE_TRANSCRIPT_API_KEY }}
           VIDEO_ID: ${{ inputs.video_id }}
           TITLE_CHINESE: ${{ inputs.title_chinese }}
           SUMMARY: ${{ inputs.summary }}
         run: python scripts/generate_daily.py --output today.json
+
+      - name: Generate context-aware financial Chinese
+        continue-on-error: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python scripts/translate_finance.py --input today.json --output today.json
 
       - name: Publish changed feed
         run: |
