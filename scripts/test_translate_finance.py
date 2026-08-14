@@ -110,7 +110,7 @@ class SentenceLockTests(unittest.TestCase):
 
     def test_rejects_incorrect_financial_term(self):
         targets = [{"id": 4, "source": "There is a real rate story."}]
-        with self.assertRaisesRegex(RuntimeError, "terminology rule"):
+        with self.assertRaisesRegex(RuntimeError, "incorrect term"):
             validate_translation_batch(
                 targets,
                 {
@@ -123,6 +123,34 @@ class SentenceLockTests(unittest.TestCase):
                     ]
                 },
             )
+
+    def test_rejects_literal_real_rate_story(self):
+        source = "There is a real rate story driving the long end."
+        with self.assertRaisesRegex(RuntimeError, "literal or incorrect term"):
+            validate_translation_batch(
+                [{"id": 9, "source": source}],
+                {
+                    "translations": [{
+                        "id": 9,
+                        "source": source,
+                        "chinese": "收益率曲线长端受到一个实际利率故事的推动。",
+                    }]
+                },
+            )
+
+    def test_accepts_professional_real_rate_story(self):
+        source = "There is a real rate story driving the long end."
+        result = validate_translation_batch(
+            [{"id": 10, "source": source}],
+            {
+                "translations": [{
+                    "id": 10,
+                    "source": source,
+                    "chinese": "收益率曲线长端也受到实际利率因素的推动。",
+                }]
+            },
+        )
+        self.assertEqual(result[0]["id"], 10)
 
     def test_rejects_literal_market_idiom(self):
         source = "We need to play the ball, not the referee."

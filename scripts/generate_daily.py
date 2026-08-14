@@ -212,6 +212,21 @@ def vtt_seconds(value: str) -> float:
     return round(int(hours) * 3600 + int(minutes) * 60 + float(seconds_value), 3)
 
 
+def normalize_whisper_text(value: str) -> str:
+    """Fix high-confidence formatting and finance-name errors without rewriting speech."""
+    value = clean_text(value)
+    replacements = (
+        (r"\bKevin Walsh\b", "Kevin Warsh"),
+        (r"\bthese wages at the front end\b", "these wagers at the front end"),
+        (r"\bnon\s+-\s+farm\b", "nonfarm"),
+        (r"\b(\d+)\s+-\s+year\b", r"\1-year"),
+        (r"\b(\d+)\s+\.\s*(\d+)\s*%", r"\1.\2%"),
+    )
+    for pattern, replacement in replacements:
+        value = re.sub(pattern, replacement, value, flags=re.IGNORECASE)
+    return value
+
+
 def cues_from_vtt(vtt: str) -> list[dict]:
     """Parse Whisper's WebVTT response into timestamped caption fragments."""
     normalized = vtt.replace("\r\n", "\n").replace("\r", "\n").strip()
@@ -229,7 +244,7 @@ def cues_from_vtt(vtt: str) -> list[dict]:
             end = vtt_seconds(timing[1].strip().split()[0])
         except (TypeError, ValueError):
             continue
-        text = clean_text(" ".join(lines[timing_index + 1 :]))
+        text = normalize_whisper_text(" ".join(lines[timing_index + 1 :]))
         if text and end > start:
             cues.append({
                 "id": len(cues) + 1,
@@ -291,7 +306,8 @@ def request_whisper_transcript(
         "Bloomberg Television financial market commentary. Preserve the exact speaker "
         "wording and add punctuation. Likely terms include Bank of Japan, BOJ, yen, JGB, "
         "US Treasury, Federal Reserve, Kevin Warsh, NFP, nonfarm payrolls, yield curve, "
-        "front end, back end, real rates, steepening, and cross-asset. Video title: "
+        "front end, back end, rate wagers, real rates, steepening, and cross-asset. "
+        "The policymaker's name is Kevin Warsh. Video title: "
         + title
     )
     payload = {

@@ -22,7 +22,11 @@ TERM_RULES: tuple[tuple[str, tuple[str, ...], tuple[str, ...]], ...] = (
     (r"\bfront[ -]end\b", ("短端",), ()),
     (r"\bback[ -]end\b", ("长端",), ()),
     (r"\bsteepening\b", ("陡峭",), ()),
+    (r"\breal rate story\b", ("因素", "逻辑", "主线", "主题"), ("故事",)),
     (r"\breal rates?\b", ("实际利率",), ("名义利率",)),
+    (r"\bFed narrative\b", ("政策叙事", "政策预期", "政策信号", "政策基调"), ("说法",)),
+    (r"\brate wagers?\b|\bwagers? at the front end\b", ("押注",), ("工资", "薪资")),
+    (r"\bKevin Warsh\b", ("沃什",), ("沃尔什",)),
     (r"\bhot report\b", ("强于预期", "偏热", "强劲"), ("热点报告",)),
     (r"\bcross[ -]asset story\b", ("跨资产", "多类资产"), ("故事",)),
     (r"\bplay the ball,? not the referee", ("数据", "指标"), ("打球", "裁判")),
@@ -39,7 +43,7 @@ Non-negotiable rules:
 3. Preserve all facts, numbers, units, direction, comparisons, causality, uncertainty, questions, quotations, and speaker stance. Add nothing and omit nothing.
 4. Do not explain, improve, soften, dramatize, or infer the speaker's argument. Do not add background knowledge or conclusions.
 5. The source comes from speech-to-text. If it is incomplete or genuinely ambiguous, translate it conservatively and preserve the ambiguity. If one obvious recognition error makes the literal reading nonsensical and the intended financial term is unambiguous from the immediate context, translate the intended term without inventing any new claim. Otherwise do not guess.
-6. Use standard mainland-Chinese financial terminology and concise newswire syntax. Required usage includes: NFP/nonfarm payrolls=非农就业报告; front end=收益率曲线短端; back end=收益率曲线长端; curve steepening=收益率曲线陡峭化; behind the curve=落后于形势; Treasury yield=美国国债收益率; basis point=基点; real rate=实际利率; hot report=强于预期或偏热的数据; cross-asset story=影响多类资产的交易主线/市场主题; reprice a hike=重新计入加息预期.
+6. Use standard mainland-Chinese financial terminology and concise newswire syntax. Required usage includes: NFP/nonfarm payrolls=非农就业报告; front end=收益率曲线短端; back end=收益率曲线长端; rate wagers=利率押注/加息押注; curve steepening=收益率曲线陡峭化; behind the curve=落后于形势; Treasury yield=美国国债收益率; basis point=基点; real rate=实际利率; real rate story=实际利率因素/逻辑（绝不能译成“故事”）; Fed narrative=美联储政策叙事/政策预期; hot report=强于预期或偏热的数据; cross-asset story=影响多类资产的交易主线/市场主题; reprice a hike=重新计入加息预期; Kevin Warsh=凯文·沃什.
 7. Translate market idioms by their meaning, not their surface image. For example, play the ball, not the referee means focus on the data itself rather than judging or second-guessing the policymaker; never render it as literally playing ball.
 8. Before returning, silently compare every Chinese line against its own source again for alignment, fidelity, terminology, and numbers.
 9. Return JSON only and match the requested schema exactly.
@@ -122,13 +126,13 @@ def validate_financial_terms(source: str, chinese: str, cue_id: int) -> None:
     for pattern, required_any, forbidden in TERM_RULES:
         if not re.search(pattern, source, flags=re.IGNORECASE):
             continue
-        if not any(term in chinese for term in required_any):
-            raise RuntimeError(
-                f"Translation for sentence {cue_id} failed terminology rule {pattern}"
-            )
         if any(term in chinese for term in forbidden):
             raise RuntimeError(
                 f"Translation for sentence {cue_id} used a literal or incorrect term for {pattern}"
+            )
+        if not any(term in chinese for term in required_any):
+            raise RuntimeError(
+                f"Translation for sentence {cue_id} failed terminology rule {pattern}"
             )
 
 

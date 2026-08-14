@@ -1,6 +1,11 @@
 import unittest
 
-from scripts.generate_daily import cues_from_vtt, sentence_cues, vtt_seconds
+from scripts.generate_daily import (
+    cues_from_vtt,
+    normalize_whisper_text,
+    sentence_cues,
+    vtt_seconds,
+)
 
 
 class WhisperVTTTests(unittest.TestCase):
@@ -32,6 +37,17 @@ The real rate story matters.
     def test_rejects_vtt_without_timed_text(self):
         with self.assertRaisesRegex(RuntimeError, "no usable"):
             cues_from_vtt("WEBVTT\n\nNOTE no captions")
+
+    def test_normalizes_only_high_confidence_finance_asr_errors(self):
+        source = (
+            "Kevin Walsh asked whether markets ramp up these wages at the front end. "
+            "A strong non - farm report could send 30 - year yields to 5 .3 %."
+        )
+        self.assertEqual(
+            normalize_whisper_text(source),
+            "Kevin Warsh asked whether markets ramp up these wagers at the front end. "
+            "A strong nonfarm report could send 30-year yields to 5.3%.",
+        )
 
 
 if __name__ == "__main__":
