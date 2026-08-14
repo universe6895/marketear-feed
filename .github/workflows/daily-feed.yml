@@ -69,7 +69,20 @@ jobs:
           VIDEO_ID: ${{ inputs.video_id }}
           TITLE_CHINESE: ${{ inputs.title_chinese }}
           SUMMARY: ${{ inputs.summary }}
-        run: python scripts/generate_daily.py --output today.json
+        run: |
+          for attempt in 1 2 3; do
+            if python scripts/generate_daily.py --output today.json; then
+              exit 0
+            fi
+            if [ "$attempt" -lt 3 ]; then
+              echo "::warning::Audio access failed on attempt ${attempt}; reconnecting WARP and retrying."
+              sudo warp-cli --accept-tos disconnect || true
+              sleep 2
+              sudo warp-cli --accept-tos connect
+              sleep 5
+            fi
+          done
+          exit 1
 
       - name: Generate context-aware financial Chinese
         id: financial_translation
