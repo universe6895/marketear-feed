@@ -53,6 +53,17 @@ METADATA_SYSTEM_PROMPT = """You are the senior translation editor of a professio
 Translate the supplied English headline faithfully into Simplified Chinese and write one concise Chinese summary based only on the supplied transcript. Preserve the central claim, direction, uncertainty, names, and numbers. Do not add analysis, forecasts, explanations, or facts absent from the source. Return JSON only.
 """
 
+VOCABULARY_SYSTEM_PROMPT = """You are an editor preparing a finance-English listening lesson from a timestamped Bloomberg transcript.
+Select 5 to 8 genuinely useful financial terms, market expressions, acronyms, or idioms from the supplied cues.
+
+Non-negotiable rules:
+1. Every word value must be an exact, contiguous substring of the English source belonging to the same cue id. Do not correct, paraphrase, singularize, expand, or invent it.
+2. Prefer expressions whose financial meaning is not obvious from ordinary dictionary translation: market shorthand, policy terminology, data names, curve language, and trading idioms. Avoid generic words such as market, data, strong, report, today, and think.
+3. meaning must be concise, rigorous Simplified Chinese explaining the phrase as used in this exact sentence. Do not add a market forecast or commentary.
+4. phonetic must give a compact IPA-style pronunciation between slashes. Spell out how acronyms are pronounced when helpful.
+5. Use each phrase only once. Return its cue id exactly. Return JSON only and match the requested schema.
+"""
+
 
 def response_schema(properties: dict, required: list[str]) -> dict:
     return {
@@ -197,6 +208,111 @@ def request_metadata(account_id: str, token: str, story: dict, model: str) -> di
     )
 
 
+def source_phrase(source: str, phrase: str) -> str | None:
+    """Return the source's original casing for a contiguous phrase match."""
+    phrase = phrase.strip()
+    if not phrase:
+        return None
+    pattern = re.escape(phrase).replace(r"\ ", r"\s+")
+    match = re.search(pattern, source, flags=re.IGNORECASE)
+    return match.group(0) if match else None
+
+
+def validate_vocabulary(story: dict, result: dict) -> list[dict]:
+    items = result.get("vocabulary")
+    if not isinstance(items, list) or not 5 <= len(items) <= 8:
+        raise RuntimeError("Vocabulary response must contain 5 to 8 items")
+
+    cues = {
+        cue.get("id"): cue
+        for cue in story.get("transcript", [])
+        if isinstance(cue, dict) and isinstance(cue.get("id"), int)
+    }
+    validated: list[dict] = []
+    seen: set[str] = set()
+    for item in items:
+        if not isinstance(item, dict) or not isinstance(item.get("id"), int):
+            raise RuntimeError("Vocabulary response contains an invalid cue id")
+        cue = cues.get(item["id"])
+        if cue is None:
+            raise RuntimeError(f"Vocabulary references unknown cue {item['id']}")
+
+        word = source_phrase(str(cue.get("english") or ""), str(item.get("word") or ""))
+        if word is None:
+            raise RuntimeError(
+                f"Vocabulary phrase for cue {item['id']} is not an exact source substring"
+            )
+        key = word.casefold()
+        if key in seen:
+            raise RuntimeError(f"Vocabulary repeats phrase {word}")
+        seen.add(key)
+
+        phonetic = str(item.get("phonetic") or "").strip()
+        meaning = str(item.get("meaning") or "").strip()
+        if not phonetic:
+            raise RuntimeError(f"Vocabulary phrase {word} has no pronunciation")
+        if not meaning or not re.search(r"[\u3400-\u9fff]", meaning):
+            raise RuntimeError(f"Vocabulary phrase {word} has no Chinese meaning")
+
+        validated.append({
+            "word": word,
+            "phonetic": phonetic,
+            "meaning": meaning,
+            "cueID": item["id"],
+            "start": cue["start"],
+            "end": cue["end"],
+            "source": cue["english"],
+        })
+    return validated
+
+
+def request_vocabulary(account_id: str, token: str, story: dict, model: str) -> list[dict]:
+    item_schema = response_schema(
+        {
+            "id": {"type": "integer"},
+            "word": {"type": "string"},
+            "phonetic": {"type": "string"},
+            "meaning": {"type": "string"},
+        },
+        ["id", "word", "phonetic", "meaning"],
+    )
+    schema = response_schema(
+        {
+            "vocabulary": {
+                "type": "array",
+                "minItems": 5,
+                "maxItems": 8,
+                "items": item_schema,
+            }
+        },
+        ["vocabulary"],
+    )
+    prompt = {
+        "articleTitle": story.get("title", ""),
+        "cues": [
+            {"id": cue["id"], "source": cue["english"]}
+            for cue in story.get("transcript", [])
+        ],
+    }
+
+    last_error: Exception | None = None
+    for _ in range(2):
+        try:
+            result = workers_ai_request(
+                account_id,
+                token,
+                model,
+                VOCABULARY_SYSTEM_PROMPT,
+                prompt,
+                schema,
+                2200,
+            )
+            return validate_vocabulary(story, result)
+        except RuntimeError as error:
+            last_error = error
+    raise RuntimeError(f"Contextual vocabulary selection failed: {last_error}")
+
+
 def request_translation_batch(
     account_id: str,
     token: str,
@@ -264,7 +380,8 @@ def request_translation(account_id: str, token: str, story: dict, model: str) ->
         translations.extend(
             request_translation_batch(account_id, token, story, model, start_index)
         )
-    return {**metadata, "translations": translations}
+    vocabulary = request_vocabulary(account_id, token, story, model)
+    return {**metadata, "translations": translations, "vocabulary": vocabulary}
 
 
 def apply_translation(story: dict, translated: dict, model: str) -> dict:
@@ -303,6 +420,8 @@ def apply_translation(story: dict, translated: dict, model: str) -> dict:
     updated["summary"] = summary
     updated["translationKind"] = "cloudflare-workers-ai-sentence-locked"
     updated["translationModel"] = model
+    updated["vocabulary"] = translated.get("vocabulary", story.get("vocabulary", []))
+    updated["vocabularyKind"] = "cloudflare-workers-ai-contextual"
     updated["transcript"] = [
         {**cue, "chinese": by_id[cue["id"]]}
         for cue in cues
@@ -335,7 +454,8 @@ def main() -> int:
     )
     print(
         f"Wrote sentence-locked professional Chinese for "
-        f"{len(updated['transcript'])} sentences using {args.model}"
+        f"{len(updated['transcript'])} sentences and "
+        f"{len(updated['vocabulary'])} vocabulary items using {args.model}"
     )
     return 0
 

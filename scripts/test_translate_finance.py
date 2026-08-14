@@ -1,6 +1,10 @@
 import unittest
 
-from scripts.translate_finance import apply_translation, validate_translation_batch
+from scripts.translate_finance import (
+    apply_translation,
+    validate_translation_batch,
+    validate_vocabulary,
+)
 
 
 class ApplyTranslationTests(unittest.TestCase):
@@ -41,6 +45,49 @@ class ApplyTranslationTests(unittest.TestCase):
                 },
                 "model",
             )
+
+
+class VocabularyTests(unittest.TestCase):
+    def setUp(self):
+        self.story = {
+            "transcript": [
+                {
+                    "id": 1,
+                    "start": 1.25,
+                    "end": 4.5,
+                    "english": "Rate wagers moved at the front end of the curve.",
+                },
+                {
+                    "id": 2,
+                    "start": 4.5,
+                    "end": 8.0,
+                    "english": "A hot NFP could trigger a cross-asset move.",
+                },
+            ]
+        }
+
+    def result(self):
+        return {
+            "vocabulary": [
+                {"id": 1, "word": "Rate wagers", "phonetic": "/reɪt ˈweɪdʒərz/", "meaning": "利率路径押注"},
+                {"id": 1, "word": "front end", "phonetic": "/frʌnt end/", "meaning": "收益率曲线短端"},
+                {"id": 2, "word": "hot NFP", "phonetic": "/hɒt ˌen ef ˈpiː/", "meaning": "强于预期的非农数据"},
+                {"id": 2, "word": "NFP", "phonetic": "/ˌen ef ˈpiː/", "meaning": "非农就业报告"},
+                {"id": 2, "word": "cross-asset", "phonetic": "/krɒs ˈæset/", "meaning": "跨资产类别的"},
+            ]
+        }
+
+    def test_enriches_vocabulary_from_matching_cue(self):
+        items = validate_vocabulary(self.story, self.result())
+        self.assertEqual(items[0]["word"], "Rate wagers")
+        self.assertEqual(items[0]["start"], 1.25)
+        self.assertEqual(items[0]["source"], self.story["transcript"][0]["english"])
+
+    def test_rejects_phrase_not_in_bound_source(self):
+        result = self.result()
+        result["vocabulary"][0]["word"] = "Treasury yield"
+        with self.assertRaisesRegex(RuntimeError, "not an exact source substring"):
+            validate_vocabulary(self.story, result)
 
 
 class SentenceLockTests(unittest.TestCase):

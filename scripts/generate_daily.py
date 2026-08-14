@@ -31,35 +31,6 @@ SERIES_TITLE = re.compile(
     re.IGNORECASE,
 )
 
-FINANCE_TERMS = [
-    ("interest rate", "/ˈɪntrəst reɪt/", "利率"),
-    ("Federal Reserve", "/ˈfedərəl rɪˈzɜːrv/", "美国联邦储备委员会"),
-    ("Treasury yield", "/ˈtreʒəri jiːld/", "美国国债收益率"),
-    ("bond market", "/bɒnd ˈmɑːrkɪt/", "债券市场"),
-    ("equity market", "/ˈekwəti ˈmɑːrkɪt/", "股票市场"),
-    ("valuation", "/ˌvæljuˈeɪʃən/", "估值"),
-    ("earnings", "/ˈɜːrnɪŋz/", "企业盈利"),
-    ("inflation", "/ɪnˈfleɪʃən/", "通货膨胀"),
-    ("recession", "/rɪˈseʃən/", "经济衰退"),
-    ("economic growth", "/ˌekəˈnɒmɪk ɡrəʊθ/", "经济增长"),
-    ("labor market", "/ˈleɪbər ˈmɑːrkɪt/", "劳动力市场"),
-    ("unemployment", "/ˌʌnɪmˈplɔɪmənt/", "失业；失业率"),
-    ("rate cut", "/reɪt kʌt/", "降息"),
-    ("rate hike", "/reɪt haɪk/", "加息"),
-    ("monetary policy", "/ˈmʌnɪteri ˈpɒləsi/", "货币政策"),
-    ("fiscal policy", "/ˈfɪskəl ˈpɒləsi/", "财政政策"),
-    ("stock market", "/stɒk ˈmɑːrkɪt/", "股票市场"),
-    ("S&P 500", "/ˌes ən ˌpiː faɪv ˈhʌndrəd/", "标普500指数"),
-    ("market rally", "/ˈmɑːrkɪt ˈræli/", "市场上涨行情"),
-    ("sell-off", "/ˈsel ɒf/", "市场抛售"),
-    ("volatility", "/ˌvɒləˈtɪləti/", "波动性"),
-    ("investor", "/ɪnˈvestər/", "投资者"),
-    ("commodity", "/kəˈmɒdəti/", "大宗商品"),
-    ("crude oil", "/kruːd ɔɪl/", "原油"),
-    ("currency", "/ˈkʌrənsi/", "货币；汇率相关资产"),
-]
-
-
 def is_markets_in_three_minutes(title: str, duration: object = None) -> bool:
     if not SERIES_TITLE.search(title):
         return False
@@ -422,15 +393,6 @@ def sentence_cues(caption_cues: list[dict]) -> list[dict]:
     return result
 
 
-def vocabulary_for(text: str) -> list[dict]:
-    lowered = text.lower()
-    matches = []
-    for word, phonetic, meaning in FINANCE_TERMS:
-        if word.lower() in lowered:
-            matches.append({"word": word, "phonetic": phonetic, "meaning": meaning})
-    return matches[:8]
-
-
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--video-id", default=os.environ.get("VIDEO_ID", ""))
@@ -465,7 +427,6 @@ def main() -> int:
     source_kind = "cloudflare-whisper-large-v3-turbo"
     print(f"Cloudflare Whisper produced {len(cues)} sentence cues")
 
-    full_text = " ".join(cue["english"] for cue in cues)
     today = datetime.now(ZoneInfo("Asia/Shanghai")).date().isoformat()
 
     story = {
@@ -479,7 +440,9 @@ def main() -> int:
         "youtubeVideoID": video_id,
         "sourceURL": f"https://www.youtube.com/watch?v={video_id}",
         "sourceName": "Bloomberg Television",
-        "vocabulary": vocabulary_for(full_text),
+        # Contextual vocabulary is selected after transcription by
+        # translate_finance.py, which can inspect every sentence and timestamp.
+        "vocabulary": [],
         "transcript": cues,
         "transcriptKind": source_kind,
     }
