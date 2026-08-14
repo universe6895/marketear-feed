@@ -17,6 +17,17 @@ DEFAULT_MODEL = "@cf/meta/llama-3.3-70b-instruct-fp8-fast"
 BATCH_SIZE = 5
 CONTEXT_SENTENCES = 2
 
+TERM_RULES: tuple[tuple[str, tuple[str, ...], tuple[str, ...]], ...] = (
+    (r"\bNFP\b|nonfarm payroll", ("非农",), ()),
+    (r"\bfront[ -]end\b", ("短端",), ()),
+    (r"\bback[ -]end\b", ("长端",), ()),
+    (r"\bsteepening\b", ("陡峭",), ()),
+    (r"\breal rates?\b", ("实际利率",), ("名义利率",)),
+    (r"\bhot report\b", ("强于预期", "偏热", "强劲"), ("热点报告",)),
+    (r"\bcross[ -]asset story\b", ("跨资产", "多类资产"), ("故事",)),
+    (r"\bplay the ball,? not the referee", ("数据", "指标"), ("打球", "裁判")),
+)
+
 TRANSLATION_SYSTEM_PROMPT = """You are the senior translation editor of a professional Chinese financial newswire.
 Translate each TARGET from English into rigorous, readable Simplified Chinese.
 
@@ -27,9 +38,11 @@ Non-negotiable rules:
 2. Never place the meaning of a previous or following sentence under the current id. Context is supplied only to resolve terminology and pronouns; never translate context or import facts from it.
 3. Preserve all facts, numbers, units, direction, comparisons, causality, uncertainty, questions, quotations, and speaker stance. Add nothing and omit nothing.
 4. Do not explain, improve, soften, dramatize, or infer the speaker's argument. Do not add background knowledge or conclusions.
-5. If the source is incomplete, awkward, or ambiguous because it is speech-to-text, translate it conservatively as an incomplete or ambiguous fragment. Never complete it from a nearby sentence.
-6. Use standard mainland-Chinese financial terminology and concise newswire syntax. Examples include: NFP=非农就业报告, front end=收益率曲线短端, back end=长端, curve steepening=收益率曲线陡峭化, behind the curve=落后于形势, Treasury yield=美国国债收益率, basis point=基点.
-7. Return JSON only and match the requested schema exactly.
+5. The source comes from speech-to-text. If it is incomplete or genuinely ambiguous, translate it conservatively and preserve the ambiguity. If one obvious recognition error makes the literal reading nonsensical and the intended financial term is unambiguous from the immediate context, translate the intended term without inventing any new claim. Otherwise do not guess.
+6. Use standard mainland-Chinese financial terminology and concise newswire syntax. Required usage includes: NFP/nonfarm payrolls=非农就业报告; front end=收益率曲线短端; back end=收益率曲线长端; curve steepening=收益率曲线陡峭化; behind the curve=落后于形势; Treasury yield=美国国债收益率; basis point=基点; real rate=实际利率; hot report=强于预期或偏热的数据; cross-asset story=影响多类资产的交易主线/市场主题; reprice a hike=重新计入加息预期.
+7. Translate market idioms by their meaning, not their surface image. For example, play the ball, not the referee means focus on the data itself rather than judging or second-guessing the policymaker; never render it as literally playing ball.
+8. Before returning, silently compare every Chinese line against its own source again for alignment, fidelity, terminology, and numbers.
+9. Return JSON only and match the requested schema exactly.
 """
 
 METADATA_SYSTEM_PROMPT = """You are the senior translation editor of a professional Chinese financial newswire.
@@ -102,7 +115,21 @@ def workers_ai_request(
 
 def numeric_tokens(text: str) -> list[str]:
     """Return numeric values whose digits must survive translation."""
-    return re.findall(r"\d+(?:[.,]\d+)*", text)
+    return [token.replace(",", "") for token in re.findall(r"\d+(?:[.,]\d+)*", text)]
+
+
+def validate_financial_terms(source: str, chinese: str, cue_id: int) -> None:
+    for pattern, required_any, forbidden in TERM_RULES:
+        if not re.search(pattern, source, flags=re.IGNORECASE):
+            continue
+        if not any(term in chinese for term in required_any):
+            raise RuntimeError(
+                f"Translation for sentence {cue_id} failed terminology rule {pattern}"
+            )
+        if any(term in chinese for term in forbidden):
+            raise RuntimeError(
+                f"Translation for sentence {cue_id} used a literal or incorrect term for {pattern}"
+            )
 
 
 def validate_translation_batch(targets: list[dict], result: dict) -> list[dict]:
@@ -127,11 +154,15 @@ def validate_translation_batch(targets: list[dict], result: dict) -> list[dict]:
         chinese = str(item.get("chinese") or "").strip()
         if not chinese or not re.search(r"[\u3400-\u9fff]", chinese):
             raise RuntimeError(f"Translation for sentence {cue_id} is empty or not Chinese")
-        missing_numbers = [number for number in numeric_tokens(source) if number not in chinese]
+        normalized_chinese = chinese.replace(",", "").replace("，", "")
+        missing_numbers = [
+            number for number in numeric_tokens(source) if number not in normalized_chinese
+        ]
         if missing_numbers:
             raise RuntimeError(
                 f"Translation for sentence {cue_id} lost numeric values {missing_numbers}"
             )
+        validate_financial_terms(source, chinese, cue_id)
         validated[cue_id] = {"id": cue_id, "chinese": chinese}
 
     if set(validated) != set(expected):

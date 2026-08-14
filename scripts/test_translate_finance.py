@@ -108,6 +108,39 @@ class SentenceLockTests(unittest.TestCase):
                 },
             )
 
+    def test_rejects_incorrect_financial_term(self):
+        targets = [{"id": 4, "source": "There is a real rate story."}]
+        with self.assertRaisesRegex(RuntimeError, "terminology rule"):
+            validate_translation_batch(
+                targets,
+                {
+                    "translations": [
+                        {
+                            "id": 4,
+                            "source": "There is a real rate story.",
+                            "chinese": "这里存在一个名义利率主题。",
+                        }
+                    ]
+                },
+            )
+
+    def test_rejects_literal_market_idiom(self):
+        source = "We need to play the ball, not the referee."
+        targets = [{"id": 5, "source": source}]
+        with self.assertRaisesRegex(RuntimeError, "literal or incorrect term"):
+            validate_translation_batch(
+                targets,
+                {
+                    "translations": [
+                        {
+                            "id": 5,
+                            "source": source,
+                            "chinese": "我们需要打球，而不是关注裁判和数据。",
+                        }
+                    ]
+                },
+            )
+
 
 if __name__ == "__main__":
     unittest.main()
