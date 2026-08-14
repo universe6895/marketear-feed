@@ -4,13 +4,12 @@
 from __future__ import annotations
 
 import argparse
-import base64
 import html
 import json
 import os
 import re
 import sys
-import tempfile
+import time
 import urllib.error
 import urllib.request
 import xml.etree.ElementTree as ET
@@ -26,7 +25,8 @@ CHANNEL_SEARCH_URL = (
     f"https://www.youtube.com/channel/{CHANNEL_ID}/search?query=Markets%20in%203%20Minutes"
 )
 TRANSCRIPT_URL = "https://www.youtubetranscript.dev/api/v2/transcribe"
-WHISPER_MODEL = "@cf/openai/whisper-large-v3-turbo"
+TRANSCRIPT_JOBS_URL = "https://www.youtubetranscript.dev/api/v2/jobs"
+DEFAULT_WEBHOOK_URL = "https://github.com/universe6895/marketear-feed"
 SERIES_TITLE = re.compile(
     r"(?:markets?\s+in\s+3\s+minutes|3[-\s]minutes?\s+mliv)",
     re.IGNORECASE,
@@ -241,156 +241,106 @@ def build_cues(segments: list[dict]) -> list[dict]:
     return cues
 
 
-def vtt_seconds(value: str) -> float:
-    parts = value.strip().replace(",", ".").split(":")
-    if len(parts) == 2:
-        hours = 0
-        minutes, seconds_value = parts
-    elif len(parts) == 3:
-        hours, minutes, seconds_value = parts
-    else:
-        raise ValueError(f"Invalid VTT timestamp: {value}")
-    return round(int(hours) * 3600 + int(minutes) * 60 + float(seconds_value), 3)
+def transcript_payload(response: dict) -> tuple[dict, str] | None:
+    data = response.get("data") or {}
+    transcript = data.get("transcript") or {}
+    if not isinstance(transcript, dict) or not transcript.get("segments"):
+        return None
+    title = clean_text(str(data.get("video_title") or ""))
+    return transcript, title
 
 
-def cues_from_vtt(vtt: str) -> list[dict]:
-    """Parse Whisper's WebVTT response into timestamped caption fragments."""
-    normalized = vtt.replace("\r\n", "\n").replace("\r", "\n").strip()
-    cues: list[dict] = []
-    for block in re.split(r"\n\s*\n", normalized):
-        lines = [line.strip() for line in block.splitlines() if line.strip()]
-        timing_index = next((i for i, line in enumerate(lines) if "-->" in line), None)
-        if timing_index is None:
-            continue
-        timing = lines[timing_index].split("-->")
-        if len(timing) != 2:
-            continue
-        start_text = timing[0].strip().split()[0]
-        end_text = timing[1].strip().split()[0]
-        try:
-            start = vtt_seconds(start_text)
-            end = vtt_seconds(end_text)
-        except (TypeError, ValueError):
-            continue
-        text = clean_text(" ".join(lines[timing_index + 1 :]))
-        if not text or end <= start:
-            continue
-        cues.append(
-            {
-                "id": len(cues) + 1,
-                "start": start,
-                "end": end,
-                "english": text,
-                "chinese": "",
-            }
-        )
-    if not cues:
-        raise RuntimeError("Whisper returned no usable timestamped VTT cues")
-    return cues
+def asr_job_url(response: dict) -> str:
+    poll_url = str(response.get("poll_url") or "").strip()
+    if poll_url.startswith("https://"):
+        return poll_url
+
+    data = response.get("data") if isinstance(response.get("data"), dict) else {}
+    job_id = str(
+        response.get("job_id")
+        or response.get("id")
+        or data.get("job_id")
+        or data.get("id")
+        or ""
+    ).strip()
+    if not job_id:
+        raise RuntimeError(f"ASR request returned no pollable job id: {response}")
+    return f"{TRANSCRIPT_JOBS_URL}/{job_id}?include_segments=true"
 
 
-def download_youtube_audio(video_id: str, directory: Path) -> Path:
-    try:
-        from yt_dlp import YoutubeDL
-    except ImportError as error:
-        raise RuntimeError("yt-dlp is not installed for audio transcription") from error
-
-    output_template = str(directory / "source.%(ext)s")
-    options = {
-        "quiet": True,
-        "no_warnings": True,
-        "noplaylist": True,
-        "format": "bestaudio[ext=m4a]/bestaudio[ext=webm]/bestaudio/best",
-        "outtmpl": output_template,
-        "socket_timeout": 45,
-        "retries": 3,
-    }
-    with YoutubeDL(options) as downloader:
-        info = downloader.extract_info(
-            f"https://www.youtube.com/watch?v={video_id}",
-            download=True,
-        )
-        downloaded = Path(downloader.prepare_filename(info))
-    if downloaded.is_file():
-        return downloaded
-    candidates = [path for path in directory.glob("source.*") if path.is_file()]
-    if not candidates:
-        raise RuntimeError("yt-dlp did not produce an audio file")
-    return max(candidates, key=lambda path: path.stat().st_size)
-
-
-def request_whisper_transcript(
-    audio_path: Path,
-    account_id: str,
-    token: str,
-    title: str,
-) -> str:
-    audio_size = audio_path.stat().st_size
-    if audio_size <= 0:
-        raise RuntimeError("Downloaded audio file is empty")
-    if audio_size > 25 * 1024 * 1024:
-        raise RuntimeError(f"Downloaded audio is unexpectedly large ({audio_size} bytes)")
-
-    prompt = (
-        "Bloomberg Television financial market commentary. Preserve speaker wording and "
-        "punctuation. Likely terms include Bank of Japan, BOJ, yen, JGB, US Treasury, "
-        "Federal Reserve, Kevin Warsh, NFP, nonfarm payrolls, yield curve, front end, "
-        "back end, real rates, ISM, and cross-asset. Video title: "
-        + title
-    )
-    payload = {
-        "audio": base64.b64encode(audio_path.read_bytes()).decode("ascii"),
-        "task": "transcribe",
-        "language": "en",
-        "vad_filter": True,
-        "beam_size": 5,
-        "condition_on_previous_text": True,
-        "initial_prompt": prompt,
-    }
-    models_url = (
-        f"https://api.cloudflare.com/client/v4/accounts/{account_id}/ai/run/{WHISPER_MODEL}"
-    )
-    request = urllib.request.Request(
-        models_url,
-        data=json.dumps(payload).encode("utf-8"),
-        headers={
-            "Accept": "application/json",
-            "Authorization": f"Bearer {token}",
-            "Content-Type": "application/json",
-            "User-Agent": "MarketEarFeed/1.0",
-        },
-        method="POST",
-    )
-    try:
-        with urllib.request.urlopen(request, timeout=240) as response:
-            envelope = json.loads(response.read().decode("utf-8"))
-    except urllib.error.HTTPError as error:
-        detail = error.read().decode("utf-8", errors="replace")
-        raise RuntimeError(f"Workers AI Whisper failed ({error.code}): {detail}") from error
-
-    if envelope.get("success") is not True:
-        raise RuntimeError(f"Workers AI Whisper returned errors: {envelope.get('errors')}")
-    result = envelope.get("result") or {}
-    vtt = result.get("vtt") if isinstance(result, dict) else None
-    if not isinstance(vtt, str) or "-->" not in vtt:
-        raise RuntimeError("Workers AI Whisper returned no timestamped VTT")
-    return vtt
-
-
-def whisper_sentence_cues(
+def request_asr_transcript(
     video_id: str,
-    account_id: str,
     token: str,
-    title: str,
-) -> list[dict]:
-    with tempfile.TemporaryDirectory(prefix="marketear-audio-") as temporary:
-        audio_path = download_youtube_audio(video_id, Path(temporary))
-        print(f"Downloaded {audio_path.name} ({audio_path.stat().st_size} bytes) for Whisper")
-        vtt = request_whisper_transcript(audio_path, account_id, token, title)
-    cues = sentence_cues(cues_from_vtt(vtt))
-    if len(cues) < 5 or cues[-1]["end"] < 60:
-        raise RuntimeError("Whisper transcript is unexpectedly short")
-    return cues
+    *,
+    webhook_url: str = DEFAULT_WEBHOOK_URL,
+    poll_interval: float = 10,
+    max_polls: int = 90,
+) -> tuple[dict, str]:
+    """Force server-side audio ASR and poll until timestamped results are ready."""
+    response = http_json(
+        TRANSCRIPT_URL,
+        method="POST",
+        token=token,
+        payload={
+            "video": video_id,
+            "language": "en",
+            "source": "asr",
+            "webhook_url": webhook_url,
+            "format": {"timestamp": True, "paragraphs": False, "words": False},
+            "asr_options": {
+                "language": "en",
+                "keyTerms": [
+                    "Bloomberg",
+                    "Bank of Japan",
+                    "BOJ",
+                    "Japanese government bonds",
+                    "JGB",
+                    "Federal Reserve",
+                    "Fed funds rate",
+                    "Kevin Warsh",
+                    "nonfarm payrolls",
+                    "NFP",
+                    "Treasury yields",
+                    "yield curve",
+                    "front end",
+                    "back end",
+                    "real rates",
+                    "cross-asset",
+                    "steepener",
+                    "steepening",
+                    "basis points",
+                ],
+                "autoPunctuation": True,
+                "textFormatting": True,
+                "fillerWords": True,
+            },
+        },
+    )
+
+    completed = transcript_payload(response)
+    if completed:
+        return completed
+
+    status = str(response.get("status") or "").lower()
+    if status in {"failed", "error", "requires_asr_confirmation"}:
+        raise RuntimeError(f"ASR request did not start: {response}")
+    job_url = asr_job_url(response)
+    print(f"ASR job queued; polling {job_url}")
+
+    for attempt in range(1, max_polls + 1):
+        if poll_interval:
+            time.sleep(poll_interval)
+        result = http_json(job_url, token=token)
+        completed = transcript_payload(result)
+        if completed:
+            print(f"ASR completed after {attempt} poll(s)")
+            return completed
+        status = str(result.get("status") or "processing").lower()
+        if status in {"failed", "error", "requires_asr_confirmation"}:
+            raise RuntimeError(f"ASR job ended with status {status}: {result}")
+        print(f"ASR still {status} (poll {attempt}/{max_polls})")
+
+    raise RuntimeError("ASR job did not finish within 15 minutes")
 
 
 def sentence_cues(caption_cues: list[dict]) -> list[dict]:
@@ -483,46 +433,18 @@ def main() -> int:
     if not token:
         raise RuntimeError("YOUTUBE_TRANSCRIPT_API_KEY is not configured")
 
-    response = http_json(
-        TRANSCRIPT_URL,
-        method="POST",
-        token=token,
-        payload={
-            "video": video_id,
-            "language": "en",
-            "source": "auto",
-            "format": {"timestamp": True, "paragraphs": False, "words": False},
-        },
+    webhook_url = os.environ.get("YOUTUBE_TRANSCRIPT_WEBHOOK_URL", "").strip()
+    transcript, asr_title = request_asr_transcript(
+        video_id,
+        token,
+        webhook_url=webhook_url or DEFAULT_WEBHOOK_URL,
     )
-    data = response.get("data") or {}
-    transcript = data.get("transcript") or {}
-    title = clean_text(str(data.get("video_title") or feed_title or "Bloomberg Markets in 3 Minutes"))
-    fallback_cues = sentence_cues(build_cues(transcript.get("segments") or []))
-    cues = fallback_cues
-    source_kind = str(transcript.get("source") or "caption")
-
-    cloudflare_account_id = "".join(os.environ.get("CLOUDFLARE_ACCOUNT_ID", "").split())
-    cloudflare_token = "".join(os.environ.get("CLOUDFLARE_API_TOKEN", "").split())
-    if cloudflare_account_id and cloudflare_token:
-        try:
-            cues = whisper_sentence_cues(
-                video_id,
-                cloudflare_account_id,
-                cloudflare_token,
-                title,
-            )
-            source_kind = "cloudflare-whisper-large-v3-turbo"
-            print(f"Whisper produced {len(cues)} sentence cues")
-        except Exception as error:
-            print(
-                f"warning: Cloudflare Whisper unavailable; retaining timestamped caption fallback: {error}",
-                file=sys.stderr,
-            )
-    else:
-        print(
-            "warning: Cloudflare Whisper credentials are unavailable; retaining caption fallback",
-            file=sys.stderr,
-        )
+    title = clean_text(asr_title or feed_title or "Bloomberg Markets in 3 Minutes")
+    cues = sentence_cues(build_cues(transcript.get("segments") or []))
+    if len(cues) < 5 or cues[-1]["end"] < 60:
+        raise RuntimeError("ASR transcript is unexpectedly short")
+    source_kind = "youtubetranscript-asr-assemblyai-universal-2"
+    print(f"Audio ASR produced {len(cues)} sentence cues")
 
     full_text = " ".join(cue["english"] for cue in cues)
     today = datetime.now(ZoneInfo("Asia/Shanghai")).date().isoformat()
