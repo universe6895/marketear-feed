@@ -9,7 +9,80 @@
   "youtubeVideoID": "TTzKYBNkd_k",
   "sourceURL": "https://www.youtube.com/watch?v=TTzKYBNkd_k",
   "sourceName": "Bloomberg Television",
-  "vocabulary": [],
+  "vocabulary": [
+    {
+      "word": "intervention",
+      "phonetic": "/ˌɪntərˈvenʃən/",
+      "meaning": "外汇市场干预；当局通过买卖货币影响汇率",
+      "cueID": 4,
+      "start": 14.44,
+      "end": 19.22,
+      "source": "So what's our latest conclusion as to whether this intervention by the Japanese and the Americans will work?"
+    },
+    {
+      "word": "positioning backdrop",
+      "phonetic": "/pəˈzɪʃənɪŋ ˈbækdrɒp/",
+      "meaning": "市场仓位背景；判断行情时所处的多空持仓结构",
+      "cueID": 9,
+      "start": 37.04,
+      "end": 42.12,
+      "source": "So think when you also consider the positioning backdrop, I yen shorts, they were higher since July 2024."
+    },
+    {
+      "word": "JGB auction",
+      "phonetic": "/ˌdʒeɪ dʒiː ˈbiː ˈɔːkʃən/",
+      "meaning": "日本国债拍卖；JGB 是日本政府债券的英文缩写",
+      "cueID": 17,
+      "start": 63.94,
+      "end": 66.28,
+      "source": "So that's soft 10 -year JGB auction as well."
+    },
+    {
+      "word": "Strait of Hormuz",
+      "phonetic": "/streɪt əv hɔːrˈmuːz/",
+      "meaning": "霍尔木兹海峡；全球石油运输的关键水道",
+      "cueID": 26,
+      "start": 107.78,
+      "end": 113.12,
+      "source": "And the same time Iran was talking about the Strait of Hormuz, it wasn't even about the full reopening of it."
+    },
+    {
+      "word": "real rate story",
+      "phonetic": "/rɪəl reɪt ˈstɔːri/",
+      "meaning": "实际利率因素或交易主线；不是字面意义的“故事”",
+      "cueID": 35,
+      "start": 144.66,
+      "end": 150.44,
+      "source": "And in that environment, upside for bonds is limited, you know, particularly in the US, where there's a real rate story, and then also for Europe."
+    },
+    {
+      "word": "steepener trade",
+      "phonetic": "/ˈstiːpənər treɪd/",
+      "meaning": "收益率曲线陡峭化交易；押注长短端利差扩大",
+      "cueID": 39,
+      "start": 156.7,
+      "end": 160.7,
+      "source": "last week we saw that steepener trade, partly due to the Fed narrative rather than the data."
+    },
+    {
+      "word": "reprice a September hike",
+      "phonetic": "/ˌriːˈpraɪs ə sepˈtembər haɪk/",
+      "meaning": "重新计入9月加息预期；调整资产价格以反映更高的加息概率",
+      "cueID": 46,
+      "start": 177.5,
+      "end": 181.84,
+      "source": "There's plenty of scope to reprice a September hike, only priced around 65%."
+    },
+    {
+      "word": "wagers at the front end",
+      "phonetic": "/ˈweɪdʒərz ət ðə frʌnt end/",
+      "meaning": "收益率曲线短端的利率押注；市场对近期政策利率路径的交易性预期",
+      "cueID": 48,
+      "start": 185.08,
+      "end": 187.88,
+      "source": "Do markets really ramp up these wagers at the front end?"
+    }
+  ],
   "transcript": [
     {
       "id": 1,
