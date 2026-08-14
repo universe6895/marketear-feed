@@ -4,11 +4,13 @@
 from __future__ import annotations
 
 import argparse
+import base64
 import html
 import json
 import os
 import re
 import sys
+import tempfile
 import urllib.error
 import urllib.request
 import xml.etree.ElementTree as ET
@@ -24,6 +26,7 @@ CHANNEL_SEARCH_URL = (
     f"https://www.youtube.com/channel/{CHANNEL_ID}/search?query=Markets%20in%203%20Minutes"
 )
 TRANSCRIPT_URL = "https://www.youtubetranscript.dev/api/v2/transcribe"
+WHISPER_MODEL = "@cf/openai/whisper-large-v3-turbo"
 SERIES_TITLE = re.compile(
     r"(?:markets?\s+in\s+3\s+minutes|3[-\s]minutes?\s+mliv)",
     re.IGNORECASE,
@@ -238,6 +241,158 @@ def build_cues(segments: list[dict]) -> list[dict]:
     return cues
 
 
+def vtt_seconds(value: str) -> float:
+    parts = value.strip().replace(",", ".").split(":")
+    if len(parts) == 2:
+        hours = 0
+        minutes, seconds_value = parts
+    elif len(parts) == 3:
+        hours, minutes, seconds_value = parts
+    else:
+        raise ValueError(f"Invalid VTT timestamp: {value}")
+    return round(int(hours) * 3600 + int(minutes) * 60 + float(seconds_value), 3)
+
+
+def cues_from_vtt(vtt: str) -> list[dict]:
+    """Parse Whisper's WebVTT response into timestamped caption fragments."""
+    normalized = vtt.replace("\r\n", "\n").replace("\r", "\n").strip()
+    cues: list[dict] = []
+    for block in re.split(r"\n\s*\n", normalized):
+        lines = [line.strip() for line in block.splitlines() if line.strip()]
+        timing_index = next((i for i, line in enumerate(lines) if "-->" in line), None)
+        if timing_index is None:
+            continue
+        timing = lines[timing_index].split("-->")
+        if len(timing) != 2:
+            continue
+        start_text = timing[0].strip().split()[0]
+        end_text = timing[1].strip().split()[0]
+        try:
+            start = vtt_seconds(start_text)
+            end = vtt_seconds(end_text)
+        except (TypeError, ValueError):
+            continue
+        text = clean_text(" ".join(lines[timing_index + 1 :]))
+        if not text or end <= start:
+            continue
+        cues.append(
+            {
+                "id": len(cues) + 1,
+                "start": start,
+                "end": end,
+                "english": text,
+                "chinese": "",
+            }
+        )
+    if not cues:
+        raise RuntimeError("Whisper returned no usable timestamped VTT cues")
+    return cues
+
+
+def download_youtube_audio(video_id: str, directory: Path) -> Path:
+    try:
+        from yt_dlp import YoutubeDL
+    except ImportError as error:
+        raise RuntimeError("yt-dlp is not installed for audio transcription") from error
+
+    output_template = str(directory / "source.%(ext)s")
+    options = {
+        "quiet": True,
+        "no_warnings": True,
+        "noplaylist": True,
+        "format": "bestaudio[ext=m4a]/bestaudio[ext=webm]/bestaudio/best",
+        "outtmpl": output_template,
+        "socket_timeout": 45,
+        "retries": 3,
+    }
+    with YoutubeDL(options) as downloader:
+        info = downloader.extract_info(
+            f"https://www.youtube.com/watch?v={video_id}",
+            download=True,
+        )
+        downloaded = Path(downloader.prepare_filename(info))
+    if downloaded.is_file():
+        return downloaded
+    candidates = [path for path in directory.glob("source.*") if path.is_file()]
+    if not candidates:
+        raise RuntimeError("yt-dlp did not produce an audio file")
+    return max(candidates, key=lambda path: path.stat().st_size)
+
+
+def request_whisper_transcript(
+    audio_path: Path,
+    account_id: str,
+    token: str,
+    title: str,
+) -> str:
+    audio_size = audio_path.stat().st_size
+    if audio_size <= 0:
+        raise RuntimeError("Downloaded audio file is empty")
+    if audio_size > 25 * 1024 * 1024:
+        raise RuntimeError(f"Downloaded audio is unexpectedly large ({audio_size} bytes)")
+
+    prompt = (
+        "Bloomberg Television financial market commentary. Preserve speaker wording and "
+        "punctuation. Likely terms include Bank of Japan, BOJ, yen, JGB, US Treasury, "
+        "Federal Reserve, Kevin Warsh, NFP, nonfarm payrolls, yield curve, front end, "
+        "back end, real rates, ISM, and cross-asset. Video title: "
+        + title
+    )
+    payload = {
+        "audio": base64.b64encode(audio_path.read_bytes()).decode("ascii"),
+        "task": "transcribe",
+        "language": "en",
+        "vad_filter": True,
+        "beam_size": 5,
+        "condition_on_previous_text": True,
+        "initial_prompt": prompt,
+    }
+    models_url = (
+        f"https://api.cloudflare.com/client/v4/accounts/{account_id}/ai/run/{WHISPER_MODEL}"
+    )
+    request = urllib.request.Request(
+        models_url,
+        data=json.dumps(payload).encode("utf-8"),
+        headers={
+            "Accept": "application/json",
+            "Authorization": f"Bearer {token}",
+            "Content-Type": "application/json",
+            "User-Agent": "MarketEarFeed/1.0",
+        },
+        method="POST",
+    )
+    try:
+        with urllib.request.urlopen(request, timeout=240) as response:
+            envelope = json.loads(response.read().decode("utf-8"))
+    except urllib.error.HTTPError as error:
+        detail = error.read().decode("utf-8", errors="replace")
+        raise RuntimeError(f"Workers AI Whisper failed ({error.code}): {detail}") from error
+
+    if envelope.get("success") is not True:
+        raise RuntimeError(f"Workers AI Whisper returned errors: {envelope.get('errors')}")
+    result = envelope.get("result") or {}
+    vtt = result.get("vtt") if isinstance(result, dict) else None
+    if not isinstance(vtt, str) or "-->" not in vtt:
+        raise RuntimeError("Workers AI Whisper returned no timestamped VTT")
+    return vtt
+
+
+def whisper_sentence_cues(
+    video_id: str,
+    account_id: str,
+    token: str,
+    title: str,
+) -> list[dict]:
+    with tempfile.TemporaryDirectory(prefix="marketear-audio-") as temporary:
+        audio_path = download_youtube_audio(video_id, Path(temporary))
+        print(f"Downloaded {audio_path.name} ({audio_path.stat().st_size} bytes) for Whisper")
+        vtt = request_whisper_transcript(audio_path, account_id, token, title)
+    cues = sentence_cues(cues_from_vtt(vtt))
+    if len(cues) < 5 or cues[-1]["end"] < 60:
+        raise RuntimeError("Whisper transcript is unexpectedly short")
+    return cues
+
+
 def sentence_cues(caption_cues: list[dict]) -> list[dict]:
     """Merge caption fragments and split multi-sentence captions into sentences."""
     result: list[dict] = []
@@ -341,11 +496,36 @@ def main() -> int:
     )
     data = response.get("data") or {}
     transcript = data.get("transcript") or {}
-    cues = sentence_cues(build_cues(transcript.get("segments") or []))
     title = clean_text(str(data.get("video_title") or feed_title or "Bloomberg Markets in 3 Minutes"))
+    fallback_cues = sentence_cues(build_cues(transcript.get("segments") or []))
+    cues = fallback_cues
+    source_kind = str(transcript.get("source") or "caption")
+
+    cloudflare_account_id = "".join(os.environ.get("CLOUDFLARE_ACCOUNT_ID", "").split())
+    cloudflare_token = "".join(os.environ.get("CLOUDFLARE_API_TOKEN", "").split())
+    if cloudflare_account_id and cloudflare_token:
+        try:
+            cues = whisper_sentence_cues(
+                video_id,
+                cloudflare_account_id,
+                cloudflare_token,
+                title,
+            )
+            source_kind = "cloudflare-whisper-large-v3-turbo"
+            print(f"Whisper produced {len(cues)} sentence cues")
+        except Exception as error:
+            print(
+                f"warning: Cloudflare Whisper unavailable; retaining timestamped caption fallback: {error}",
+                file=sys.stderr,
+            )
+    else:
+        print(
+            "warning: Cloudflare Whisper credentials are unavailable; retaining caption fallback",
+            file=sys.stderr,
+        )
+
     full_text = " ".join(cue["english"] for cue in cues)
     today = datetime.now(ZoneInfo("Asia/Shanghai")).date().isoformat()
-    source_kind = str(transcript.get("source") or "caption")
 
     story = {
         "id": f"bloomberg-{video_id}",

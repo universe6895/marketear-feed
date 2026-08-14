@@ -49,6 +49,8 @@ jobs:
         if: ${{ inputs.translate_existing != true }}
         env:
           YOUTUBE_TRANSCRIPT_API_KEY: ${{ secrets.YOUTUBE_TRANSCRIPT_API_KEY }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           VIDEO_ID: ${{ inputs.video_id }}
           TITLE_CHINESE: ${{ inputs.title_chinese }}
           SUMMARY: ${{ inputs.summary }}
