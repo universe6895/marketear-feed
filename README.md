@@ -3,19 +3,21 @@
 Public daily content feed for the personal MarketEar iOS app.
 
 - `today.json` is read by the app at launch and cached locally.
-- The scheduled workflow selects the newest unused Bloomberg Television
-  “Markets in 3 Minutes” / “3-Minutes MLIV” episode.
-- If Bloomberg has not published a new episode that day, the workflow searches
-  backward through the official channel archive. `history.json` prevents daily
-  repeats and is maintained automatically.
+- The scheduled workflow selects the newest recent Bloomberg Television
+  “Markets in 3 Minutes” / “3-Minutes MLIV” episode with an existing English
+  YouTube caption track. On a quiet day it rotates a recent captioned episode.
 - YouTube remains the video host. This repository does not download or
   redistribute the video.
-- English text and timestamps come from the configured transcript API.
+- English text and timestamps come from an existing YouTube caption track via
+  YouTubeTranscript.dev. Supadata native-caption mode can be configured as the
+  primary provider; audio ASR is deliberately not used in the automatic feed.
 - Professional Chinese is generated from the complete article with Cloudflare
   Workers AI. Its free plan includes a daily allocation suitable for one short
   MarketEar article.
-- Apple Translation on the iPhone remains a fallback if model translation is
-  temporarily unavailable.
+- Every sentence is translated independently and bound by its immutable ID.
+  A candidate is published only after caption, timeline and 100% Chinese
+  coverage checks pass. Failed runs leave the previous `today.json` untouched.
+- Apple Translation on the iPhone remains a separate optional translation.
 
 ## Repository secret
 
@@ -24,6 +26,7 @@ Configure these secrets under:
 `Settings → Secrets and variables → Actions`
 
 - `YOUTUBE_TRANSCRIPT_API_KEY`
+- `SUPADATA_API_KEY` (optional native-caption provider)
 - `CLOUDFLARE_ACCOUNT_ID`
 - `CLOUDFLARE_API_TOKEN`
 

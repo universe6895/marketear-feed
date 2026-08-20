@@ -38,14 +38,14 @@ The real rate story matters.
         with self.assertRaisesRegex(RuntimeError, "no usable"):
             cues_from_vtt("WEBVTT\n\nNOTE no captions")
 
-    def test_normalizes_only_high_confidence_finance_asr_errors(self):
+    def test_normalizes_only_high_confidence_caption_errors(self):
         source = (
-            "Kevin Walsh asked whether markets ramp up these wages at the front end. "
+            "Kevin Walsh discussed the front end. "
             "A strong non - farm report could send 30 - year yields to 5 .3 %."
         )
         self.assertEqual(
             normalize_whisper_text(source),
-            "Kevin Warsh asked whether markets ramp up these wagers at the front end. "
+            "Kevin Warsh discussed the front end. "
             "A strong nonfarm report could send 30-year yields to 5.3%.",
         )
 

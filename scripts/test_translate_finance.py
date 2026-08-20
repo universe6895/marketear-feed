@@ -91,7 +91,7 @@ class VocabularyTests(unittest.TestCase):
 
 
 class SentenceLockTests(unittest.TestCase):
-    def test_accepts_exact_source_binding(self):
+    def test_accepts_single_sentence_binding(self):
         targets = [
             {"id": 7, "source": "Yields could approach 5.3%."},
             {"id": 8, "source": "That would become a cross-asset story."},
@@ -102,12 +102,10 @@ class SentenceLockTests(unittest.TestCase):
                 "translations": [
                     {
                         "id": 7,
-                        "source": "Yields could approach 5.3%.",
                         "chinese": "收益率可能接近5.3%。",
                     },
                     {
                         "id": 8,
-                        "source": "That would become a cross-asset story.",
                         "chinese": "这将演变为影响多类资产的市场主题。",
                     },
                 ]
@@ -115,24 +113,22 @@ class SentenceLockTests(unittest.TestCase):
         )
         self.assertEqual([item["id"] for item in result], [7, 8])
 
-    def test_rejects_shifted_source(self):
+    def test_rejects_duplicate_ids(self):
         targets = [
             {"id": 1, "source": "The front end sold off."},
             {"id": 2, "source": "Payrolls were strong."},
         ]
-        with self.assertRaisesRegex(RuntimeError, "source mismatch"):
+        with self.assertRaisesRegex(RuntimeError, "repeats sentence"):
             validate_translation_batch(
                 targets,
                 {
                     "translations": [
                         {
                             "id": 1,
-                            "source": "Payrolls were strong.",
-                            "chinese": "非农就业数据强劲。",
+                            "chinese": "收益率曲线短端遭到抛售。",
                         },
                         {
-                            "id": 2,
-                            "source": "The front end sold off.",
+                            "id": 1,
                             "chinese": "收益率曲线短端遭到抛售。",
                         },
                     ]
@@ -148,7 +144,6 @@ class SentenceLockTests(unittest.TestCase):
                     "translations": [
                         {
                             "id": 3,
-                            "source": "The yield rose to 5.3%.",
                             "chinese": "收益率有所上升。",
                         }
                     ]
@@ -164,7 +159,6 @@ class SentenceLockTests(unittest.TestCase):
                     "translations": [
                         {
                             "id": 4,
-                            "source": "There is a real rate story.",
                             "chinese": "这里存在一个名义利率主题。",
                         }
                     ]
@@ -179,7 +173,6 @@ class SentenceLockTests(unittest.TestCase):
                 {
                     "translations": [{
                         "id": 9,
-                        "source": source,
                         "chinese": "收益率曲线长端受到一个实际利率故事的推动。",
                     }]
                 },
@@ -192,7 +185,6 @@ class SentenceLockTests(unittest.TestCase):
             {
                 "translations": [{
                     "id": 10,
-                    "source": source,
                     "chinese": "收益率曲线长端也受到实际利率因素的推动。",
                 }]
             },
@@ -209,7 +201,6 @@ class SentenceLockTests(unittest.TestCase):
                     "translations": [
                         {
                             "id": 5,
-                            "source": source,
                             "chinese": "我们需要打球，而不是关注裁判和数据。",
                         }
                     ]

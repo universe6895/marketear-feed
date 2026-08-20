@@ -14,7 +14,7 @@ from pathlib import Path
 
 
 DEFAULT_MODEL = "@cf/meta/llama-3.3-70b-instruct-fp8-fast"
-BATCH_SIZE = 5
+BATCH_SIZE = 1
 CONTEXT_SENTENCES = 2
 
 TERM_RULES: tuple[tuple[str, tuple[str, ...], tuple[str, ...]], ...] = (
@@ -38,15 +38,15 @@ Translate each TARGET from English into rigorous, readable Simplified Chinese.
 This is translation, not commentary, rewriting, summarization, or investment analysis.
 
 Non-negotiable rules:
-1. Treat every target row as an independent binding pair. Copy its id and source exactly, then translate only that same source into chinese.
-2. Never place the meaning of a previous or following sentence under the current id. Context is supplied only to resolve terminology and pronouns; never translate context or import facts from it.
+1. The request contains exactly one TARGET. Copy its id exactly and translate only that target into chinese. Do not return or rewrite the English source.
+2. Never place the meaning of a previous or following sentence under the target id. Context is supplied only to resolve terminology and pronouns; never translate context or import facts from it.
 3. Preserve all facts, numbers, units, direction, comparisons, causality, uncertainty, questions, quotations, and speaker stance. Add nothing and omit nothing.
 4. Do not explain, improve, soften, dramatize, or infer the speaker's argument. Do not add background knowledge or conclusions.
 5. The source comes from speech-to-text. If it is incomplete or genuinely ambiguous, translate it conservatively and preserve the ambiguity. If one obvious recognition error makes the literal reading nonsensical and the intended financial term is unambiguous from the immediate context, translate the intended term without inventing any new claim. Otherwise do not guess.
 6. Use standard mainland-Chinese financial terminology and concise newswire syntax. Required usage includes: NFP/nonfarm payrolls=非农就业报告; front end=收益率曲线短端; back end=收益率曲线长端; rate wagers=利率押注/加息押注; curve steepening=收益率曲线陡峭化; behind the curve=落后于形势; Treasury yield=美国国债收益率; basis point=基点; real rate=实际利率; real rate story=实际利率因素/逻辑（绝不能译成“故事”）; Fed narrative=美联储政策叙事/政策预期; hot report=强于预期或偏热的数据; cross-asset story=影响多类资产的交易主线/市场主题; reprice a hike=重新计入加息预期; Kevin Warsh=凯文·沃什.
 7. Translate market idioms by their meaning, not their surface image. For example, play the ball, not the referee means focus on the data itself rather than judging or second-guessing the policymaker; never render it as literally playing ball.
 8. Before returning, silently compare every Chinese line against its own source again for alignment, fidelity, terminology, and numbers.
-9. Return JSON only and match the requested schema exactly.
+9. Return JSON only in the form {"translations":[{"id":number,"chinese":"..."}]}.
 """
 
 METADATA_SYSTEM_PROMPT = """You are the senior translation editor of a professional Chinese financial newswire.
@@ -163,9 +163,7 @@ def validate_translation_batch(targets: list[dict], result: dict) -> list[dict]:
         if cue_id in validated:
             raise RuntimeError(f"Translation batch repeats sentence {cue_id}")
 
-        source = item.get("source")
-        if source != expected[cue_id]:
-            raise RuntimeError(f"Translation source mismatch for sentence {cue_id}")
+        source = expected[cue_id]
         chinese = str(item.get("chinese") or "").strip()
         if not chinese or not re.search(r"[\u3400-\u9fff]", chinese):
             raise RuntimeError(f"Translation for sentence {cue_id} is empty or not Chinese")
@@ -339,10 +337,9 @@ def request_translation_batch(
     item_schema = response_schema(
         {
             "id": {"type": "integer"},
-            "source": {"type": "string"},
             "chinese": {"type": "string"},
         },
-        ["id", "source", "chinese"],
+        ["id", "chinese"],
     )
     schema = response_schema(
         {"translations": {"type": "array", "items": item_schema}},
@@ -380,7 +377,13 @@ def request_translation(account_id: str, token: str, story: dict, model: str) ->
         translations.extend(
             request_translation_batch(account_id, token, story, model, start_index)
         )
-    vocabulary = request_vocabulary(account_id, token, story, model)
+    try:
+        vocabulary = request_vocabulary(account_id, token, story, model)
+    except RuntimeError as error:
+        # Vocabulary is useful but must never prevent a complete article from
+        # publishing. The app can truthfully show an empty vocabulary module.
+        print(f"warning: vocabulary generation skipped: {error}", file=sys.stderr)
+        vocabulary = []
     return {**metadata, "translations": translations, "vocabulary": vocabulary}
 
 
