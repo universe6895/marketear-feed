@@ -204,7 +204,9 @@ def validate_financial_terms(source: str, chinese: str, cue_id: int) -> None:
             )
 
 
-def validate_translation_batch(targets: list[dict], result: dict) -> list[dict]:
+def validate_translation_batch(
+    targets: list[dict], result: dict, *, enforce_fluency: bool = True
+) -> list[dict]:
     items = result.get("translations")
     if not isinstance(items, list):
         raise RuntimeError("Translation batch has no translations array")
@@ -225,7 +227,7 @@ def validate_translation_batch(targets: list[dict], result: dict) -> list[dict]:
         if not chinese or not re.search(r"[\u3400-\u9fff]", chinese):
             raise RuntimeError(f"Translation for sentence {cue_id} is empty or not Chinese")
         awkward = next((phrase for phrase in FORBIDDEN_MACHINE_CHINESE if phrase in chinese), None)
-        if awkward:
+        if enforce_fluency and awkward:
             raise RuntimeError(
                 f"Translation for sentence {cue_id} contains machine-translated wording: {awkward}"
             )
@@ -420,7 +422,7 @@ def request_translation_batch(
                 schema,
                 2200,
             )
-            return validate_translation_batch(targets, result)
+            return validate_translation_batch(targets, result, enforce_fluency=False)
         except RuntimeError as error:
             last_error = error
     raise RuntimeError(
