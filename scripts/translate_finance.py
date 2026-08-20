@@ -130,7 +130,7 @@ def workers_ai_request(
     }
     if "glm-" in model:
         payload["max_completion_tokens"] = max_tokens
-        payload["reasoning_effort"] = "low"
+        payload["chat_template_kwargs"] = {"enable_thinking": False}
     else:
         payload["max_tokens"] = max_tokens
     models_url = f"https://api.cloudflare.com/client/v4/accounts/{account_id}/ai/run/{model}"
