@@ -261,6 +261,37 @@ def validate_translation_batch(
     return [validated[target["id"]] for target in targets]
 
 
+def apply_source_conditioned_repairs(targets: list[dict], result: dict) -> dict:
+    """Repair only high-confidence caption/finance errors licensed by SOURCE."""
+    source_by_id = {target["id"]: target["source"] for target in targets}
+    repaired: list[dict] = []
+    for item in result.get("translations") or []:
+        if not isinstance(item, dict) or not isinstance(item.get("id"), int):
+            repaired.append(item)
+            continue
+        source = source_by_id.get(item["id"], "")
+        chinese = str(item.get("chinese") or "")
+        if re.search(r"long end yields.*around the world", source, re.IGNORECASE):
+            chinese = chinese.replace("全球或更高的长端收益率", "全球长端收益率进一步上升")
+        if re.search(r"bonds? (?:of|at) the margin", source, re.IGNORECASE):
+            chinese = chinese.replace("在保证金上购买更多的债券", "适度增持债券")
+            chinese = chinese.replace("在保证金账户中加仓债券", "适度增持债券")
+            chinese = chinese.replace("保证金账户中加仓债券", "适度增持债券")
+        if re.search(r"summer vibe", source, re.IGNORECASE):
+            chinese = chinese.replace("夏季氛围", "夏季清淡行情")
+        if re.search(r"AI CapEx bubble is in the inflation stage", source, re.IGNORECASE):
+            chinese = chinese.replace("通胀阶段", "膨胀阶段")
+        if re.search(r"higher yield story", source, re.IGNORECASE):
+            chinese = chinese.replace("高收益逻辑", "收益率上行逻辑")
+            chinese = chinese.replace("高收益主题", "收益率上行主题")
+        if re.search(r"I debt funding|eye space", source, re.IGNORECASE):
+            chinese = chinese.replace("投资级债务融资", "AI债务融资")
+            chinese = chinese.replace("眼球空间", "AI板块")
+            chinese = chinese.replace("高收益债收益率的影响", "收益率上升对AI板块的影响")
+        repaired.append({**item, "chinese": chinese})
+    return {**result, "translations": repaired}
+
+
 def request_metadata(account_id: str, token: str, story: dict, model: str) -> dict:
     schema = response_schema(
         {
@@ -486,7 +517,8 @@ def request_article_review(
                 schema,
                 12000,
             )
-            return validate_translation_batch(targets, result)
+            repaired = apply_source_conditioned_repairs(targets, result)
+            return validate_translation_batch(targets, repaired)
         except RuntimeError as error:
             last_error = error
     raise RuntimeError(f"Article-level financial copy-desk review failed: {last_error}")

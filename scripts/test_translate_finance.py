@@ -1,6 +1,7 @@
 import unittest
 
 from scripts.translate_finance import (
+    apply_source_conditioned_repairs,
     apply_translation,
     validate_translation_batch,
     validate_vocabulary,
@@ -242,6 +243,28 @@ class SentenceLockTests(unittest.TestCase):
             enforce_fluency=False,
         )
         self.assertEqual(result[0]["id"], 11)
+
+    def test_repairs_margin_only_when_source_licenses_it(self):
+        result = apply_source_conditioned_repairs(
+            [{"id": 11, "source": "I can put more money into bonds at the margin."}],
+            {"translations": [{"id": 11, "chinese": "我可以在保证金账户中加仓债券。"}]},
+        )
+        self.assertEqual(result["translations"][0]["chinese"], "我可以适度增持债券。")
+
+    def test_repairs_yield_theme_and_ai_caption_errors(self):
+        targets = [
+            {"id": 41, "source": "This goes into the higher yield story."},
+            {"id": 43, "source": "The I debt funding pressure is affecting the eye space."},
+        ]
+        result = apply_source_conditioned_repairs(
+            targets,
+            {"translations": [
+                {"id": 41, "chinese": "这又回到了高收益逻辑。"},
+                {"id": 43, "chinese": "投资级债务融资正在影响眼球空间。"},
+            ]},
+        )
+        self.assertEqual(result["translations"][0]["chinese"], "这又回到了收益率上行逻辑。")
+        self.assertEqual(result["translations"][1]["chinese"], "AI债务融资正在影响AI板块。")
 
 
 if __name__ == "__main__":
