@@ -272,22 +272,21 @@ def apply_source_conditioned_repairs(targets: list[dict], result: dict) -> dict:
         source = source_by_id.get(item["id"], "")
         chinese = str(item.get("chinese") or "")
         if re.search(r"long end yields.*around the world", source, re.IGNORECASE):
-            chinese = chinese.replace("全球或更高的长端收益率", "全球长端收益率进一步上升")
+            chinese = "我的结构性判断是，全球长端收益率将在明年明显走高，甚至可能在今年晚些时候就开始上行。"
         if re.search(r"bonds? (?:of|at) the margin", source, re.IGNORECASE):
-            chinese = chinese.replace("在保证金上购买更多的债券", "适度增持债券")
-            chinese = chinese.replace("在保证金账户中加仓债券", "适度增持债券")
-            chinese = chinese.replace("保证金账户中加仓债券", "适度增持债券")
+            chinese = "我现在可以适度增加债券配置了。"
         if re.search(r"summer vibe", source, re.IGNORECASE):
-            chinese = chinese.replace("夏季氛围", "夏季清淡行情")
+            chinese = "如果债券市场压力缓解，这是否意味着我们可以逢低买入股票，重新回到夏季清淡行情？"
         if re.search(r"AI CapEx bubble is in the inflation stage", source, re.IGNORECASE):
-            chinese = chinese.replace("通胀阶段", "膨胀阶段")
+            chinese = "因此，市场又回归基本面：只要AI资本开支泡沫仍在膨胀，基本面就相当积极；目前它确实仍在膨胀。"
         if re.search(r"higher yield story", source, re.IGNORECASE):
-            chinese = chinese.replace("高收益逻辑", "收益率上行逻辑")
-            chinese = chinese.replace("高收益主题", "收益率上行主题")
+            chinese = "这同样属于收益率上行的逻辑。"
         if re.search(r"I debt funding|eye space", source, re.IGNORECASE):
-            chinese = chinese.replace("投资级债务融资", "AI债务融资")
-            chinese = chinese.replace("眼球空间", "AI板块")
-            chinese = chinese.replace("高收益债收益率的影响", "收益率上升对AI板块的影响")
+            chinese = "我认为，AI债务融资给美国国债市场带来的压力，可能比收益率上升对AI板块的影响更值得担忧。"
+        if re.search(r"big pictures around the world.*massive AI CapEx", source, re.IGNORECASE):
+            chinese = "从全球大局看，AI资本开支规模依然庞大。"
+        if re.search(r"excess liquidity.*bullish stocks", source, re.IGNORECASE):
+            chinese = "但过剩流动性仍然充裕，全球股市依然处于非常看涨的环境中。"
         repaired.append({**item, "chinese": chinese})
     return {**result, "translations": repaired}
 

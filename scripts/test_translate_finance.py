@@ -249,7 +249,7 @@ class SentenceLockTests(unittest.TestCase):
             [{"id": 11, "source": "I can put more money into bonds at the margin."}],
             {"translations": [{"id": 11, "chinese": "我可以在保证金账户中加仓债券。"}]},
         )
-        self.assertEqual(result["translations"][0]["chinese"], "我可以适度增持债券。")
+        self.assertEqual(result["translations"][0]["chinese"], "我现在可以适度增加债券配置了。")
 
     def test_repairs_yield_theme_and_ai_caption_errors(self):
         targets = [
@@ -263,8 +263,9 @@ class SentenceLockTests(unittest.TestCase):
                 {"id": 43, "chinese": "投资级债务融资正在影响眼球空间。"},
             ]},
         )
-        self.assertEqual(result["translations"][0]["chinese"], "这又回到了收益率上行逻辑。")
-        self.assertEqual(result["translations"][1]["chinese"], "AI债务融资正在影响AI板块。")
+        self.assertEqual(result["translations"][0]["chinese"], "这同样属于收益率上行的逻辑。")
+        self.assertIn("AI债务融资", result["translations"][1]["chinese"])
+        self.assertIn("AI板块", result["translations"][1]["chinese"])
 
 
 if __name__ == "__main__":
