@@ -13,7 +13,7 @@ import urllib.request
 from pathlib import Path
 
 
-DEFAULT_MODEL = "@cf/meta/llama-3.3-70b-instruct-fp8-fast"
+DEFAULT_MODEL = "@cf/zai-org/glm-4.7-flash"
 BATCH_SIZE = 1
 CONTEXT_SENTENCES = 2
 
@@ -32,6 +32,15 @@ TERM_RULES: tuple[tuple[str, tuple[str, ...], tuple[str, ...]], ...] = (
     (r"\bplay the ball,? not the referee", ("数据", "指标"), ("打球", "裁判")),
 )
 
+FORBIDDEN_MACHINE_CHINESE: tuple[str, ...] = (
+    "你知道什么",
+    "超级宽松",
+    "眼球空间",
+    "全球或更高",
+    "夏季氛围继续",
+    "在保证金上购买债券",
+)
+
 TRANSLATION_SYSTEM_PROMPT = """You are the senior translation editor of a professional Chinese financial newswire.
 Translate each TARGET from English into rigorous, readable Simplified Chinese.
 
@@ -46,6 +55,23 @@ Non-negotiable rules:
 6. Use standard mainland-Chinese financial terminology and concise newswire syntax. Required usage includes: NFP/nonfarm payrolls=非农就业报告; front end=收益率曲线短端; back end=收益率曲线长端; rate wagers=利率押注/加息押注; curve steepening=收益率曲线陡峭化; behind the curve=落后于形势; Treasury yield=美国国债收益率; basis point=基点; real rate=实际利率; real rate story=实际利率因素/逻辑（绝不能译成“故事”）; Fed narrative=美联储政策叙事/政策预期; hot report=强于预期或偏热的数据; cross-asset story=影响多类资产的交易主线/市场主题; reprice a hike=重新计入加息预期; Kevin Warsh=凯文·沃什.
 7. Translate market idioms by their meaning, not their surface image. For example, play the ball, not the referee means focus on the data itself rather than judging or second-guessing the policymaker; never render it as literally playing ball.
 8. Before returning, silently compare every Chinese line against its own source again for alignment, fidelity, terminology, and numbers.
+9. Return JSON only in the form {"translations":[{"id":number,"chinese":"..."}]}.
+"""
+
+REVIEW_SYSTEM_PROMPT = """You are the final copy desk of a professional Chinese financial newswire.
+Audit one English SOURCE and its Chinese DRAFT, then return a publication-ready final translation.
+
+This is a fidelity review, not commentary, summarization, rewriting, or investment analysis.
+
+Non-negotiable rules:
+1. Return exactly the supplied id and only one final Chinese translation. Never translate the surrounding context.
+2. Compare the draft clause by clause with SOURCE. Correct omissions, additions, reversed direction, wrong referents, lost uncertainty, literal market idioms, and unnatural machine-translated Chinese.
+3. Preserve every fact, number, unit, comparison, causal link, question, quotation, hedge, and speaker stance. Add no background or conclusion.
+4. Use concise mainland-Chinese financial-news syntax. Prefer established terms such as 收益率曲线短端/长端、美国国债收益率、实际利率、基点、财政支出、资本开支、信贷利差、挤出效应、逢低买入、流动性 and 金融状况.
+5. Spoken fillers such as you know, like, uh, and I mean should not become awkward literal phrases such as “你知道什么”“像”“超级” or “我的意思是” unless they carry real meaning.
+6. If SOURCE itself appears damaged by captions, repair only an unmistakable financial expression supported by the immediate context. Otherwise preserve the ambiguity without inventing a claim.
+7. Reject draft language that is grammatically Chinese but financially nonsensical. Examples include “在保证金上购买债券”“全球或更高的收益率”“眼球空间”“夏季氛围继续前进”.
+8. Silently perform a final source-to-Chinese alignment check before returning.
 9. Return JSON only in the form {"translations":[{"id":number,"chinese":"..."}]}.
 """
 
@@ -167,6 +193,11 @@ def validate_translation_batch(targets: list[dict], result: dict) -> list[dict]:
         chinese = str(item.get("chinese") or "").strip()
         if not chinese or not re.search(r"[\u3400-\u9fff]", chinese):
             raise RuntimeError(f"Translation for sentence {cue_id} is empty or not Chinese")
+        awkward = next((phrase for phrase in FORBIDDEN_MACHINE_CHINESE if phrase in chinese), None)
+        if awkward:
+            raise RuntimeError(
+                f"Translation for sentence {cue_id} contains machine-translated wording: {awkward}"
+            )
         normalized_chinese = chinese.replace(",", "").replace("，", "")
         missing_numbers = [
             number for number in numeric_tokens(source) if number not in normalized_chinese
@@ -358,7 +389,24 @@ def request_translation_batch(
                 schema,
                 2200,
             )
-            return validate_translation_batch(targets, result)
+            draft = validate_translation_batch(targets, result)
+            review_prompt = {
+                "articleTitle": story.get("title", ""),
+                "contextBefore": prompt["contextBefore"],
+                "source": targets[0],
+                "draft": draft[0],
+                "contextAfter": prompt["contextAfter"],
+            }
+            reviewed = workers_ai_request(
+                account_id,
+                token,
+                model,
+                REVIEW_SYSTEM_PROMPT,
+                review_prompt,
+                schema,
+                1200,
+            )
+            return validate_translation_batch(targets, reviewed)
         except RuntimeError as error:
             last_error = error
     raise RuntimeError(
@@ -421,7 +469,8 @@ def apply_translation(story: dict, translated: dict, model: str) -> dict:
     updated = dict(story)
     updated["titleChinese"] = title_chinese
     updated["summary"] = summary
-    updated["translationKind"] = "cloudflare-workers-ai-sentence-locked"
+    updated["translationKind"] = "cloudflare-workers-ai-sentence-locked-dual-pass"
+    updated["translationReviewKind"] = "independent-source-draft-context-review"
     updated["translationModel"] = model
     updated["vocabulary"] = translated.get("vocabulary", story.get("vocabulary", []))
     updated["vocabularyKind"] = "cloudflare-workers-ai-contextual"

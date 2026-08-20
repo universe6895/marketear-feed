@@ -32,7 +32,14 @@ class ApplyTranslationTests(unittest.TestCase):
         )
         self.assertEqual(result["transcript"][0]["chinese"], "短端利率市场的定价发生变化。")
         self.assertEqual(result["transcript"][1]["start"], 2)
-        self.assertEqual(result["translationKind"], "cloudflare-workers-ai-sentence-locked")
+        self.assertEqual(
+            result["translationKind"],
+            "cloudflare-workers-ai-sentence-locked-dual-pass",
+        )
+        self.assertEqual(
+            result["translationReviewKind"],
+            "independent-source-draft-context-review",
+        )
 
     def test_rejects_missing_sentence(self):
         with self.assertRaisesRegex(RuntimeError, "ids do not match"):
@@ -205,6 +212,13 @@ class SentenceLockTests(unittest.TestCase):
                         }
                     ]
                 },
+            )
+
+    def test_rejects_known_machine_translated_wording(self):
+        with self.assertRaisesRegex(RuntimeError, "machine-translated wording"):
+            validate_translation_batch(
+                [{"id": 6, "source": "Financial conditions are still super easy."}],
+                {"translations": [{"id": 6, "chinese": "金融条件仍然超级宽松。"}]},
             )
 
 

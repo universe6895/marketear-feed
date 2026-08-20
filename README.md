@@ -14,8 +14,9 @@ Public daily content feed for the personal MarketEar iOS app.
 - Professional Chinese is generated from the complete article with Cloudflare
   Workers AI. Its free plan includes a daily allocation suitable for one short
   MarketEar article.
-- Every sentence is translated independently and bound by its immutable ID.
-  A candidate is published only after caption, timeline and 100% Chinese
+- Every sentence is translated independently, bound by its immutable ID, and
+  passed through a separate source-to-draft financial copy-desk review. A
+  candidate is published only after caption, timeline and 100% Chinese
   coverage checks pass. Failed runs leave the previous `today.json` untouched.
 - Apple Translation on the iPhone remains a separate optional translation.
 

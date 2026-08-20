@@ -23,6 +23,7 @@ def validate_story(story: object) -> dict:
     required_text = (
         "id", "date", "title", "titleChinese", "summary", "youtubeVideoID",
         "sourceURL", "sourceName", "captionSource", "translationKind",
+        "translationReviewKind",
     )
     for key in required_text:
         if not isinstance(story.get(key), str) or not story[key].strip():
@@ -77,6 +78,7 @@ def validate_story(story: object) -> dict:
             "native-caption-only",
             "ordered-timestamps",
             "sentence-id-lock",
+            "dual-pass-translation-review",
             "complete-financial-chinese",
         ],
     }
