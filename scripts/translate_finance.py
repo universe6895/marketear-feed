@@ -136,7 +136,9 @@ def workers_ai_request(
         method="POST",
     )
     try:
-        with urllib.request.urlopen(request, timeout=120) as response:
+        # Full-article copy-desk review can legitimately take longer than the
+        # many short sentence-draft calls on a serverless reasoning model.
+        with urllib.request.urlopen(request, timeout=300) as response:
             result = json.loads(response.read().decode("utf-8"))
     except urllib.error.HTTPError as error:
         detail = error.read().decode("utf-8", errors="replace")
