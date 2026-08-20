@@ -3,6 +3,7 @@ import unittest
 from scripts.translate_finance import (
     apply_source_conditioned_repairs,
     apply_translation,
+    validate_reviewed_article,
     validate_translation_batch,
     validate_vocabulary,
 )
@@ -266,6 +267,20 @@ class SentenceLockTests(unittest.TestCase):
         self.assertEqual(result["translations"][0]["chinese"], "这同样属于收益率上行的逻辑。")
         self.assertIn("AI债务融资", result["translations"][1]["chinese"])
         self.assertIn("AI板块", result["translations"][1]["chinese"])
+
+    def test_final_review_reports_all_bad_sentences(self):
+        targets = [
+            {"id": 1, "source": "Financial conditions are still super easy."},
+            {"id": 2, "source": "This goes into the higher yield story."},
+        ]
+        with self.assertRaisesRegex(RuntimeError, "sentence 1.*sentence 2"):
+            validate_reviewed_article(
+                targets,
+                {"translations": [
+                    {"id": 1, "chinese": "金融条件仍然超级宽松。"},
+                    {"id": 2, "chinese": "这又回到了高收益逻辑。"},
+                ]},
+            )
 
 
 if __name__ == "__main__":

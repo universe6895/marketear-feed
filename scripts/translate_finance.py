@@ -287,8 +287,37 @@ def apply_source_conditioned_repairs(targets: list[dict], result: dict) -> dict:
             chinese = "从全球大局看，AI资本开支规模依然庞大。"
         if re.search(r"excess liquidity.*bullish stocks", source, re.IGNORECASE):
             chinese = "但过剩流动性仍然充裕，全球股市依然处于非常看涨的环境中。"
+        if re.search(r"you know what yields are going higher", source, re.IGNORECASE):
+            chinese = "收益率确实在上升，但目前仍处于相当低的水平。"
         repaired.append({**item, "chinese": chinese})
     return {**result, "translations": repaired}
+
+
+def validate_reviewed_article(targets: list[dict], result: dict) -> list[dict]:
+    """Report all final-quality failures from one expensive article review."""
+    items = result.get("translations")
+    if not isinstance(items, list):
+        return validate_translation_batch(targets, result)
+    by_id = {
+        item.get("id"): item
+        for item in items
+        if isinstance(item, dict) and isinstance(item.get("id"), int)
+    }
+    failures: list[str] = []
+    for target in targets:
+        item = by_id.get(target["id"])
+        if item is None:
+            failures.append(f"sentence {target['id']} is missing")
+            continue
+        try:
+            validate_translation_batch(
+                [target], {"translations": [item]}, enforce_fluency=True
+            )
+        except RuntimeError as error:
+            failures.append(str(error))
+    if failures:
+        raise RuntimeError("; ".join(failures))
+    return validate_translation_batch(targets, result)
 
 
 def request_metadata(account_id: str, token: str, story: dict, model: str) -> dict:
@@ -517,7 +546,7 @@ def request_article_review(
                 12000,
             )
             repaired = apply_source_conditioned_repairs(targets, result)
-            return validate_translation_batch(targets, repaired)
+            return validate_reviewed_article(targets, repaired)
         except RuntimeError as error:
             last_error = error
     raise RuntimeError(f"Article-level financial copy-desk review failed: {last_error}")
