@@ -25,9 +25,11 @@ from zoneinfo import ZoneInfo
 
 CHANNEL_ID = "UCIALMKvObZNtJ6AmdCLP7Lg"
 RSS_URL = f"https://www.youtube.com/feeds/videos.xml?channel_id={CHANNEL_ID}"
+CHANNEL_VIDEOS_URL = f"https://www.youtube.com/channel/{CHANNEL_ID}/videos"
+CHANNEL_SEARCH_URL = f"https://www.youtube.com/channel/{CHANNEL_ID}/search?query=Markets%20in%203%20Minutes"
 TRANSCRIPT_DEV_URL = "https://www.youtubetranscript.dev/api/v2/transcribe"
 SUPADATA_URL = "https://api.supadata.ai/v1/transcript"
-MAX_CANDIDATES = 6
+MAX_CANDIDATES = 10
 SERIES_TITLE = re.compile(
     r"(?:markets?\s+in\s+3\s+minutes|3[-\s]minutes?\s+mliv)",
     re.IGNORECASE,
@@ -87,6 +89,41 @@ def recent_rss_candidates() -> list[dict]:
     return entries
 
 
+def channel_catalog_candidates() -> list[dict]:
+    """Read channel catalogue metadata only; never download media."""
+    try:
+        from yt_dlp import YoutubeDL
+    except ImportError as error:
+        raise RuntimeError("yt-dlp is not installed for channel metadata discovery") from error
+
+    options = {
+        "quiet": True,
+        "no_warnings": True,
+        "extract_flat": "in_playlist",
+        "playlistend": 500,
+        "socket_timeout": 30,
+        "retries": 2,
+    }
+    candidates: list[dict] = []
+    seen: set[str] = set()
+    with YoutubeDL(options) as downloader:
+        for url in (CHANNEL_VIDEOS_URL, CHANNEL_SEARCH_URL):
+            result = downloader.extract_info(url, download=False)
+            for entry in result.get("entries") or []:
+                video_id = str(entry.get("id") or "").strip()
+                title = clean_text(str(entry.get("title") or ""))
+                channel_id = str(entry.get("channel_id") or "").strip()
+                if not video_id or video_id in seen or not title:
+                    continue
+                if channel_id and channel_id != CHANNEL_ID:
+                    continue
+                if not is_markets_in_three_minutes(title, entry.get("duration")):
+                    continue
+                seen.add(video_id)
+                candidates.append({"video_id": video_id, "title": title, "published": ""})
+    return candidates
+
+
 def read_json(path: Path) -> object:
     try:
         return json.loads(path.read_text(encoding="utf-8"))
@@ -107,15 +144,44 @@ def used_video_ids(current: Path, history: Path) -> list[str]:
 
 
 def ordered_candidates(current: Path, history: Path) -> list[dict]:
-    candidates = recent_rss_candidates()
+    discovered: list[dict] = []
+    errors: list[str] = []
+    try:
+        discovered.extend(channel_catalog_candidates())
+    except Exception as error:
+        errors.append(f"channel catalogue: {error}")
+    try:
+        known = {item["video_id"] for item in discovered}
+        discovered.extend(
+            item for item in recent_rss_candidates() if item["video_id"] not in known
+        )
+    except Exception as error:
+        errors.append(f"RSS: {error}")
+
+    used_values = used_video_ids(current, history)
+    known = {item["video_id"] for item in discovered}
+    historical = [
+        {"video_id": video_id, "title": "", "published": ""}
+        for video_id in reversed(used_values)
+        if video_id not in known
+    ]
+    candidates = discovered + historical
     if not candidates:
-        raise RuntimeError("Bloomberg RSS has no recent Markets in 3 Minutes episode")
-    used = set(used_video_ids(current, history))
+        raise RuntimeError("Could not discover any Bloomberg episode (" + "; ".join(errors) + ")")
+
+    used = set(used_values)
     current_story = read_json(current)
     current_id = str(current_story.get("youtubeVideoID") or "") if isinstance(current_story, dict) else ""
     unused = [item for item in candidates if item["video_id"] not in used]
     reusable = [item for item in candidates if item["video_id"] != current_id]
-    return (unused + reusable + candidates)[:MAX_CANDIDATES]
+    ordered = unused + reusable + candidates
+    unique: list[dict] = []
+    seen: set[str] = set()
+    for item in ordered:
+        if item["video_id"] not in seen:
+            seen.add(item["video_id"])
+            unique.append(item)
+    return unique[:MAX_CANDIDATES]
 
 
 def http_json(request: urllib.request.Request, timeout: int = 60) -> tuple[dict, int]:
