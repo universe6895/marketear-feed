@@ -221,6 +221,28 @@ class SentenceLockTests(unittest.TestCase):
                 {"translations": [{"id": 6, "chinese": "金融条件仍然超级宽松。"}]},
             )
 
+    def test_rejects_margin_account_for_at_the_margin(self):
+        with self.assertRaisesRegex(RuntimeError, "machine-translated wording|incorrect term"):
+            validate_translation_batch(
+                [{"id": 11, "source": "I can put more money into bonds at the margin."}],
+                {"translations": [{"id": 11, "chinese": "我可以在保证金账户中加仓债券。"}]},
+            )
+
+    def test_rejects_high_yield_for_yields_moving_higher(self):
+        with self.assertRaisesRegex(RuntimeError, "incorrect term"):
+            validate_translation_batch(
+                [{"id": 41, "source": "This goes into the higher yield story."}],
+                {"translations": [{"id": 41, "chinese": "这又回到了高收益逻辑。"}]},
+            )
+
+    def test_allows_rough_draft_before_final_review(self):
+        result = validate_translation_batch(
+            [{"id": 11, "source": "I can put more money into bonds at the margin."}],
+            {"translations": [{"id": 11, "chinese": "我可以在保证金账户中加仓债券。"}]},
+            enforce_fluency=False,
+        )
+        self.assertEqual(result[0]["id"], 11)
+
 
 if __name__ == "__main__":
     unittest.main()

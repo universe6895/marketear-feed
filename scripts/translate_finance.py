@@ -31,6 +31,11 @@ TERM_RULES: tuple[tuple[str, tuple[str, ...], tuple[str, ...]], ...] = (
     (r"\bhot report\b", ("强于预期", "偏热", "强劲"), ("热点报告",)),
     (r"\bcross[ -]asset story\b", ("跨资产", "多类资产"), ("故事",)),
     (r"\bplay the ball,? not the referee", ("数据", "指标"), ("打球", "裁判")),
+    (r"\bbonds? (?:of|at) the margin\b", ("适度", "小幅", "增持"), ("保证金",)),
+    (r"\bhigher yield story\b", ("收益率上行", "收益率走高", "收益率升高"), ("高收益逻辑", "高收益主题")),
+    (r"\bAI CapEx bubble is in the inflation stage\b", ("膨胀", "扩张"), ("通胀阶段",)),
+    (r"\bI debt funding\b|\beye space\b", ("AI", "人工智能"), ("投资级债务融资", "眼球空间")),
+    (r"\bspreads? on the I side\b", ("投资级", "IG"), ("AI", "人工智能")),
 )
 
 FORBIDDEN_MACHINE_CHINESE: tuple[str, ...] = (
@@ -40,6 +45,9 @@ FORBIDDEN_MACHINE_CHINESE: tuple[str, ...] = (
     "全球或更高",
     "夏季氛围继续",
     "在保证金上购买债券",
+    "保证金账户中加仓债券",
+    "依然是我们仍",
+    "夏季氛围",
 )
 
 TRANSLATION_SYSTEM_PROMPT = """You are the senior translation editor of a professional Chinese financial newswire.
@@ -72,8 +80,10 @@ Non-negotiable rules:
 5. Spoken fillers such as you know, like, uh, and I mean should not become awkward literal phrases such as “你知道什么”“像”“超级” or “我的意思是” unless they carry real meaning.
 6. If SOURCE itself appears damaged by captions, repair only an unmistakable financial expression supported by the immediate context. Otherwise preserve the ambiguity without inventing a claim.
 7. Reject draft language that is grammatically Chinese but financially nonsensical. Examples include “在保证金上购买债券”“全球或更高的收益率”“眼球空间”“夏季氛围继续前进”.
-8. Silently perform a final source-to-Chinese alignment check before returning.
-9. Return JSON only in the form {"translations":[{"id":number,"chinese":"..."}, ...]}.
+8. Repair these recurring caption errors only when the full article confirms them: bonds of/at the margin means marginally adding to bond exposure, not using a margin account; an AI CapEx bubble in the inflation stage means the bubble is still inflating/expanding, not an inflation-data phase; I debt/eye space in an AI discussion means AI debt/AI sector; spreads on the I side usually means IG/investment-grade spreads.
+9. “Higher yield story” means a theme of yields moving higher, not the high-yield bond market. “Summer vibe” should be rendered as quiet/thin summer trading, not a literal summer atmosphere.
+10. Silently perform a final source-to-Chinese alignment check before returning.
+11. Return JSON only in the form {"translations":[{"id":number,"chinese":"..."}, ...]}.
 """
 
 METADATA_SYSTEM_PROMPT = """You are the senior translation editor of a professional Chinese financial newswire.
@@ -241,7 +251,8 @@ def validate_translation_batch(
             raise RuntimeError(
                 f"Translation for sentence {cue_id} lost numeric values {missing_numbers}"
             )
-        validate_financial_terms(source, chinese, cue_id)
+        if enforce_fluency:
+            validate_financial_terms(source, chinese, cue_id)
         validated[cue_id] = {"id": cue_id, "chinese": chinese}
 
     if set(validated) != set(expected):
