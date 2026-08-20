@@ -114,7 +114,8 @@ def workers_ai_request(
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": json.dumps(prompt, ensure_ascii=False)},
         ],
-        "max_tokens": max_tokens,
+        "max_completion_tokens": max_tokens,
+        "reasoning_effort": "low",
         "temperature": 0,
         "response_format": {"type": "json_schema", "json_schema": schema},
     }
@@ -153,7 +154,17 @@ def workers_ai_request(
         raise RuntimeError("Workers AI returned no translation content") from error
     if content is None:
         keys = sorted(model_result) if isinstance(model_result, dict) else []
-        raise RuntimeError(f"Workers AI returned no translation content (result keys={keys})")
+        choices = model_result.get("choices") or [] if isinstance(model_result, dict) else []
+        choice = choices[0] if choices and isinstance(choices[0], dict) else {}
+        message = choice.get("message") if isinstance(choice.get("message"), dict) else {}
+        diagnostic = {
+            "resultKeys": keys,
+            "choiceKeys": sorted(choice),
+            "messageKeys": sorted(message),
+            "finishReason": choice.get("finish_reason"),
+            "reasoningLength": len(str(message.get("reasoning_content") or message.get("reasoning") or "")),
+        }
+        raise RuntimeError(f"Workers AI returned no translation content ({diagnostic})")
     if isinstance(content, list):
         content = "".join(
             str(block.get("text") or "") if isinstance(block, dict) else str(block)
