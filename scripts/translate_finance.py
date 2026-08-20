@@ -141,6 +141,10 @@ def workers_ai_request(
         if result.get("success") is not True:
             raise RuntimeError(f"Workers AI returned errors: {result.get('errors')}")
         model_result = result["result"]
+        if isinstance(model_result, dict) and any(
+            key in model_result for key in ("translations", "titleChinese", "vocabulary")
+        ):
+            return model_result
         content = model_result.get("response")
         if content is None:
             choices = model_result.get("choices") or []
@@ -148,7 +152,8 @@ def workers_ai_request(
     except (KeyError, IndexError, TypeError) as error:
         raise RuntimeError("Workers AI returned no translation content") from error
     if content is None:
-        raise RuntimeError("Workers AI returned no translation content")
+        keys = sorted(model_result) if isinstance(model_result, dict) else []
+        raise RuntimeError(f"Workers AI returned no translation content (result keys={keys})")
     if isinstance(content, list):
         content = "".join(
             str(block.get("text") or "") if isinstance(block, dict) else str(block)
