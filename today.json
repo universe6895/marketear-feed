@@ -4,43 +4,107 @@
   "episodePublishedAt": null,
   "eyebrow": "TODAY · BLOOMBERG",
   "title": "Big Picture Is Very Bullish Still: 3-Minutes MLIV",
-  "titleChinese": "大局仍然非常看好：3 分钟 MLIV",
-  "summary": "尽管近期债券市场出现了抛售，但分析人士认为这种情况是可持续的，长期来看，债券收益率将会上升。同时，股市也可能会出现买盘，尤其是在夏季低迷期。分析人士表示，当前的经济基本面仍然较好，AI 投资、公司盈利和政府支出都较为强劲，金融条件也相对宽松。然而，分析人士也提醒，长期来看，债务融资压力和收益率上升可能会带来风险。",
+  "titleChinese": "大局仍然非常看好：3分钟MLIV",
+  "summary": "专家认为，尽管近期债券市场出现了抛售，但长期来看，债券收益率将会上升，目前的调整是可持续的。专家预计，今年晚些时候或明年，全球长期债券收益率将会进一步上升。尽管专家对长期债券市场持乐观态度，但也提醒注意到信用市场的风险，特别是企业债务融资对美国国债的压力。",
   "durationSeconds": 191.32,
   "youtubeVideoID": "h_b8JFpx_-o",
   "sourceURL": "https://www.youtube.com/watch?v=h_b8JFpx_-o",
   "sourceName": "Bloomberg Television",
   "captionSource": "youtube-manual-caption-youtubetranscript.dev",
   "captionLanguage": "en",
-  "vocabulary": [],
+  "vocabulary": [
+    {
+      "word": "sustainably",
+      "phonetic": "/səˈstənbəli/",
+      "meaning": "纯行资产者",
+      "cueID": 9,
+      "start": 27.96,
+      "end": 40.143,
+      "source": "I just think that it doesn't go in a straight line, and it requires kind of a shock to kind of get a move sustainably further than we got over the past week, because there are long term income buyers out there, and they will kind of go into these dips."
+    },
+    {
+      "word": "low liquidity",
+      "phonetic": "/loʊ ˈlɪkwɪʊdɪ ti/",
+      "meaning": "故三期资产中的体验流量",
+      "cueID": 16,
+      "start": 67.46,
+      "end": 76.22,
+      "source": "I think that the, the flip side of that is, is that who's going to rush to buy the dip, uh, when you're on holidays this week and there's low liquidity."
+    },
+    {
+      "word": "bond",
+      "phonetic": "/bənd/",
+      "meaning": "个三期资产中的体验债券",
+      "cueID": 2,
+      "start": 2.43,
+      "end": 5.25,
+      "source": "We're starting to see maybe a bit coming back into the bond market."
+    },
+    {
+      "word": "dip",
+      "phonetic": "/dɪʊp/",
+      "meaning": "资产中的一个指标",
+      "cueID": 13,
+      "start": 53.597,
+      "end": 62.52,
+      "source": "If we have pressure off of bonds, does that mean we can buy the dip in equities and kind of move on with a summer vibe again?"
+    },
+    {
+      "word": "financial conditions",
+      "phonetic": "/faɪˈnənʃəl kənˈdɪʏnəz/",
+      "meaning": "金融条体状",
+      "cueID": 25,
+      "start": 106.34,
+      "end": 108.695,
+      "source": "Like financial conditions are still super easy."
+    },
+    {
+      "word": "long end yields",
+      "phonetic": "/ləˈŋg ənd/",
+      "meaning": "长期债券",
+      "cueID": 8,
+      "start": 21.3,
+      "end": 27.84,
+      "source": "As you know, my my structural view is that we'll see much higher, uh, long end yields next year around the world or even later this year."
+    },
+    {
+      "word": "spreads",
+      "phonetic": "/spədz/",
+      "meaning": "改改分析",
+      "cueID": 36,
+      "start": 150.7,
+      "end": 154.54,
+      "source": "Look we're starting to see higher spreads on the I side correctly."
+    }
+  ],
   "transcript": [
     {
       "id": 1,
       "start": 0.09,
       "end": 2.43,
       "english": "Mark, you talked about it yesterday and it seems like it's happening.",
-      "chinese": "Mark，你昨天提到了这一点，似乎现在真的发生了。"
+      "chinese": "Mark，你昨天提到了这一点，似乎正在发生。"
     },
     {
       "id": 2,
       "start": 2.43,
       "end": 5.25,
       "english": "We're starting to see maybe a bit coming back into the bond market.",
-      "chinese": "我们开始看到可能有一点资金回流到债券市场"
+      "chinese": "我们开始看到可能有一点资金回流到债券市场。"
     },
     {
       "id": 3,
       "start": 5.43,
       "end": 6.402,
       "english": "Sustainable.",
-      "chinese": "可持续的"
+      "chinese": "可持续的。"
     },
     {
       "id": 4,
       "start": 6.402,
       "end": 10.29,
       "english": "A short term, yes.",
-      "chinese": "短期来说，是的。"
+      "chinese": "短期内，是的。"
     },
     {
       "id": 5,
@@ -54,42 +118,42 @@
       "start": 13.77,
       "end": 19.32,
       "english": "Given that most of the catalysts aren't new, they're just, uh, things are getting incrementally worse.",
-      "chinese": "鉴于大多数催化剂并非新鲜事，只是，呃，情况逐渐变得更糟。"
+      "chinese": "鉴于大多数催化剂并非新鲜事，只是，嗯，情况正在逐渐恶化。"
     },
     {
       "id": 7,
       "start": 19.32,
       "end": 21.12,
       "english": "And these are long run stories.",
-      "chinese": "这些都是长期的逻辑"
+      "chinese": "这些都是长期逻辑。"
     },
     {
       "id": 8,
       "start": 21.3,
       "end": 27.84,
       "english": "As you know, my my structural view is that we'll see much higher, uh, long end yields next year around the world or even later this year.",
-      "chinese": "正如您所知，我的结构性观点是，我们将在明年或甚至今年晚些时候看到全球或更高的长端收益率。"
+      "chinese": "正如您所知，我的结构性观点是，我们将在明年或甚至今年晚些时候看到全球更高的长端收益率。"
     },
     {
       "id": 9,
       "start": 27.96,
       "end": 40.143,
       "english": "I just think that it doesn't go in a straight line, and it requires kind of a shock to kind of get a move sustainably further than we got over the past week, because there are long term income buyers out there, and they will kind of go into these dips.",
-      "chinese": "我只是认为它不会一路上涨，需要某种冲击才能使其持续走高超过过去一周的涨幅，因为有长期收入买家存在，他们会在这些回调中介入。"
+      "chinese": "我只是认为市场不会直线运行，需要某种冲击才能进一步持续走高，因为市场上存在长期收入型买家，他们会在回调时逢低买入。"
     },
     {
       "id": 10,
       "start": 40.143,
       "end": 45.606,
       "english": "So once you started seeing that feed back into the equity market, that's a catalyst for people to kind of go, okay, right.",
-      "chinese": "所以，一旦你看到这种情况反映在股市上，那就是人们开始行动的催化剂，人们会说，好，明白了。"
+      "chinese": "所以，一旦你开始看到这种情况反馈至股市，那就是促使人们行动的催化剂，人们会想，好吧，没错。"
     },
     {
       "id": 11,
       "start": 45.606,
       "end": 49.182,
       "english": "It's time for me to put some more money into bonds of the margin.",
-      "chinese": "是时候让我在保证金上购买更多的债券了"
+      "chinese": "是时候让我在保证金账户中加仓债券了。"
     },
     {
       "id": 12,
@@ -103,35 +167,35 @@
       "start": 53.597,
       "end": 62.52,
       "english": "If we have pressure off of bonds, does that mean we can buy the dip in equities and kind of move on with a summer vibe again?",
-      "chinese": "如果债券的压力减轻，那么是否意味着我们可以买入股票的低点，然后以夏季氛围继续前进？"
+      "chinese": "如果债券压力缓解，是否意味着我们可以逢低买入股票，并延续夏季氛围？"
     },
     {
       "id": 14,
       "start": 62.52,
       "end": 64.41,
       "english": "Yeah.",
-      "chinese": "是的"
+      "chinese": "是的。"
     },
     {
       "id": 15,
       "start": 64.43,
       "end": 67.43,
       "english": "Like, uh, I don't see any reason to be particularly bearish.",
-      "chinese": "我没有看到任何理由特别看空。"
+      "chinese": "嗯，我没有看到任何理由特别看空。"
     },
     {
       "id": 16,
       "start": 67.46,
       "end": 76.22,
       "english": "I think that the, the flip side of that is, is that who's going to rush to buy the dip, uh, when you're on holidays this week and there's low liquidity.",
-      "chinese": "我认为这种情况的另一面是，当你这个星期在度假，且流动性较低时，谁会急着买入回调？"
+      "chinese": "我认为这种情况的另一面是，当你这个星期在度假，且流动性较低时，谁会急于逢低买入？"
     },
     {
       "id": 17,
       "start": 76.4,
       "end": 82.43,
       "english": "So I just I don't think the dip gets bought as quickly so I can see us, you know, having a little bit more weakness of the days ahead.",
-      "chinese": "所以我认为这次回调不会那么快被买入，因此我可以看到未来几天我们可能会经历一点更多的弱势。"
+      "chinese": "所以我觉得这次回调不会那么快被买入，所以我预计未来几日市场可能会进一步疲软。"
     },
     {
       "id": 18,
@@ -152,21 +216,21 @@
       "start": 87.95,
       "end": 92.15,
       "english": "The big pictures around the world are we still have massive AI CapEx.",
-      "chinese": "全球的大局面仍然是非常看好的：我们仍然有大量的AI资本支出。"
+      "chinese": "全球大格局依然是我们仍拥有大规模的AI资本开支。"
     },
     {
       "id": 21,
       "start": 92.15,
       "end": 94.16,
       "english": "We still have wonderful company earnings.",
-      "chinese": "我们仍然拥有非常出色的公司盈利。"
+      "chinese": "我们仍拥有非常强劲的公司盈利。"
     },
     {
       "id": 22,
       "start": 94.16,
       "end": 100.79,
       "english": "We still have massive both private sector expenditure from the high CapEx and of course, the fiscal side from governments.",
-      "chinese": "我们仍然拥有大量的私营部门支出来自高资本开支，以及当然，政府的财政方面。"
+      "chinese": "我们仍拥有私营部门的大规模高资本开支，以及政府的财政支出。"
     },
     {
       "id": 23,
@@ -180,28 +244,28 @@
       "start": 102.092,
       "end": 106.34,
       "english": "And you know what yields are going higher, but they're still quite low.",
-      "chinese": "你知道什么，收益率正在上升，但它们仍然相当低。"
+      "chinese": "要知道收益率正在上升，但它们仍然相当低。"
     },
     {
       "id": 25,
       "start": 106.34,
       "end": 108.695,
       "english": "Like financial conditions are still super easy.",
-      "chinese": "像金融条件仍然超级宽松"
+      "chinese": "嗯，金融条件仍然极度宽松。"
     },
     {
       "id": 26,
       "start": 108.695,
       "end": 111.031,
       "english": "We're burning off so that excess liquidity.",
-      "chinese": "我们正在消耗掉过多的流动性。"
+      "chinese": "我们正在消化过多的流动性。"
     },
     {
       "id": 27,
       "start": 111.031,
       "end": 116.15,
       "english": "But there's a lot of excess liquidity that the world is still wonderfully bullish stocks.",
-      "chinese": "但是世界仍然对股票持有大量过剩流动性和乐观态度。"
+      "chinese": "但世界仍对股票市场非常乐观，且拥有大量过剩流动性。"
     },
     {
       "id": 28,
@@ -215,7 +279,7 @@
       "start": 118.61,
       "end": 123.44,
       "english": "There was a break when we had what the Middle East situation when we had the attack in Iran.",
-      "chinese": "当中东局势，特别是伊朗遭袭时，曾经出现过一次调整。"
+      "chinese": "当中东局势，特别是伊朗遭袭时，市场曾出现一次调整。"
     },
     {
       "id": 30,
@@ -229,14 +293,14 @@
       "start": 126.124,
       "end": 128.0,
       "english": "It turned out it didn't get too bad.",
-      "chinese": "结果并没有变得太糟糕"
+      "chinese": "结果证明，它并没有变得太糟糕。"
     },
     {
       "id": 32,
       "start": 128.199,
       "end": 137.668,
       "english": "And so we go back to the underlying fundamentals are quite positive for as long as the AI CapEx bubble is in the inflation stage at the moment, it is still in the inflation stage.",
-      "chinese": "因此我们回到基本面，基本面在人工智能资本支出泡沫仍处于通胀阶段时对市场是非常正面的，目前它仍然处于通胀阶段。"
+      "chinese": "因此我们回到基本面，只要人工智能资本支出泡沫目前仍处于通胀阶段，基本面对市场就是相当正面的。"
     },
     {
       "id": 33,
@@ -250,42 +314,42 @@
       "start": 140.653,
       "end": 148.915,
       "english": "And mark that liquidity, is it enough to absorb the issuance, the debt issuance, the equity issuance, the sovereign issuance?",
-      "chinese": "并且要注意流动性，是否足够吸收发行量，包括债券发行、股票发行、主权发行？"
+      "chinese": "还要注意流动性，是否足以吸收各类发行，包括债券发行、股票发行和主权债发行？"
     },
     {
       "id": 35,
       "start": 148.915,
       "end": 150.7,
       "english": "Yeah.",
-      "chinese": "是的"
+      "chinese": "是的。"
     },
     {
       "id": 36,
       "start": 150.7,
       "end": 154.54,
       "english": "Look we're starting to see higher spreads on the I side correctly.",
-      "chinese": "看，我们开始看到I字头债券的收益率差异正在上升。"
+      "chinese": "看，我们开始看到投资级债券的利差正在扩大。"
     },
     {
       "id": 37,
       "start": 154.54,
       "end": 155.932,
       "english": "So I mean they were a super low.",
-      "chinese": "所以我的意思是它们曾经非常低"
+      "chinese": "所以我的意思是，它们曾经极低。"
     },
     {
       "id": 38,
       "start": 155.932,
       "end": 162.265,
       "english": "And we're starting to you know, these are people are taking on a massive amount of uh, of debt over the last like year or so.",
-      "chinese": "而且我们开始看到，人们在过去的一年左右时间里承担了大量的债务。"
+      "chinese": "而且我们开始看到，人们在过去一年左右的时间里承担了巨额债务。"
     },
     {
       "id": 39,
       "start": 162.265,
       "end": 167.98,
       "english": "Um, so we've had a big move in markets, but I'm not seeing any kind of panic in credit markets yet.",
-      "chinese": "嗯，所以我们已经见证了市场的大幅波动，但我还没有看到信贷市场出现任何恐慌的迹象。"
+      "chinese": "嗯，市场已出现大幅波动，但我尚未看到信贷市场出现任何恐慌迹象。"
     },
     {
       "id": 40,
@@ -299,35 +363,35 @@
       "start": 169.409,
       "end": 172.007,
       "english": "And again, this goes into the higher yield story.",
-      "chinese": "而且，这又回到了更高的收益率逻辑中去。"
+      "chinese": "而且，这又回到了高收益逻辑。"
     },
     {
       "id": 42,
       "start": 172.007,
       "end": 174.534,
       "english": "Longer term, I'm worried that we're seeing crowding out.",
-      "chinese": "从长远来看，我担心我们正在看到资金被挤出。"
+      "chinese": "从长远来看，我担心我们正在看到挤出效应。"
     },
     {
       "id": 43,
       "start": 174.534,
       "end": 184.57,
       "english": "And I think that the the pressure from the I debt funding on treasuries, I think is slightly more problematic than the higher yields on what's happening to the the eye space.",
-      "chinese": "我认为来自I债务融资对美国国债的压力，我认为比高等级收益率对眼球空间的影响略微更有问题。"
+      "chinese": "我认为来自投资级债务融资对美债的压力，比高收益债收益率的影响稍微更有问题一些。"
     },
     {
       "id": 44,
       "start": 184.9,
       "end": 187.36,
       "english": "Um, so I guess the short answer turn answer.",
-      "chinese": "嗯，我想简短的回答是"
+      "chinese": "嗯，所以我想简短回答是"
     },
     {
       "id": 45,
       "start": 187.36,
       "end": 187.6,
       "english": "Yeah.",
-      "chinese": "是的"
+      "chinese": "是的。"
     },
     {
       "id": 46,
@@ -341,14 +405,14 @@
       "start": 188.08,
       "end": 189.023,
       "english": "We can absorb it.",
-      "chinese": "我们可以吸收它"
+      "chinese": "我们可以吸收它。"
     },
     {
       "id": 48,
       "start": 189.023,
       "end": 189.73,
       "english": "There's enough liquidity.",
-      "chinese": "流动性足够"
+      "chinese": "流动性足够。"
     },
     {
       "id": 49,
@@ -359,10 +423,10 @@
     }
   ],
   "transcriptKind": "youtube-manual-caption-youtubetranscript.dev",
-  "translationKind": "cloudflare-workers-ai-sentence-locked",
+  "translationKind": "cloudflare-workers-ai-sentence-locked-dual-pass",
   "translationModel": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
   "vocabularyKind": "cloudflare-workers-ai-contextual",
-  "publishedAt": "2026-08-20T07:50:39.924397Z",
+  "publishedAt": "2026-08-20T08:28:26.266367Z",
   "quality": {
     "status": "validated",
     "captionCoverage": 1.0,
@@ -372,7 +436,10 @@
       "native-caption-only",
       "ordered-timestamps",
       "sentence-id-lock",
+      "dual-pass-translation-review",
       "complete-financial-chinese"
     ]
-  }
+  },
+  "translationReviewKind": "independent-source-draft-context-review",
+  "translationReviewModel": "@cf/zai-org/glm-4.7-flash"
 }
