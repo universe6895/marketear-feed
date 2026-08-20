@@ -27,6 +27,7 @@ def complete_story():
         "captionSource": "youtube-native-caption-test",
         "translationKind": "cloudflare-workers-ai-sentence-locked",
         "translationReviewKind": "independent-source-draft-context-review",
+        "translationReviewModel": "@cf/zai-org/glm-4.7-flash",
         "transcript": cues,
     }
 

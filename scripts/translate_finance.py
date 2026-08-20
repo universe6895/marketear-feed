@@ -13,7 +13,8 @@ import urllib.request
 from pathlib import Path
 
 
-DEFAULT_MODEL = "@cf/zai-org/glm-4.7-flash"
+DEFAULT_MODEL = "@cf/meta/llama-3.3-70b-instruct-fp8-fast"
+DEFAULT_REVIEW_MODEL = "@cf/zai-org/glm-4.7-flash"
 BATCH_SIZE = 1
 CONTEXT_SENTENCES = 2
 
@@ -59,12 +60,12 @@ Non-negotiable rules:
 """
 
 REVIEW_SYSTEM_PROMPT = """You are the final copy desk of a professional Chinese financial newswire.
-Audit one English SOURCE and its Chinese DRAFT, then return a publication-ready final translation.
+Audit every English SOURCE and Chinese DRAFT pair, then return publication-ready final translations.
 
 This is a fidelity review, not commentary, summarization, rewriting, or investment analysis.
 
 Non-negotiable rules:
-1. Return exactly the supplied id and only one final Chinese translation. Never translate the surrounding context.
+1. Return every supplied id exactly once and in the same order. Never merge, split, omit, renumber, or move meaning between ids.
 2. Compare the draft clause by clause with SOURCE. Correct omissions, additions, reversed direction, wrong referents, lost uncertainty, literal market idioms, and unnatural machine-translated Chinese.
 3. Preserve every fact, number, unit, comparison, causal link, question, quotation, hedge, and speaker stance. Add no background or conclusion.
 4. Use concise mainland-Chinese financial-news syntax. Prefer established terms such as 收益率曲线短端/长端、美国国债收益率、实际利率、基点、财政支出、资本开支、信贷利差、挤出效应、逢低买入、流动性 and 金融状况.
@@ -72,7 +73,7 @@ Non-negotiable rules:
 6. If SOURCE itself appears damaged by captions, repair only an unmistakable financial expression supported by the immediate context. Otherwise preserve the ambiguity without inventing a claim.
 7. Reject draft language that is grammatically Chinese but financially nonsensical. Examples include “在保证金上购买债券”“全球或更高的收益率”“眼球空间”“夏季氛围继续前进”.
 8. Silently perform a final source-to-Chinese alignment check before returning.
-9. Return JSON only in the form {"translations":[{"id":number,"chinese":"..."}]}.
+9. Return JSON only in the form {"translations":[{"id":number,"chinese":"..."}, ...]}.
 """
 
 METADATA_SYSTEM_PROMPT = """You are the senior translation editor of a professional Chinese financial newswire.
@@ -114,11 +115,14 @@ def workers_ai_request(
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": json.dumps(prompt, ensure_ascii=False)},
         ],
-        "max_completion_tokens": max_tokens,
-        "reasoning_effort": "low",
         "temperature": 0,
         "response_format": {"type": "json_schema", "json_schema": schema},
     }
+    if "glm-" in model:
+        payload["max_completion_tokens"] = max_tokens
+        payload["reasoning_effort"] = "low"
+    else:
+        payload["max_tokens"] = max_tokens
     models_url = f"https://api.cloudflare.com/client/v4/accounts/{account_id}/ai/run/{model}"
     request = urllib.request.Request(
         models_url,
@@ -416,24 +420,7 @@ def request_translation_batch(
                 schema,
                 2200,
             )
-            draft = validate_translation_batch(targets, result)
-            review_prompt = {
-                "articleTitle": story.get("title", ""),
-                "contextBefore": prompt["contextBefore"],
-                "source": targets[0],
-                "draft": draft[0],
-                "contextAfter": prompt["contextAfter"],
-            }
-            reviewed = workers_ai_request(
-                account_id,
-                token,
-                model,
-                REVIEW_SYSTEM_PROMPT,
-                review_prompt,
-                schema,
-                1200,
-            )
-            return validate_translation_batch(targets, reviewed)
+            return validate_translation_batch(targets, result)
         except RuntimeError as error:
             last_error = error
     raise RuntimeError(
@@ -441,7 +428,62 @@ def request_translation_batch(
     )
 
 
-def request_translation(account_id: str, token: str, story: dict, model: str) -> dict:
+def request_article_review(
+    account_id: str,
+    token: str,
+    story: dict,
+    drafts: list[dict],
+    review_model: str,
+) -> list[dict]:
+    targets = [
+        {"id": cue["id"], "source": cue["english"]}
+        for cue in story["transcript"]
+    ]
+    drafts_by_id = {item["id"]: item["chinese"] for item in drafts}
+    item_schema = response_schema(
+        {"id": {"type": "integer"}, "chinese": {"type": "string"}},
+        ["id", "chinese"],
+    )
+    schema = response_schema(
+        {"translations": {"type": "array", "items": item_schema}},
+        ["translations"],
+    )
+    prompt = {
+        "articleTitle": story.get("title", ""),
+        "pairs": [
+            {
+                "id": target["id"],
+                "source": target["source"],
+                "draft": drafts_by_id[target["id"]],
+            }
+            for target in targets
+        ],
+    }
+    last_error: Exception | None = None
+    for _ in range(2):
+        try:
+            result = workers_ai_request(
+                account_id,
+                token,
+                review_model,
+                REVIEW_SYSTEM_PROMPT,
+                prompt,
+                schema,
+                12000,
+            )
+            return validate_translation_batch(targets, result)
+        except RuntimeError as error:
+            last_error = error
+    raise RuntimeError(f"Article-level financial copy-desk review failed: {last_error}")
+
+
+def request_translation(
+    account_id: str,
+    token: str,
+    story: dict,
+    model: str,
+    review_model: str,
+) -> dict:
     cues = story.get("transcript")
     if not isinstance(cues, list) or not cues:
         raise RuntimeError("today.json contains no transcript cues")
@@ -452,6 +494,9 @@ def request_translation(account_id: str, token: str, story: dict, model: str) ->
         translations.extend(
             request_translation_batch(account_id, token, story, model, start_index)
         )
+    translations = request_article_review(
+        account_id, token, story, translations, review_model
+    )
     try:
         vocabulary = request_vocabulary(account_id, token, story, model)
     except RuntimeError as error:
@@ -459,7 +504,12 @@ def request_translation(account_id: str, token: str, story: dict, model: str) ->
         # publishing. The app can truthfully show an empty vocabulary module.
         print(f"warning: vocabulary generation skipped: {error}", file=sys.stderr)
         vocabulary = []
-    return {**metadata, "translations": translations, "vocabulary": vocabulary}
+    return {
+        **metadata,
+        "translations": translations,
+        "vocabulary": vocabulary,
+        "reviewModel": review_model,
+    }
 
 
 def apply_translation(story: dict, translated: dict, model: str) -> dict:
@@ -499,6 +549,7 @@ def apply_translation(story: dict, translated: dict, model: str) -> dict:
     updated["translationKind"] = "cloudflare-workers-ai-sentence-locked-dual-pass"
     updated["translationReviewKind"] = "independent-source-draft-context-review"
     updated["translationModel"] = model
+    updated["translationReviewModel"] = str(translated.get("reviewModel") or "")
     updated["vocabulary"] = translated.get("vocabulary", story.get("vocabulary", []))
     updated["vocabularyKind"] = "cloudflare-workers-ai-contextual"
     updated["transcript"] = [
@@ -513,6 +564,10 @@ def main() -> int:
     parser.add_argument("--input", default="today.json")
     parser.add_argument("--output", default="today.json")
     parser.add_argument("--model", default=os.environ.get("CLOUDFLARE_AI_MODEL", DEFAULT_MODEL))
+    parser.add_argument(
+        "--review-model",
+        default=os.environ.get("CLOUDFLARE_REVIEW_MODEL", DEFAULT_REVIEW_MODEL),
+    )
     args = parser.parse_args()
 
     account_id = "".join(os.environ.get("CLOUDFLARE_ACCOUNT_ID", "").split())
@@ -524,7 +579,9 @@ def main() -> int:
 
     input_path = Path(args.input)
     story = json.loads(input_path.read_text(encoding="utf-8"))
-    translated = request_translation(account_id, token, story, args.model)
+    translated = request_translation(
+        account_id, token, story, args.model, args.review_model
+    )
     updated = apply_translation(story, translated, args.model)
     output_path = Path(args.output)
     output_path.write_text(
