@@ -12,12 +12,14 @@ Public daily content feed for the personal MarketEar iOS app.
   YouTubeTranscript.dev. Supadata native-caption mode can be configured as the
   primary provider; audio ASR is deliberately not used in the automatic feed.
 - Professional Chinese is generated from the complete article with Cloudflare
-  Workers AI. Its free plan includes a daily allocation suitable for one short
-  MarketEar article.
-- Every sentence is translated independently, bound by its immutable ID, and
-  passed through a separate source-to-draft financial copy-desk review. A
-  candidate is published only after caption, timeline and 100% Chinese
-  coverage checks pass. Failed runs leave the previous `today.json` untouched.
+  Workers AI. Sentence-ID-locked batches use the lower-cost GLM 4.7 Flash
+  model so one short MarketEar article can fit inside the daily free allocation.
+- Every Chinese sentence remains bound to its immutable English sentence ID;
+  batching reduces repeated model overhead without weakening alignment checks.
+  A separate whole-article source-to-draft financial copy-desk pass then reviews
+  every pair. A candidate is published only after caption, timeline and 100%
+  Chinese coverage checks pass. Failed runs leave the previous `today.json`
+  untouched.
 - Apple Translation on the iPhone remains a separate optional translation.
 
 ## Repository secret

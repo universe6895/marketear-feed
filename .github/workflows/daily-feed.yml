@@ -21,9 +21,9 @@ on:
         default: false
         type: boolean
   schedule:
-    # Primary: 06:45 Asia/Shanghai. Retry: 08:10, after the Workers AI
-    # daily free allocation resets at 00:00 UTC. The retry exits immediately
-    # when the primary run has already published today's story.
+    # Primary: 06:45 Asia/Shanghai. Retry: 08:10 for quota-reset lag or another
+    # transient provider failure. The retry exits immediately when the primary
+    # run has already published today's story.
     - cron: "45 22 * * *"
     - cron: "10 0 * * *"
 
@@ -38,9 +38,9 @@ jobs:
   generate:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.12"
 

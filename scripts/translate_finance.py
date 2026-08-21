@@ -13,9 +13,13 @@ import urllib.request
 from pathlib import Path
 
 
-DEFAULT_MODEL = "@cf/meta/llama-3.3-70b-instruct-fp8-fast"
+# GLM 4.7 Flash has already been used successfully by the copy-desk pass and
+# is substantially cheaper than the former 70B draft model.  Keeping both
+# passes on this model makes one short article fit comfortably inside the free
+# Workers AI daily allocation.
+DEFAULT_MODEL = "@cf/zai-org/glm-4.7-flash"
 DEFAULT_REVIEW_MODEL = "@cf/zai-org/glm-4.7-flash"
-BATCH_SIZE = 1
+BATCH_SIZE = 8
 CONTEXT_SENTENCES = 2
 
 TERM_RULES: tuple[tuple[str, tuple[str, ...], tuple[str, ...]], ...] = (
@@ -56,14 +60,14 @@ Translate each TARGET from English into rigorous, readable Simplified Chinese.
 This is translation, not commentary, rewriting, summarization, or investment analysis.
 
 Non-negotiable rules:
-1. The request contains exactly one TARGET. Copy its id exactly and translate only that target into chinese. Do not return or rewrite the English source.
-2. Never place the meaning of a previous or following sentence under the target id. Context is supplied only to resolve terminology and pronouns; never translate context or import facts from it.
+1. The request contains one or more TARGETS. Return every target id exactly once, in the supplied order, and translate each target only into chinese. Never merge, split, omit, renumber, or move meaning between ids. Do not return or rewrite the English source.
+2. For every id, compare chinese only with the source carrying that same id. Never place the meaning of another target, a previous sentence, or a following sentence under it. Context is supplied only to resolve terminology and pronouns; never translate context or import facts from it.
 3. Preserve all facts, numbers, units, direction, comparisons, causality, uncertainty, questions, quotations, and speaker stance. Add nothing and omit nothing.
 4. Do not explain, improve, soften, dramatize, or infer the speaker's argument. Do not add background knowledge or conclusions.
 5. The source comes from speech-to-text. If it is incomplete or genuinely ambiguous, translate it conservatively and preserve the ambiguity. If one obvious recognition error makes the literal reading nonsensical and the intended financial term is unambiguous from the immediate context, translate the intended term without inventing any new claim. Otherwise do not guess.
 6. Use standard mainland-Chinese financial terminology and concise newswire syntax. Required usage includes: NFP/nonfarm payrolls=非农就业报告; front end=收益率曲线短端; back end=收益率曲线长端; rate wagers=利率押注/加息押注; curve steepening=收益率曲线陡峭化; behind the curve=落后于形势; Treasury yield=美国国债收益率; basis point=基点; real rate=实际利率; real rate story=实际利率因素/逻辑（绝不能译成“故事”）; Fed narrative=美联储政策叙事/政策预期; hot report=强于预期或偏热的数据; cross-asset story=影响多类资产的交易主线/市场主题; reprice a hike=重新计入加息预期; Kevin Warsh=凯文·沃什.
 7. Translate market idioms by their meaning, not their surface image. For example, play the ball, not the referee means focus on the data itself rather than judging or second-guessing the policymaker; never render it as literally playing ball.
-8. Before returning, silently compare every Chinese line against its own source again for alignment, fidelity, terminology, and numbers.
+8. Before returning, silently compare every Chinese line against its own source again for alignment, fidelity, terminology, and numbers. Count the ids once more and ensure none is missing or duplicated.
 9. Return JSON only in the form {"translations":[{"id":number,"chinese":"..."}]}.
 """
 
@@ -621,7 +625,7 @@ def apply_translation(story: dict, translated: dict, model: str) -> dict:
     updated = dict(story)
     updated["titleChinese"] = title_chinese
     updated["summary"] = summary
-    updated["translationKind"] = "cloudflare-workers-ai-sentence-locked-dual-pass"
+    updated["translationKind"] = "cloudflare-workers-ai-id-locked-batched-dual-pass"
     updated["translationReviewKind"] = "independent-source-draft-context-review"
     updated["translationModel"] = model
     updated["translationReviewModel"] = str(translated.get("reviewModel") or "")

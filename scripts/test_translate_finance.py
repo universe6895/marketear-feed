@@ -1,6 +1,8 @@
 import unittest
 
 from scripts.translate_finance import (
+    BATCH_SIZE,
+    DEFAULT_MODEL,
     apply_source_conditioned_repairs,
     apply_translation,
     validate_reviewed_article,
@@ -30,18 +32,22 @@ class ApplyTranslationTests(unittest.TestCase):
                     {"id": 1, "chinese": "短端利率市场的定价发生变化。"},
                 ],
             },
-            "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+            DEFAULT_MODEL,
         )
         self.assertEqual(result["transcript"][0]["chinese"], "短端利率市场的定价发生变化。")
         self.assertEqual(result["transcript"][1]["start"], 2)
         self.assertEqual(
             result["translationKind"],
-            "cloudflare-workers-ai-sentence-locked-dual-pass",
+            "cloudflare-workers-ai-id-locked-batched-dual-pass",
         )
         self.assertEqual(
             result["translationReviewKind"],
             "independent-source-draft-context-review",
         )
+
+    def test_free_tier_pipeline_uses_batched_low_cost_drafts(self):
+        self.assertEqual(DEFAULT_MODEL, "@cf/zai-org/glm-4.7-flash")
+        self.assertGreaterEqual(BATCH_SIZE, 8)
 
     def test_rejects_missing_sentence(self):
         with self.assertRaisesRegex(RuntimeError, "ids do not match"):
