@@ -12,7 +12,7 @@ Public daily content feed for the personal MarketEar iOS app.
   YouTubeTranscript.dev as the proven primary provider. Supadata `native` mode
   is the fallback. Audio ASR is deliberately not used in the automatic feed.
 - Professional Chinese uses the fixed Google Cloud Translation Advanced
-  `general/translation-llm` model. An optional contextual glossary locks
+  `general/translation-llm` model. A required contextual glossary locks
   domain terminology without allowing a general chat model to add commentary.
 - Every Chinese sentence remains bound by position to its immutable English
   sentence ID. A candidate is published only after caption, timeline, numeric,
@@ -30,16 +30,16 @@ Configure these secrets under:
 - `SUPADATA_API_KEY` (optional native-caption provider)
 - `GCP_TRANSLATION_SERVICE_ACCOUNT_JSON`
 
-Optional repository variable:
+Required repository variable:
 
 - `GOOGLE_TRANSLATION_GLOSSARY_ID` (for example `marketear-finance-en-zh`)
 
 The version-controlled unidirectional glossary source is
 `config/finance_glossary_en_zh.csv`. Upload it to Cloud Storage and create an
 English → Simplified Chinese glossary in `us-central1`; then set the repository
-variable to its glossary ID. The production request enables Translation LLM's
-contextual glossary mode and fails closed if required financial terminology or
-numeric values are lost.
+variable to its glossary ID. The production workflow refuses to publish without
+this variable, enables Translation LLM's contextual glossary mode, and fails
+closed if required financial terminology or numeric values are lost.
 
 The secret is only read by GitHub Actions and must never be committed.
 

@@ -86,7 +86,7 @@ jobs:
         env:
           GOOGLE_TRANSLATION_LOCATION: us-central1
           GOOGLE_TRANSLATION_GLOSSARY_ID: ${{ vars.GOOGLE_TRANSLATION_GLOSSARY_ID }}
-        run: python scripts/translate_google_finance.py --input candidate.json --output candidate.json
+        run: python scripts/translate_google_finance.py --require-glossary --input candidate.json --output candidate.json
 
       - name: Validate and atomically promote complete story
         if: ${{ steps.freshness.outputs.needs_update == 'true' }}

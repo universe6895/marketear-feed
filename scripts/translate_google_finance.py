@@ -143,7 +143,18 @@ def main() -> int:
         "--glossary-id",
         default=os.environ.get("GOOGLE_TRANSLATION_GLOSSARY_ID", ""),
     )
+    parser.add_argument(
+        "--require-glossary",
+        action="store_true",
+        help="fail closed when no contextual financial glossary is configured",
+    )
     args = parser.parse_args()
+
+    glossary_id = args.glossary_id.strip()
+    if args.require_glossary and not glossary_id:
+        raise RuntimeError(
+            "GOOGLE_TRANSLATION_GLOSSARY_ID is required by the production workflow"
+        )
 
     try:
         import google.auth
@@ -169,7 +180,7 @@ def main() -> int:
         project_id,
         args.location,
         contents,
-        args.glossary_id.strip(),
+        glossary_id,
     )
     updated = apply_google_translation(
         story,
@@ -177,7 +188,7 @@ def main() -> int:
         translated[1:],
         project_id,
         args.location,
-        args.glossary_id.strip(),
+        glossary_id,
     )
     Path(args.output).write_text(
         json.dumps(updated, ensure_ascii=False, indent=2) + "\n",
