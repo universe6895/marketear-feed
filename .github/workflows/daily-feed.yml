@@ -21,9 +21,9 @@ on:
         default: false
         type: boolean
   schedule:
-    # Primary: 06:45 Asia/Shanghai. Retry: 08:10 for quota-reset lag or another
-    # transient provider failure. The retry exits immediately when the primary
-    # run has already published today's story.
+    # Primary: 06:45 Asia/Shanghai. Retry: 08:10 for a transient provider
+    # failure. The retry exits immediately when the primary run has already
+    # published today's story.
     - cron: "45 22 * * *"
     - cron: "10 0 * * *"
 
@@ -71,20 +71,22 @@ jobs:
         if: ${{ steps.freshness.outputs.needs_update == 'true' && inputs.translate_existing == true }}
         run: cp today.json candidate.json
 
-      - name: Generate and independently review financial Chinese with Workers AI
-        id: cloudflare_translation
-        continue-on-error: true
+      - name: Authenticate to Google Cloud Translation
+        if: ${{ steps.freshness.outputs.needs_update == 'true' }}
+        uses: google-github-actions/auth@v3
+        with:
+          credentials_json: ${{ secrets.GCP_TRANSLATION_SERVICE_ACCOUNT_JSON }}
+
+      - name: Install Google Cloud Translation client
+        if: ${{ steps.freshness.outputs.needs_update == 'true' }}
+        run: python -m pip install --disable-pip-version-check "google-cloud-translate==3.27.0"
+
+      - name: Translate with fixed Google Translation LLM and financial glossary
         if: ${{ steps.freshness.outputs.needs_update == 'true' }}
         env:
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-        run: python scripts/translate_finance.py --input candidate.json --output candidate.json
-
-      - name: Fall back to Gemini free tier when Workers AI is unavailable
-        if: ${{ steps.freshness.outputs.needs_update == 'true' && steps.cloudflare_translation.outcome == 'failure' }}
-        env:
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-        run: python scripts/translate_finance.py --provider gemini --input candidate.json --output candidate.json
+          GOOGLE_TRANSLATION_LOCATION: us-central1
+          GOOGLE_TRANSLATION_GLOSSARY_ID: ${{ vars.GOOGLE_TRANSLATION_GLOSSARY_ID }}
+        run: python scripts/translate_google_finance.py --input candidate.json --output candidate.json
 
       - name: Validate and atomically promote complete story
         if: ${{ steps.freshness.outputs.needs_update == 'true' }}

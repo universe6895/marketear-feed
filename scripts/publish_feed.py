@@ -78,7 +78,7 @@ def validate_story(story: object) -> dict:
             "native-caption-only",
             "ordered-timestamps",
             "sentence-id-lock",
-            "dual-pass-translation-review",
+            "numeric-and-financial-terminology-validation",
             "complete-financial-chinese",
         ],
     }

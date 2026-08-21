@@ -37,7 +37,10 @@ class PublishValidationTests(unittest.TestCase):
         result = validate_story(complete_story())
         self.assertEqual(result["quality"]["translationCoverage"], 1.0)
         self.assertEqual(result["quality"]["sentenceCount"], 5)
-        self.assertIn("dual-pass-translation-review", result["quality"]["checks"])
+        self.assertIn(
+            "numeric-and-financial-terminology-validation",
+            result["quality"]["checks"],
+        )
 
     def test_rejects_partial_translation(self):
         story = complete_story()

@@ -9,20 +9,15 @@ Public daily content feed for the personal MarketEar iOS app.
 - YouTube remains the video host. This repository does not download or
   redistribute the video.
 - English text and timestamps come from an existing YouTube caption track via
-  YouTubeTranscript.dev. Supadata native-caption mode can be configured as the
-  primary provider; audio ASR is deliberately not used in the automatic feed.
-- Professional Chinese is generated from the complete article with Cloudflare
-  Workers AI. Sentence-ID-locked batches use the lower-cost GLM 4.7 Flash
-  model so one short MarketEar article can fit inside the daily free allocation.
-- If Workers AI is unavailable or quota-limited, the workflow automatically
-  falls back to Gemini's free API tier. Both providers run the same immutable-ID
-  validation and full-article financial copy-desk checks.
-- Every Chinese sentence remains bound to its immutable English sentence ID;
-  batching reduces repeated model overhead without weakening alignment checks.
-  A separate whole-article source-to-draft financial copy-desk pass then reviews
-  every pair. A candidate is published only after caption, timeline and 100%
-  Chinese coverage checks pass. Failed runs leave the previous `today.json`
-  untouched.
+  YouTubeTranscript.dev as the proven primary provider. Supadata `native` mode
+  is the fallback. Audio ASR is deliberately not used in the automatic feed.
+- Professional Chinese uses the fixed Google Cloud Translation Advanced
+  `general/translation-llm` model. An optional contextual glossary locks
+  domain terminology without allowing a general chat model to add commentary.
+- Every Chinese sentence remains bound by position to its immutable English
+  sentence ID. A candidate is published only after caption, timeline, numeric,
+  financial-terminology and 100% Chinese coverage checks pass. Failed runs
+  leave the previous `today.json` untouched.
 - Apple Translation on the iPhone remains a separate optional translation.
 
 ## Repository secret
@@ -33,9 +28,18 @@ Configure these secrets under:
 
 - `YOUTUBE_TRANSCRIPT_API_KEY`
 - `SUPADATA_API_KEY` (optional native-caption provider)
-- `CLOUDFLARE_ACCOUNT_ID`
-- `CLOUDFLARE_API_TOKEN`
-- `GEMINI_API_KEY` (free fallback; create in Google AI Studio)
+- `GCP_TRANSLATION_SERVICE_ACCOUNT_JSON`
+
+Optional repository variable:
+
+- `GOOGLE_TRANSLATION_GLOSSARY_ID` (for example `marketear-finance-en-zh`)
+
+The version-controlled unidirectional glossary source is
+`config/finance_glossary_en_zh.csv`. Upload it to Cloud Storage and create an
+English → Simplified Chinese glossary in `us-central1`; then set the repository
+variable to its glossary ID. The production request enables Translation LLM's
+contextual glossary mode and fails closed if required financial terminology or
+numeric values are lost.
 
 The secret is only read by GitHub Actions and must never be committed.
 

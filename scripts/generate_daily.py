@@ -367,12 +367,15 @@ def fetch_captioned_story(
     candidates: list[dict], transcript_dev_token: str, supadata_token: str
 ) -> tuple[dict, list[dict], str, str]:
     providers = []
-    if supadata_token:
-        providers.append(("Supadata", lambda video_id: supadata_fragments(video_id, supadata_token)))
     if transcript_dev_token:
         providers.append((
             "YouTubeTranscript.dev",
             lambda video_id: transcript_dev_fragments(video_id, transcript_dev_token),
+        ))
+    if supadata_token:
+        providers.append((
+            "Supadata",
+            lambda video_id: supadata_fragments(video_id, supadata_token),
         ))
     if not providers:
         raise RuntimeError("No caption API key is configured")

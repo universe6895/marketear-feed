@@ -1,6 +1,8 @@
 import unittest
+from unittest.mock import patch
 
 from scripts.generate_daily import (
+    fetch_captioned_story,
     cues_from_vtt,
     normalize_whisper_text,
     sentence_cues,
@@ -9,6 +11,37 @@ from scripts.generate_daily import (
 
 
 class WhisperVTTTests(unittest.TestCase):
+    @patch("scripts.generate_daily.supadata_fragments")
+    @patch("scripts.generate_daily.transcript_dev_fragments")
+    def test_uses_proven_transcript_dev_before_supadata(
+        self, transcript_dev, supadata
+    ):
+        fragments = [
+            {
+                "id": 0,
+                "start": (index - 1) * 15,
+                "end": index * 15,
+                "english": f"Sentence {index}.",
+                "chinese": "",
+            }
+            for index in range(1, 6)
+        ]
+        transcript_dev.return_value = (
+            fragments,
+            "Markets in 3 Minutes",
+            "youtube-manual-caption-youtubetranscript.dev",
+        )
+        candidate, cues, _, source = fetch_captioned_story(
+            [{"video_id": "abcdefghijk", "title": "Markets in 3 Minutes"}],
+            "transcript-dev-key",
+            "supadata-key",
+        )
+        self.assertEqual(candidate["video_id"], "abcdefghijk")
+        self.assertEqual(len(cues), 5)
+        self.assertEqual(source, "youtube-manual-caption-youtubetranscript.dev")
+        transcript_dev.assert_called_once_with("abcdefghijk", "transcript-dev-key")
+        supadata.assert_not_called()
+
     def test_parses_vtt_and_merges_complete_sentences(self):
         vtt = """WEBVTT
 
