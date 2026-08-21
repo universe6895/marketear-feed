@@ -14,6 +14,9 @@ Public daily content feed for the personal MarketEar iOS app.
 - Professional Chinese is generated from the complete article with Cloudflare
   Workers AI. Sentence-ID-locked batches use the lower-cost GLM 4.7 Flash
   model so one short MarketEar article can fit inside the daily free allocation.
+- If Workers AI is unavailable or quota-limited, the workflow automatically
+  falls back to Gemini's free API tier. Both providers run the same immutable-ID
+  validation and full-article financial copy-desk checks.
 - Every Chinese sentence remains bound to its immutable English sentence ID;
   batching reduces repeated model overhead without weakening alignment checks.
   A separate whole-article source-to-draft financial copy-desk pass then reviews
@@ -32,6 +35,7 @@ Configure these secrets under:
 - `SUPADATA_API_KEY` (optional native-caption provider)
 - `CLOUDFLARE_ACCOUNT_ID`
 - `CLOUDFLARE_API_TOKEN`
+- `GEMINI_API_KEY` (free fallback; create in Google AI Studio)
 
 The secret is only read by GitHub Actions and must never be committed.
 

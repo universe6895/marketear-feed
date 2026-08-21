@@ -1,14 +1,54 @@
+import json
 import unittest
+from unittest.mock import patch
 
 from scripts.translate_finance import (
     BATCH_SIZE,
     DEFAULT_MODEL,
     apply_source_conditioned_repairs,
     apply_translation,
+    gemini_ai_request,
     validate_reviewed_article,
     validate_translation_batch,
     validate_vocabulary,
 )
+
+
+class FakeHTTPResponse:
+    def __init__(self, payload):
+        self.payload = payload
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *_):
+        return False
+
+    def read(self):
+        return json.dumps(self.payload).encode("utf-8")
+
+
+class GeminiBackendTests(unittest.TestCase):
+    @patch("scripts.translate_finance.urllib.request.urlopen")
+    def test_parses_structured_gemini_response(self, urlopen):
+        urlopen.return_value = FakeHTTPResponse({
+            "candidates": [{
+                "content": {
+                    "parts": [{"text": '{"translations":[{"id":1,"chinese":"收益率上升。"}]}'}]
+                }
+            }]
+        })
+        result = gemini_ai_request(
+            "secret",
+            "gemini-3.7-flash",
+            "translate",
+            {"targets": [{"id": 1, "source": "Yields rose."}]},
+            {"type": "object"},
+            100,
+        )
+        self.assertEqual(result["translations"][0]["id"], 1)
+        request = urlopen.call_args.args[0]
+        self.assertEqual(request.get_header("X-goog-api-key"), "secret")
 
 
 class ApplyTranslationTests(unittest.TestCase):
@@ -38,8 +78,9 @@ class ApplyTranslationTests(unittest.TestCase):
         self.assertEqual(result["transcript"][1]["start"], 2)
         self.assertEqual(
             result["translationKind"],
-            "cloudflare-workers-ai-id-locked-batched-dual-pass",
+            "cloudflare-id-locked-batched-dual-pass",
         )
+        self.assertEqual(result["translationProvider"], "cloudflare")
         self.assertEqual(
             result["translationReviewKind"],
             "independent-source-draft-context-review",

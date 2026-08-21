@@ -71,12 +71,20 @@ jobs:
         if: ${{ steps.freshness.outputs.needs_update == 'true' && inputs.translate_existing == true }}
         run: cp today.json candidate.json
 
-      - name: Generate and independently review sentence-locked financial Chinese
+      - name: Generate and independently review financial Chinese with Workers AI
+        id: cloudflare_translation
+        continue-on-error: true
         if: ${{ steps.freshness.outputs.needs_update == 'true' }}
         env:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
         run: python scripts/translate_finance.py --input candidate.json --output candidate.json
+
+      - name: Fall back to Gemini free tier when Workers AI is unavailable
+        if: ${{ steps.freshness.outputs.needs_update == 'true' && steps.cloudflare_translation.outcome == 'failure' }}
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: python scripts/translate_finance.py --provider gemini --input candidate.json --output candidate.json
 
       - name: Validate and atomically promote complete story
         if: ${{ steps.freshness.outputs.needs_update == 'true' }}

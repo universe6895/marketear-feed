@@ -19,8 +19,10 @@ from pathlib import Path
 # Workers AI daily allocation.
 DEFAULT_MODEL = "@cf/zai-org/glm-4.7-flash"
 DEFAULT_REVIEW_MODEL = "@cf/zai-org/glm-4.7-flash"
+DEFAULT_GEMINI_MODEL = "gemini-3.7-flash"
 BATCH_SIZE = 8
 CONTEXT_SENTENCES = 2
+ACTIVE_PROVIDER = "cloudflare"
 
 TERM_RULES: tuple[tuple[str, tuple[str, ...], tuple[str, ...]], ...] = (
     (r"\bNFP\b|nonfarm payroll", ("非农",), ()),
@@ -201,6 +203,76 @@ def workers_ai_request(
         raise RuntimeError("Workers AI returned invalid translation JSON") from error
 
 
+def gemini_ai_request(
+    api_key: str,
+    model: str,
+    system_prompt: str,
+    prompt: dict,
+    schema: dict,
+    max_tokens: int,
+) -> dict:
+    payload = {
+        "systemInstruction": {"parts": [{"text": system_prompt}]},
+        "contents": [
+            {
+                "role": "user",
+                "parts": [{"text": json.dumps(prompt, ensure_ascii=False)}],
+            }
+        ],
+        "generationConfig": {
+            "temperature": 0,
+            "maxOutputTokens": max_tokens,
+            "responseMimeType": "application/json",
+            "responseJsonSchema": schema,
+        },
+    }
+    request = urllib.request.Request(
+        f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent",
+        data=json.dumps(payload).encode("utf-8"),
+        headers={
+            "Accept": "application/json",
+            "Content-Type": "application/json",
+            "User-Agent": "MarketEarFeed/1.0",
+            "x-goog-api-key": api_key,
+        },
+        method="POST",
+    )
+    try:
+        with urllib.request.urlopen(request, timeout=300) as response:
+            result = json.loads(response.read().decode("utf-8"))
+    except urllib.error.HTTPError as error:
+        detail = error.read().decode("utf-8", errors="replace")
+        raise RuntimeError(f"Gemini request failed ({error.code}): {detail}") from error
+
+    try:
+        parts = result["candidates"][0]["content"]["parts"]
+        content = "".join(str(part.get("text") or "") for part in parts)
+    except (KeyError, IndexError, TypeError) as error:
+        feedback = result.get("promptFeedback") if isinstance(result, dict) else None
+        raise RuntimeError(f"Gemini returned no translation content ({feedback})") from error
+    content = re.sub(r"^```(?:json)?\s*|\s*```$", "", content.strip(), flags=re.IGNORECASE)
+    try:
+        return json.loads(content)
+    except json.JSONDecodeError as error:
+        raise RuntimeError("Gemini returned invalid translation JSON") from error
+
+
+def model_request(
+    account_id: str,
+    token: str,
+    model: str,
+    system_prompt: str,
+    prompt: dict,
+    schema: dict,
+    max_tokens: int,
+) -> dict:
+    if ACTIVE_PROVIDER == "gemini":
+        return gemini_ai_request(token, model, system_prompt, prompt, schema, max_tokens)
+    return workers_ai_request(
+        account_id, token, model, system_prompt, prompt, schema, max_tokens
+    )
+
+
 def numeric_tokens(text: str) -> list[str]:
     """Return numeric values whose digits must survive translation."""
     return [token.replace(",", "") for token in re.findall(r"\d+(?:[.,]\d+)*", text)]
@@ -335,7 +407,7 @@ def request_metadata(account_id: str, token: str, story: dict, model: str) -> di
     transcript = " ".join(
         str(cue.get("english") or "").strip() for cue in story.get("transcript", [])
     )
-    return workers_ai_request(
+    return model_request(
         account_id,
         token,
         model,
@@ -436,7 +508,7 @@ def request_vocabulary(account_id: str, token: str, story: dict, model: str) -> 
     last_error: Exception | None = None
     for _ in range(2):
         try:
-            result = workers_ai_request(
+            result = model_request(
                 account_id,
                 token,
                 model,
@@ -489,7 +561,7 @@ def request_translation_batch(
     last_error: Exception | None = None
     for _ in range(2):
         try:
-            result = workers_ai_request(
+            result = model_request(
                 account_id,
                 token,
                 model,
@@ -540,7 +612,7 @@ def request_article_review(
     last_error: Exception | None = None
     for _ in range(2):
         try:
-            result = workers_ai_request(
+            result = model_request(
                 account_id,
                 token,
                 review_model,
@@ -591,7 +663,9 @@ def request_translation(
     }
 
 
-def apply_translation(story: dict, translated: dict, model: str) -> dict:
+def apply_translation(
+    story: dict, translated: dict, model: str, provider: str = "cloudflare"
+) -> dict:
     cues = story.get("transcript")
     if not isinstance(cues, list) or not cues:
         raise RuntimeError("today.json contains no transcript cues")
@@ -625,12 +699,15 @@ def apply_translation(story: dict, translated: dict, model: str) -> dict:
     updated = dict(story)
     updated["titleChinese"] = title_chinese
     updated["summary"] = summary
-    updated["translationKind"] = "cloudflare-workers-ai-id-locked-batched-dual-pass"
+    updated["translationKind"] = (
+        f"{provider}-id-locked-batched-dual-pass"
+    )
+    updated["translationProvider"] = provider
     updated["translationReviewKind"] = "independent-source-draft-context-review"
     updated["translationModel"] = model
     updated["translationReviewModel"] = str(translated.get("reviewModel") or "")
     updated["vocabulary"] = translated.get("vocabulary", story.get("vocabulary", []))
-    updated["vocabularyKind"] = "cloudflare-workers-ai-contextual"
+    updated["vocabularyKind"] = f"{provider}-contextual"
     updated["transcript"] = [
         {**cue, "chinese": by_id[cue["id"]]}
         for cue in cues
@@ -639,29 +716,49 @@ def apply_translation(story: dict, translated: dict, model: str) -> dict:
 
 
 def main() -> int:
+    global ACTIVE_PROVIDER
     parser = argparse.ArgumentParser()
     parser.add_argument("--input", default="today.json")
     parser.add_argument("--output", default="today.json")
-    parser.add_argument("--model", default=os.environ.get("CLOUDFLARE_AI_MODEL", DEFAULT_MODEL))
+    parser.add_argument(
+        "--provider",
+        choices=("cloudflare", "gemini"),
+        default=os.environ.get("MARKETEAR_AI_PROVIDER", "cloudflare"),
+    )
+    parser.add_argument("--model")
     parser.add_argument(
         "--review-model",
-        default=os.environ.get("CLOUDFLARE_REVIEW_MODEL", DEFAULT_REVIEW_MODEL),
     )
     args = parser.parse_args()
+    ACTIVE_PROVIDER = args.provider
 
-    account_id = "".join(os.environ.get("CLOUDFLARE_ACCOUNT_ID", "").split())
-    token = "".join(os.environ.get("CLOUDFLARE_API_TOKEN", "").split())
-    if not account_id:
-        raise RuntimeError("CLOUDFLARE_ACCOUNT_ID is not available")
-    if not token:
-        raise RuntimeError("CLOUDFLARE_API_TOKEN is not available")
+    if args.provider == "gemini":
+        account_id = ""
+        token = "".join(os.environ.get("GEMINI_API_KEY", "").split())
+        model = args.model or os.environ.get("GEMINI_AI_MODEL", DEFAULT_GEMINI_MODEL)
+        review_model = args.review_model or os.environ.get(
+            "GEMINI_REVIEW_MODEL", model
+        )
+        if not token:
+            raise RuntimeError("GEMINI_API_KEY is not available")
+    else:
+        account_id = "".join(os.environ.get("CLOUDFLARE_ACCOUNT_ID", "").split())
+        token = "".join(os.environ.get("CLOUDFLARE_API_TOKEN", "").split())
+        model = args.model or os.environ.get("CLOUDFLARE_AI_MODEL", DEFAULT_MODEL)
+        review_model = args.review_model or os.environ.get(
+            "CLOUDFLARE_REVIEW_MODEL", DEFAULT_REVIEW_MODEL
+        )
+        if not account_id:
+            raise RuntimeError("CLOUDFLARE_ACCOUNT_ID is not available")
+        if not token:
+            raise RuntimeError("CLOUDFLARE_API_TOKEN is not available")
 
     input_path = Path(args.input)
     story = json.loads(input_path.read_text(encoding="utf-8"))
     translated = request_translation(
-        account_id, token, story, args.model, args.review_model
+        account_id, token, story, model, review_model
     )
-    updated = apply_translation(story, translated, args.model)
+    updated = apply_translation(story, translated, model, args.provider)
     output_path = Path(args.output)
     output_path.write_text(
         json.dumps(updated, ensure_ascii=False, indent=2) + "\n",
@@ -670,7 +767,8 @@ def main() -> int:
     print(
         f"Wrote sentence-locked professional Chinese for "
         f"{len(updated['transcript'])} sentences and "
-        f"{len(updated['vocabulary'])} vocabulary items using {args.model}"
+        f"{len(updated['vocabulary'])} vocabulary items using "
+        f"{args.provider}/{model}"
     )
     return 0
 
