@@ -21,8 +21,11 @@ on:
         default: false
         type: boolean
   schedule:
-    # 06:45 Asia/Shanghai. GitHub schedules use UTC.
+    # Primary: 06:45 Asia/Shanghai. Retry: 08:10, after the Workers AI
+    # daily free allocation resets at 00:00 UTC. The retry exits immediately
+    # when the primary run has already published today's story.
     - cron: "45 22 * * *"
+    - cron: "10 0 * * *"
 
 permissions:
   contents: write
@@ -44,12 +47,18 @@ jobs:
       - name: Run fail-closed feed tests
         run: python -m unittest discover -s scripts -p 'test_*.py'
 
+      - name: Check whether this run needs to update the feed
+        id: freshness
+        env:
+          GITHUB_EVENT_NAME: ${{ github.event_name }}
+        run: python scripts/schedule_freshness.py --story today.json
+
       - name: Install channel metadata reader
-        if: ${{ inputs.translate_existing != true }}
+        if: ${{ steps.freshness.outputs.needs_update == 'true' && inputs.translate_existing != true }}
         run: python -m pip install --disable-pip-version-check "yt-dlp[default]"
 
       - name: Generate timestamped daily story
-        if: ${{ inputs.translate_existing != true }}
+        if: ${{ steps.freshness.outputs.needs_update == 'true' && inputs.translate_existing != true }}
         env:
           YOUTUBE_TRANSCRIPT_API_KEY: ${{ secrets.YOUTUBE_TRANSCRIPT_API_KEY }}
           SUPADATA_API_KEY: ${{ secrets.SUPADATA_API_KEY }}
@@ -59,19 +68,22 @@ jobs:
         run: python scripts/generate_daily.py --output candidate.json --current today.json --history history.json
 
       - name: Prepare existing story for translation
-        if: ${{ inputs.translate_existing == true }}
+        if: ${{ steps.freshness.outputs.needs_update == 'true' && inputs.translate_existing == true }}
         run: cp today.json candidate.json
 
       - name: Generate and independently review sentence-locked financial Chinese
+        if: ${{ steps.freshness.outputs.needs_update == 'true' }}
         env:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
         run: python scripts/translate_finance.py --input candidate.json --output candidate.json
 
       - name: Validate and atomically promote complete story
+        if: ${{ steps.freshness.outputs.needs_update == 'true' }}
         run: python scripts/publish_feed.py --candidate candidate.json --output today.json --last-good last_good.json --history history.json
 
       - name: Publish changed feed
+        if: ${{ steps.freshness.outputs.needs_update == 'true' }}
         run: |
           git add today.json last_good.json history.json
           if git diff --cached --quiet -- today.json last_good.json history.json; then
