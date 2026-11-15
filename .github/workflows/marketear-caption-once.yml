@@ -33,9 +33,9 @@ jobs:
               def redirect_request(self, *args, **kwargs):
                   return None
 
-          key = os.environ.get("CAPTION_KEY", "").strip()
-          if not key:
-              raise SystemExit("Missing configured caption credential.")
+          key = "".join(os.environ.get("CAPTION_KEY", "").split())
+          if not re.fullmatch(r"[!-~]{12,512}", key):
+              raise SystemExit("Missing or malformed configured caption credential.")
           cert = base64.b64decode(os.environ["RECIPIENT_CERT"], validate=True)
           if not 256 <= len(cert) <= 4096:
               raise SystemExit("Invalid recipient certificate.")
@@ -63,6 +63,8 @@ jobs:
                   code = None
               label = code if isinstance(code, str) and re.fullmatch("[a-z_]{1,48}", code) else "unavailable"
               raise SystemExit(f"HTTP {exc.code}; error code {label}; no retry") from None
+          except (OSError, ValueError) as exc:
+              raise SystemExit(f"Caption request or response error: {type(exc).__name__}; no retry") from None
           credits = {k:result.get(k) for k in ("credits_used", "credits_remaining")
                      if type(result.get(k)) is int}
           print(json.dumps(credits))
