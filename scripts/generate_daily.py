@@ -395,6 +395,29 @@ def fetch_captioned_story(
     raise RuntimeError("No recent episode had a usable native English caption: " + "; ".join(failures))
 
 
+def build_story(candidate: dict, cues: list[dict], title: str, caption_source: str,
+                title_chinese: str = "", summary: str = "") -> dict:
+    today = datetime.now(ZoneInfo("Asia/Shanghai")).date().isoformat()
+    return {
+        "id": f"bloomberg-{candidate['video_id']}",
+        "date": today,
+        "episodePublishedAt": candidate.get("published") or None,
+        "eyebrow": "TODAY · BLOOMBERG",
+        "title": title,
+        "titleChinese": title_chinese.strip() or "今日彭博财经市场快讯",
+        "summary": summary.strip() or "完整英文字幕、逐句时间轴与财经中文翻译。",
+        "durationSeconds": cues[-1]["end"],
+        "youtubeVideoID": candidate["video_id"],
+        "sourceURL": f"https://www.youtube.com/watch?v={candidate['video_id']}",
+        "sourceName": "Bloomberg Television",
+        "captionSource": caption_source,
+        "captionLanguage": "en",
+        "vocabulary": [],
+        "transcript": cues,
+        "transcriptKind": caption_source,
+    }
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--video-id", default=os.environ.get("VIDEO_ID", ""))
@@ -415,25 +438,7 @@ def main() -> int:
         candidates, transcript_dev_token, supadata_token
     )
     title = clean_text(provider_title or candidate["title"] or "Bloomberg Markets in 3 Minutes")
-    today = datetime.now(ZoneInfo("Asia/Shanghai")).date().isoformat()
-    story = {
-        "id": f"bloomberg-{candidate['video_id']}",
-        "date": today,
-        "episodePublishedAt": candidate.get("published") or None,
-        "eyebrow": "TODAY · BLOOMBERG",
-        "title": title,
-        "titleChinese": args.title_chinese.strip() or "今日彭博财经市场快讯",
-        "summary": args.summary.strip() or "完整英文字幕、逐句时间轴与财经中文翻译。",
-        "durationSeconds": cues[-1]["end"],
-        "youtubeVideoID": candidate["video_id"],
-        "sourceURL": f"https://www.youtube.com/watch?v={candidate['video_id']}",
-        "sourceName": "Bloomberg Television",
-        "captionSource": caption_source,
-        "captionLanguage": "en",
-        "vocabulary": [],
-        "transcript": cues,
-        "transcriptKind": caption_source,
-    }
+    story = build_story(candidate, cues, title, caption_source, args.title_chinese, args.summary)
     output = Path(args.output)
     output.write_text(json.dumps(story, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(f"Wrote candidate {output} with {len(cues)} sentences from {caption_source}")

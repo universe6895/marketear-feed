@@ -5,6 +5,7 @@ from decimal import Decimal
 import getpass
 import hashlib
 import json
+import math
 import os
 from pathlib import Path
 import re
@@ -16,7 +17,7 @@ from urllib.request import HTTPRedirectHandler, Request, build_opener
 from datetime import datetime
 from zoneinfo import ZoneInfo
 
-from generate_daily import sentence_cues, supadata_fragments, transcript_dev_fragments
+from generate_daily import build_story, sentence_cues, supadata_fragments, transcript_dev_fragments
 from translate_finance import numeric_tokens, validate_financial_terms
 
 MODEL = "deepseek-v4-pro"
@@ -110,7 +111,7 @@ def cues_to_rows(cues):
                            text=row["english"]) for row in cues])
 
 
-def load_wang_track(db, args):
+def load_provider_track(db, args):
     existing = db.execute("SELECT payload FROM tracks WHERE video=?", (args.video,)).fetchone()
     if existing:
         if existing[0] is None:
@@ -220,6 +221,8 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--check", action="store_true", help="Only check the DeepSeek model and balance.")
     parser.add_argument("--video")
+    parser.add_argument("--source", choices=("wang", "bloomberg"), default="wang")
+    parser.add_argument("--duration", type=float, help="Known video duration in seconds for coverage validation.")
     parser.add_argument("--track", type=Path, help="An existing v1 English track with videoId and segments.")
     parser.add_argument("--provider", choices=("youtube", "supadata"), default="youtube")
     parser.add_argument("--bloomberg", type=Path, help="An English candidate from generate_daily.py.")
@@ -234,6 +237,8 @@ def main():
         parser.error("Select exactly one --video or --bloomberg and provide --output.")
     story = json.loads(args.bloomberg.read_text()) if args.bloomberg else None
     video = story["youtubeVideoID"] if story else args.video
+    if args.track and (args.bloomberg or args.source == "bloomberg"):
+        parser.error("Use --bloomberg for an existing Bloomberg candidate.")
     if not re.fullmatch(r"[A-Za-z0-9_-]{11}", video):
         raise Stop("视频 ID 无效。")
     HOME.mkdir(mode=0o700, parents=True, exist_ok=True)
@@ -260,8 +265,18 @@ def main():
                 if not os.getenv(caption_env, "").strip():
                     raise Stop(f"{caption_env} 未在本机配置。")
                 preflight(deepseek_key())
-            rows, title, _, version = load_wang_track(db, args)
+            rows, title, caption_source, version = load_provider_track(db, args)
             title = args.title or title
+            if args.source == "bloomberg":
+                cues = [dict(id=i, start=row["start"]/1000, end=row["end"]/1000,
+                             english=row["text"], chinese="") for i, row in enumerate(rows, 1)]
+                story = build_story({"video_id": video}, cues, title or "Bloomberg Markets in 3 Minutes",
+                                    caption_source)
+        if args.duration is not None:
+            end = max(row["end"] for row in rows) / 1000
+            if (not math.isfinite(args.duration) or args.duration <= 0 or rows[0]["start"] > 30000
+                    or end < args.duration - min(30, args.duration * .05) or end > args.duration + 5):
+                raise Stop("字幕的起止区间未通过视频时长检查。")
         result = translate(db, video, rows, title, version)
         if story:
             for cue, row in zip(story["transcript"], result, strict=True):
