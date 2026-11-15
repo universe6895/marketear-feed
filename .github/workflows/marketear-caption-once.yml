@@ -1,0 +1,93 @@
+name: MarketEar one-time Wang caption verification
+
+on:
+  workflow_dispatch:
+    inputs:
+      recipient_certificate:
+        description: Base64 of the public certificate used to encrypt the result
+        required: true
+        type: string
+
+permissions: {}
+concurrency: marketear-caption-once-KGM9O05H1-o
+
+jobs:
+  verify:
+    if: github.run_attempt == '1' && github.actor == 'universe6895' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Validate recipient and request existing English captions once
+        env:
+          CAPTION_KEY: ${{ secrets.YOUTUBE_TRANSCRIPT_API_KEY }}
+          RECIPIENT_CERT: ${{ inputs.recipient_certificate }}
+        run: |
+          umask 077
+          python3 - <<'PY'
+          import base64, json, math, os, re, subprocess, time
+          from pathlib import Path
+          from urllib.error import HTTPError
+          from urllib.request import HTTPRedirectHandler, Request, build_opener
+
+          class NoRedirect(HTTPRedirectHandler):
+              def redirect_request(self, *args, **kwargs):
+                  return None
+
+          key = os.environ.get("CAPTION_KEY", "").strip()
+          if not key:
+              raise SystemExit("Missing configured caption credential.")
+          cert = base64.b64decode(os.environ["RECIPIENT_CERT"], validate=True)
+          if not 256 <= len(cert) <= 4096:
+              raise SystemExit("Invalid recipient certificate.")
+          work = Path(os.environ["RUNNER_TEMP"])
+          receiver = work / "receiver.pem"
+          receiver.write_bytes(cert)
+          subprocess.run(["openssl", "x509", "-in", str(receiver), "-noout", "-checkend", "60"], check=True)
+          video = "KGM9O05H1-o"
+          req = Request("https://www.youtubetranscript.dev/api/v2/transcribe",
+              headers={"Authorization": f"Bearer {key}", "Content-Type": "application/json"},
+              data=json.dumps({"video": video, "language": "en", "mode": "captions_only",
+                               "format": {"timestamp": True, "paragraphs": False, "words": False}}).encode())
+          begin = time.monotonic()
+          try:
+              with build_opener(NoRedirect).open(req, timeout=65) as response:
+                  result = json.load(response)
+                  print(f"HTTP {response.status}; {time.monotonic()-begin:.2f}s")
+          except HTTPError as exc:
+              try:
+                  error = json.load(exc)
+                  code = error.get("code") or error.get("error")
+                  if isinstance(code, dict):
+                      code = code.get("code")
+              except (ValueError, TypeError, AttributeError):
+                  code = None
+              label = code if isinstance(code, str) and re.fullmatch("[a-z_]{1,48}", code) else "unavailable"
+              raise SystemExit(f"HTTP {exc.code}; error code {label}; no retry") from None
+          credits = {k:result.get(k) for k in ("credits_used", "credits_remaining")
+                     if type(result.get(k)) is int}
+          print(json.dumps(credits))
+          data = result.get("data", {})
+          track = data.get("transcript", {})
+          rows = track.get("segments", [])
+          timed = [r for r in rows if isinstance(r, dict)
+                   and type(r.get("start")) in (int,float) and type(r.get("end")) in (int,float)
+                   and 0 <= r["start"] < r["end"] and isinstance(r.get("text"), str) and r["text"].strip()]
+          print(json.dumps({"segments":len(rows), "valid_independent_intervals":len(timed),
+                            "first_ms":min((r["start"] for r in timed), default=None),
+                            "last_ms":max((r["end"] for r in timed), default=None),
+                            "english":str(track.get("language", "")).lower().split("-")[0]=="en"}))
+          if (result.get("status") != "completed" or data.get("video_id") != video or not rows
+              or len(timed) != len(rows) or str(track.get("language", "")).lower().split("-")[0] != "en"):
+              raise SystemExit("Caption response did not pass validation.")
+          # Pipe plaintext directly into encryption; only the encrypted artifact leaves the runner.
+          subprocess.run(["openssl", "cms", "-encrypt", "-binary", "-aes-256-cbc",
+                          "-outform", "DER", "-out", str(work / "wang-caption.cms"), str(receiver)],
+                         input=json.dumps(result, ensure_ascii=False).encode(), check=True)
+          PY
+      - name: Store encrypted caption response
+        uses: actions/upload-artifact@v4
+        with:
+          name: marketear-wang-encrypted-caption
+          path: ${{ runner.temp }}/wang-caption.cms
+          retention-days: 1
+          if-no-files-found: error
