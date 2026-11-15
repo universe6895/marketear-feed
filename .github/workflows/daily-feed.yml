@@ -1,101 +1,41 @@
-name: Build daily MarketEar feed
+name: MarketEar caption credential check
 
 on:
   workflow_dispatch:
-    inputs:
-      video_id:
-        description: Optional selected YouTube video ID
-        required: false
-        type: string
-      title_chinese:
-        description: Optional Chinese title
-        required: false
-        type: string
-      summary:
-        description: Optional Chinese summary
-        required: false
-        type: string
-      translate_existing:
-        description: Translate the existing today.json without selecting or transcribing a new video
-        required: false
-        default: false
-        type: boolean
 
 permissions:
-  contents: write
-
-concurrency:
-  group: daily-marketear-feed
-  cancel-in-progress: false
+  contents: read
 
 jobs:
-  generate:
-    if: github.event_name == 'workflow_dispatch'
+  account-check:
     runs-on: ubuntu-latest
+    timeout-minutes: 2
     steps:
-      - uses: actions/checkout@v5
-
-      - uses: actions/setup-python@v6
-        with:
-          python-version: "3.12"
-
-      - name: Run fail-closed feed tests
-        run: python -m unittest discover -s scripts -p 'test_*.py'
-
-      - name: Check whether this run needs to update the feed
-        id: freshness
-        env:
-          GITHUB_EVENT_NAME: ${{ github.event_name }}
-        run: python scripts/schedule_freshness.py --story today.json
-
-      - name: Install channel metadata reader
-        if: ${{ steps.freshness.outputs.needs_update == 'true' && inputs.translate_existing != true }}
-        run: python -m pip install --disable-pip-version-check "yt-dlp[default]"
-
-      - name: Generate timestamped daily story
-        if: ${{ steps.freshness.outputs.needs_update == 'true' && inputs.translate_existing != true }}
+      - name: Inspect existing YouTubeTranscript.dev response without extracting captions
         env:
           YOUTUBE_TRANSCRIPT_API_KEY: ${{ secrets.YOUTUBE_TRANSCRIPT_API_KEY }}
-          SUPADATA_API_KEY: ${{ secrets.SUPADATA_API_KEY }}
-          VIDEO_ID: ${{ inputs.video_id }}
-          TITLE_CHINESE: ${{ inputs.title_chinese }}
-          SUMMARY: ${{ inputs.summary }}
-        run: python scripts/generate_daily.py --output candidate.json --current today.json --history history.json
-
-      - name: Prepare existing story for translation
-        if: ${{ steps.freshness.outputs.needs_update == 'true' && inputs.translate_existing == true }}
-        run: cp today.json candidate.json
-
-      - name: Authenticate to Google Cloud Translation
-        if: ${{ steps.freshness.outputs.needs_update == 'true' }}
-        uses: google-github-actions/auth@v3
-        with:
-          credentials_json: ${{ secrets.GCP_TRANSLATION_SERVICE_ACCOUNT_JSON }}
-
-      - name: Install Google Cloud Translation client
-        if: ${{ steps.freshness.outputs.needs_update == 'true' }}
-        run: python -m pip install --disable-pip-version-check "google-cloud-translate==3.27.0"
-
-      - name: Translate with fixed Google Translation LLM and financial glossary
-        if: ${{ steps.freshness.outputs.needs_update == 'true' }}
-        env:
-          GOOGLE_TRANSLATION_LOCATION: us-central1
-          GOOGLE_TRANSLATION_GLOSSARY_ID: ${{ vars.GOOGLE_TRANSLATION_GLOSSARY_ID }}
-        run: python scripts/translate_google_finance.py --require-glossary --input candidate.json --output candidate.json
-
-      - name: Validate and atomically promote complete story
-        if: ${{ steps.freshness.outputs.needs_update == 'true' }}
-        run: python scripts/publish_feed.py --candidate candidate.json --output today.json --last-good last_good.json --history history.json
-
-      - name: Publish changed feed
-        if: ${{ steps.freshness.outputs.needs_update == 'true' }}
         run: |
-          git add today.json last_good.json history.json
-          if git diff --cached --quiet -- today.json last_good.json history.json; then
-            echo "Feed is already current"
-            exit 0
-          fi
-          git config user.name "marketear-feed-bot"
-          git config user.email "marketear-feed-bot@users.noreply.github.com"
-          git commit -m "Update daily MarketEar story"
-          git push
+          python3 - <<'PY'
+          import json, os
+          from urllib.error import HTTPError
+          from urllib.request import Request, urlopen
+
+          key = os.environ.get("YOUTUBE_TRANSCRIPT_API_KEY", "").strip()
+          if not key:
+              raise SystemExit("YouTubeTranscript.dev secret is missing.")
+          request = Request(
+              "https://www.youtubetranscript.dev/api/v2/transcripts?limit=1",
+              headers={"Authorization": "Bearer " + key, "Accept": "application/json"},
+          )
+          try:
+              with urlopen(request, timeout=20) as response:
+                  data = json.load(response)
+                  print(f"HTTP {response.status}; response fields: {', '.join(sorted(data))}")
+          except HTTPError as exc:
+              raise SystemExit(f"YouTubeTranscript.dev HTTP {exc.code}") from None
+          for name in ("credits_remaining", "remaining_credits"):
+              if type(data.get(name)) is int:
+                  print(f"{name}: {data[name]}")
+          if not any(isinstance(data.get(name), list) for name in ("transcripts", "data", "items")):
+              raise SystemExit("Unrecognized transcript-list schema.")
+          PY
